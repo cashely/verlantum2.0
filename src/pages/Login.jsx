@@ -58,7 +58,7 @@ class LoginForm extends Component {
       <div>
         <div id="demo" style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></div>
         <div style={{textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 30, lineHeight: '24px', fontSize: '24px'}}>
-          <span style={{color: '#fff', backgroundColor: '#000', fontSize: 24, borderRadius: 5, width: 56, height: 26, fontWeight: 600, lineHeight: 1, textAlign: 'center', marginRight: 5}}>FSS</span>水果管理系统
+          <span style={{color: '#fff', backgroundColor: '#000', fontSize: 24, borderRadius: 5, width: 120, height: 26, fontWeight: 600, lineHeight: 1, textAlign: 'center', marginRight: 5}}>Verlantum</span>云量科技后台管理系统
         </div>
         <Form style={{width: '300px'}} labelCol = {{span: 6}} wrapperCol = {{span: 14}}>
           <Form.Item label="用户名">

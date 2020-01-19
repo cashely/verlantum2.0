@@ -59,7 +59,7 @@ function Index(props) {
           height: '100vh'
         }}>
         <Header style={{color: '#fff', padding: '15px 10px', height: 'auto', lineHeight: 1, fontSize: 20, display: 'flex', alignItems: 'center'}}>
-          <div style={{color: '#000', backgroundColor: '#fff', fontSize: 24, borderRadius: 5, width: 56, height: 26, fontWeight: 600, lineHeight: 1, textAlign: 'center', marginRight: 5}}>FSS</div>水果管理系统
+          <div style={{color: '#000', backgroundColor: '#fff', fontSize: 24, borderRadius: 5, width: 120, height: 26, fontWeight: 600, lineHeight: 1, textAlign: 'center', marginRight: 5}}>Verlantum</div>云量科技后台管理系统
           <div style={{marginLeft: 'auto'}}>
             <Dropdown overlay={
                   <Menu>
@@ -80,34 +80,22 @@ function Index(props) {
                 borderRight: 0,
                 height: '100%'
               }}>
-              <SubMenu key="sub1" title={<span> < Icon type = "tool" /> 库存管理</span>}>
+              <SubMenu key="sub1" title={<span> < Icon type = "tool" /> 销售管理</span>}>
                 <Item key="/index">
-                  <Link to="/index"><Icon type="book"/> 库存预览</Link>
+                  <Link to="/index"><Icon type="book"/> 主页看板</Link>
                 </Item>
                 <Item key="/index/inner">
-                  <Link to="/index/inner"><Icon type="user"/> 入库管理</Link>
-                </Item>
-                <Item key="/index/outer">
-                  <Link to="/index/outer"><Icon type="global"/> 出库管理</Link>
-                </Item>
-                <Item key="/index/back">
-                  <Link to="/index/back"><Icon type="global"/> 退货管理</Link>
+                  <Link to="/index/inner"><Icon type="user"/> 订单管理</Link>
                 </Item>
               </SubMenu>
               <Item key="/index/users">
                 <Link to="/index/users"><Icon type="setting"/> 设置</Link>
               </Item>
               <Item key="/index/pullers">
-                <Link to="/index/pullers"><Icon type="setting"/> 供应商管理</Link>
-              </Item>
-              <Item key="/index/pushers">
-                <Link to="/index/pushers"><Icon type="setting"/> 出货商管理</Link>
-              </Item>
-              <Item key="/index/fruits">
-                <Link to="/index/fruits"><Icon type="setting"/> 水果种类管理</Link>
+                <Link to="/index/pullers"><Icon type="setting"/> 代理商管理</Link>
               </Item>
               <Item key="/index/costs">
-                <Link to="/index/costs"><Icon type="setting"/> 成本管理</Link>
+                <Link to="/index/costs"><Icon type="setting"/> 系统变量</Link>
               </Item>
             </Menu>
           </Sider>

@@ -149,6 +149,6 @@
       "react-app"
     ]
   },
-  "proxy": "http://localhost:6010",
+  "proxy": "http://localhost:5010",
   "port": 5009
 }
