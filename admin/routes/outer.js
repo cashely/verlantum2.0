@@ -114,5 +114,34 @@ module.exports = {
     }).catch(error => {
       req.response(500, error)
     })
+  },
+  //今日出库数量
+  today(req, res) {
+    const conditions = {}
+    conditions.type = 2;
+    conditions.createdAt = {
+      $gte: moment().format('YYYY-MM-DD')
+    }
+    models.orders.find(conditions).then(outers => {
+      req.response(200, outers);
+    }).catch(error => {
+      console.log(error);
+      req.response(500, error);
+    })
+  },
+  //昨日出库数量
+  yesterday() {
+    const conditions = {}
+    conditions.type = 2;
+    conditions.createdAt = {
+      $gte: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+      $lt: moment().format('YYYY-MM-DD'),
+    }
+    models.orders.find(conditions).then(outers => {
+      req.response(200, outers);
+    }).catch(error => {
+      console.log(error);
+      req.response(500, error);
+    })
   }
 }

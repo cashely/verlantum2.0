@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Layout, Card, Row, Col, Pagination, Statistic, Table, Tag, Progress, Button, Icon, Upload } from 'antd';
+import { DatePicker, Layout, Card, Row, Col, Pagination, Statistic, Table, Tag, Progress, Button, Icon, Upload, notification } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -22,7 +22,9 @@ export default class Home extends Component {
       outersMonth: [],
       visible: {
         export: false
-      }
+      },
+      todays: [],
+      yesterdays: [],
     }
   }
   rowClickAction(id) {
@@ -34,7 +36,23 @@ export default class Home extends Component {
       if(res.code === 0) {
         this.setState({
           fruits: res.data
-        })
+        });
+        const lowCounts = res.data.filter(item => item.min > item.total && item.warn === 1);
+        if(lowCounts.length) {
+          const key = `open${Date.now()}`;
+          const btn = (
+            <Button type="primary" size="small" onClick={() => notification.close(key)}>
+              我知道了
+            </Button>
+          );
+          notification.warn({
+            message: '以下库存低于告警值，请及时处理',
+            description: lowCounts.map(item => <Tag color="#f50">{item.title}</Tag>),
+            placement: 'bottomRight',
+            duration: null,
+            btn
+          })
+        }
       }
     })
   }
@@ -85,6 +103,26 @@ export default class Home extends Component {
     })
   }
 
+  todaysAction() {
+    $.get('/outer/today').then(res => {
+      if(res.code === 0) {
+        this.setState({
+          todays: res.data
+        })
+      }
+    });
+  }
+
+  yesterdaysAction() {
+    $.get('/outer/yesterday').then(res => {
+      if(res.code === 0) {
+        this.setState({
+          yesterdays: res.data
+        })
+      }
+    });
+  }
+
   pageChangeAction(page, pageSize) {
     this.setState({
       page
@@ -114,10 +152,14 @@ export default class Home extends Component {
   componentWillMount() {
     this.ordersAction();
     this.fruitsAction();
+    this.todaysAction();
+    this.yesterdaysAction();
     this.outersMonthAction();
   }
   render() {
     const {Content, Footer, Header} = Layout;
+    const todayPayTotal = this.state.todays.reduce((a, b) => a + b.payTotal, 0);
+    const yesterdayPayTotal = this.state.yesterdays.reduce((a, b) => a + b.payTotal, 0);
     const columns = [
       {
         title: '序号',
@@ -180,7 +222,29 @@ export default class Home extends Component {
           <Layout>
             <Content>
                 <Row gutter={10}>
-                  <Col span={14}>
+                  <Col span={6}>
+                    <Card>
+                      <Statistic title="今日订单数量" value={this.state.todays.length} />
+                    </Card>
+                  </Col>
+                  <Col span={6}>
+                    <Card>
+                      <Statistic title="今日营收（￥）" value={todayPayTotal} precision = {2} />
+                    </Card>
+                  </Col>
+                  <Col span={6}>
+                    <Card>
+                      <Statistic title="昨天订单数量" value={this.state.yesterdays.length} />
+                    </Card>
+                  </Col>
+                  <Col span={6}>
+                    <Card>
+                      <Statistic title="昨日营收(￥)" value={yesterdayPayTotal} precision = {2} />
+                    </Card>
+                  </Col>
+                </Row>
+                <Row gutter={10} style={{marginTop: 10}}>
+                  <Col span={12}>
                     <Card>
                       {
                         // this.state.fruits.map(fruit => <Card.Grid style={GridStyle}><Statistic title={`入库:￥${fruit.innerPrice} 出库:￥${fruit.outerPrice}`} key={fruit._id} value={fruit.title}/></Card.Grid>)
@@ -188,7 +252,7 @@ export default class Home extends Component {
                       <LineChart dataSource={this.state.outersMonth} fruits={this.state.fruits}/>
                     </Card>
                   </Col>
-                  <Col span={10}>
+                  <Col span={12}>
                     <Card>
                       <PieChart dataSource={this.state.fruits}/>
                     </Card>

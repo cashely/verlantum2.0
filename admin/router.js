@@ -79,6 +79,8 @@ module.exports = (app) => {
   .get('/outers', routes.outer.list)
   .get('/outers/total', authenticationMiddleware(), routes.outer.total)
   .delete('/outer/:id', authenticationMiddleware(), routes.outer.delete)
+  .get('/outer/today', routes.outer.today)
+  .get('/outer/yesterday', routes.outer.yesterday)
   .get('/outer/:id', authenticationMiddleware(), routes.outer.detail)
   .put('/outer/:id', authenticationMiddleware(), routes.outer.update)
 
