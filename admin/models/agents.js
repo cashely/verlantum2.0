@@ -5,21 +5,34 @@ const Agents = new mongoose.Schema({
     type: String,
     required: true
   },
-  profit: { // 分成占比
-    type: Number,
-    default: 0
-  },
-  agentPrice: { // 代理商价格
-    type: Number,
-    default: 0
-  },
-  points: { // 代理商积分
-    type: Number,
-    default: 0
-  },
   statu: {
     type: Number,
     default: 1 // 1 - 正常
+  },
+  creater: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'users'
+  },
+  score: {
+    type: Number,
+    default: 0
+  },
+  ratio: {
+    type: Number,
+    default: 0
+  },
+  price: {
+    type: Number,
+    default: 0
+  },
+  contact: {
+    type: String
+  },
+  tel: {
+    type: String
+  },
+  address: {
+    type: String
   },
   mark: {
     type: String

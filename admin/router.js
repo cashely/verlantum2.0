@@ -68,12 +68,13 @@ module.exports = (app) => {
   .get('/pusher/:id', authenticationMiddleware(), routes.pusher.detail)
   .put('/pusher/:id', authenticationMiddleware(), routes.pusher.update)
 
-  .post('/puller', authenticationMiddleware(), routes.puller.add)
-  .get('/pullers', authenticationMiddleware(), routes.puller.list)
-  .get('/pullers/total', authenticationMiddleware(), routes.puller.total)
-  .delete('/puller/:id', authenticationMiddleware(), routes.puller.delete)
-  .get('/puller/:id', authenticationMiddleware(), routes.puller.detail)
-  .put('/puller/:id', authenticationMiddleware(), routes.puller.update)
+  .post('/agent', authenticationMiddleware(), routes.agent.add)
+  .get('/agents', authenticationMiddleware(), routes.agent.list)
+  .get('/agents/total', authenticationMiddleware(), routes.agent.total)
+  .delete('/agent/:id', authenticationMiddleware(), routes.agent.delete)
+  .get('/agent/:id', authenticationMiddleware(), routes.agent.detail)
+  .put('/agent/:id', authenticationMiddleware(), routes.agent.update)
+  .post('/take/:id', routes.agent.take)
 
   .post('/outer', authenticationMiddleware(), routes.outer.add)
   .get('/outers', routes.outer.list)
@@ -110,6 +111,9 @@ module.exports = (app) => {
 
   .get('/orders', routes.order.list)
   .get('/orders/total', routes.order.total)
+  .post('/order', routes.order.add)
+  .put('/pay/:id', routes.order.pay)
+  // .put('/order/:id', routes.order.update)
 
   .get('/excel/:filename', routes.order.excel)
 
@@ -120,11 +124,13 @@ module.exports = (app) => {
   .post('/upload', routes.upload)
 
 
-  .get('/qrCode', routes.other.qrCode)
-  .get('/qrRedirect', routes.other.qrRedirect)
+  // .get('/qrCode', routes.other.qrCode)
+  // .get('/qrRedirect', routes.other.qrRedirect)
 
   .post('/logout', (req, res) => {
     req.logOut();
     req.response(200, 'ok');
   })
+
+  .get('/qrcode', routes.agent.qrcode)
 }

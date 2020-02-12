@@ -15,12 +15,16 @@ const Orders = new mongoose.Schema({
   },
   agent: { // 代理商id
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'agent',
+    ref: 'agents',
     default: null
   },
   agentProfit: { // 代理商占比
     type: Number,
     default: 0
+  },
+  hasPayed: {
+    type: Number,
+    default: 0 // 未付款
   },
   statu: {
     type: Number,

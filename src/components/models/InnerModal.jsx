@@ -7,23 +7,13 @@ export default class InnerModal extends Component {
     super(props);
     this.state = {
       fields: {
-        fruit: '',
-        count: 0,
-        price: 0,
-        payStatu: 1,
-        puller: '',
-        payNumber: 0,
-        avgPrice: 0
+        price: 4900,
+        payTotal: 0,
+        payChannel: 0,
+        agent: '',
+        agentProfit: ''
       },
-      pullers: [],
-      fruits: [],
-      payStatus: [{
-        id: 1,
-        title: '未付款'
-      }, {
-        id: 2,
-        title: '已付款'
-      }]
+      agents: [],
     }
   }
   changeAction(fieldname, e) {
@@ -31,17 +21,19 @@ export default class InnerModal extends Component {
     this.setState({
       fields
     }, () => {
-      if(fieldname === 'fruit') {
-        const fruit = _.find(this.state.fruits, {_id: this.state.fields.fruit});
-        this.setState({
-          fields: Object.assign({}, this.state.fields, {avgPrice: fruit.avgPrice})
-        })
+      if(fieldname === 'agent') {
+        let agent = _.find(this.state.agents, {_id: this.state.fields.agent});
+        if(agent) {
+          this.setState({
+            fields: Object.assign({}, this.state.fields, {agentProfit: agent.ratio})
+          })
+        }
       }
     })
   }
   okAction() {
     if(this.props.id) {
-      $.put(`/inner/${this.props.id}`, this.state.fields).then(res => {
+      $.put(`/order/${this.props.id}`, this.state.fields).then(res => {
         if(res.code === 0) {
           message.success('操作成功');
           this.props.onOk();
@@ -50,7 +42,7 @@ export default class InnerModal extends Component {
         }
       })
     }else {
-      $.post(`/inner`, this.state.fields).then(res => {
+      $.post(`/order`, this.state.fields).then(res => {
         if(res.code === 0) {
           message.success('操作成功');
           this.props.onOk();
@@ -61,7 +53,7 @@ export default class InnerModal extends Component {
     }
   }
   detailAction() {
-    $.get(`/inner/${this.props.id}`).then(res => {
+    $.get(`/order/${this.props.id}`).then(res => {
       if(res.code === 0) {
         this.setState({
           fields: res.data
@@ -70,29 +62,18 @@ export default class InnerModal extends Component {
     })
   }
 
-  pullersListAction() {
-    $.get('/pullers').then(res => {
+  agentsListAction() {
+    $.get('/agents').then(res => {
       if(res.code === 0) {
         this.setState({
-          pullers: res.data
-        })
-      }
-    })
-  }
-
-  fruitsListAction() {
-    $.get('/fruits').then(res => {
-      if(res.code === 0) {
-        this.setState({
-          fruits: res.data
+          agents: res.data
         })
       }
     })
   }
 
   componentWillMount() {
-    this.pullersListAction();
-    this.fruitsListAction();
+    this.agentsListAction();
     this.props.id && this.detailAction();
   }
   render() {
@@ -100,42 +81,34 @@ export default class InnerModal extends Component {
     const {Option} = Select;
     return (
       <Modal
-        title="入库信息"
+        title="订单信息"
         visible={this.props.visible}
         onOk={this.okAction.bind(this)}
         onCancel={this.props.onCancel}
       >
         <Form layout="horizontal" labelCol={{span: 4}} wrapperCol={{span: 20}}>
-          <Item label="水果名称">
-            <Select value={this.state.fields.fruit} onChange={(e) => this.changeAction('fruit', e)}>
+          <Item label="代理商">
+            <Select value={this.state.fields.agent} onChange={(e) => this.changeAction('agent', e)}>
               {
-                this.state.fruits.map(fruit => <Option value={fruit._id} key={fruit._id} >{fruit.title}</Option>)
+                this.state.agents.map(fruit => <Option value={fruit._id} key={fruit._id} >{fruit.title}</Option>)
               }
             </Select>
-          </Item>
-          <Item label="数量">
-            <Input value={this.state.fields.count} onChange={(e) => this.changeAction('count', e)} style={{width: 250}} suffix="斤" />
           </Item>
           <Item label="价格">
-            <Input value={this.state.fields.price} style={{width: 250}} onChange={(e) => this.changeAction('price', e)} prefix="￥" suffix="元" />
-            仓库均价: ￥{this.state.fields.avgPrice} 元/斤
+            <Input value={this.state.fields.price} onChange={(e) => this.changeAction('price', e)} style={{width: 250}} suffix="元" />
           </Item>
-          <Item label="供应商">
-            <Select value={this.state.fields.puller} onChange={(e) => this.changeAction('puller', e)}>
-              {
-                this.state.pullers.map(puller => <Option value={puller._id} key={puller._id} >{puller.title}</Option>)
-              }
+          <Item label="付款金额">
+            <Input value={this.state.fields.payTotal} onChange={(e) => this.changeAction('payTotal', e)} style={{width: 250}} suffix="元" />
+          </Item>
+          <Item label="分成比例">
+            <Input value={this.state.fields.agentProfit} onChange={(e) => this.changeAction('agentProfit', e)} style={{width: 250}} suffix="%" />
+          </Item>
+          <Item label="付款方式">
+            <Select value={this.state.fields.payChannel} onChange={(e) => this.changeAction('payChannel', e)}>
+              <Option value={0}>线下</Option>
+              <Option value={1}>微信</Option>
+              <Option value={2}>支付宝</Option>
             </Select>
-          </Item>
-          <Item label="是否付款">
-            <Radio.Group
-              value={this.state.fields.payStatu}
-              onChange={(e) => this.changeAction('payStatu', e.target.value)}
-              options={[{label: '未付款', value: 1}, {label: '已付款', value: 2}]}
-            />
-          </Item>
-          <Item label="已付款数量">
-            <Input disabled={this.state.fields.payStatu === 2} value={this.state.fields.payStatu === 2 ? this.state.fields.price * this.state.fields.count : this.state.fields.payNumber} style={{width: 250}} onChange={(e) => this.changeAction('payNumber', e)} prefix="￥" suffix="元" /> (应付金额: ￥{this.state.fields.price * this.state.fields.count})
           </Item>
         </Form>
       </Modal>

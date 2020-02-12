@@ -10,7 +10,9 @@ export default class PullerModal extends Component {
         address:'',
         tel: '',
         contact: '',
-        mark: ''
+        mark: '',
+        price: 0,
+        ratio: 0,
       }
     }
   }
@@ -23,7 +25,7 @@ export default class PullerModal extends Component {
   }
   okAction() {
     if(this.props.id) {
-      $.put(`/puller/${this.props.id}`, this.state.fields).then(res => {
+      $.put(`/agent/${this.props.id}`, this.state.fields).then(res => {
         if(res.code === 0) {
           message.success('操作成功');
           this.props.onOk();
@@ -32,7 +34,7 @@ export default class PullerModal extends Component {
         }
       })
     }else {
-      $.post(`/puller`, this.state.fields).then(res => {
+      $.post(`/agent`, this.state.fields).then(res => {
         if(res.code === 0) {
           message.success('操作成功');
           this.props.onOk();
@@ -43,7 +45,7 @@ export default class PullerModal extends Component {
     }
   }
   detailAction() {
-    $.get(`/puller/${this.props.id}`).then(res => {
+    $.get(`/agent/${this.props.id}`).then(res => {
       if(res.code === 0) {
         this.setState({
           fields: res.data
@@ -60,14 +62,20 @@ export default class PullerModal extends Component {
     const {Option} = Select;
     return (
       <Modal
-        title="出货商信息"
+        title="代理商信息"
         visible={this.props.visible}
         onOk={this.okAction.bind(this)}
         onCancel={this.props.onCancel}
       >
         <Form layout="horizontal" labelCol={{span: 4}} wrapperCol={{span: 20}}>
-          <Item label="供应商名称">
+          <Item label="代理商名称">
             <Input value={this.state.fields.title} onChange={(e) => {this.changeAction('title', e)}} />
+          </Item>
+          <Item label="价格">
+            <Input value={this.state.fields.price} onChange={(e) => {this.changeAction('price', e)}} />
+          </Item>
+          <Item label="分成比例">
+            <Input value={this.state.fields.ratio} onChange={(e) => {this.changeAction('ratio', e)}} />
           </Item>
           <Item label="联系人">
             <Input value={this.state.fields.contact} onChange={(e) => {this.changeAction('contact', e)}} />

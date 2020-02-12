@@ -166,40 +166,12 @@ export default class Home extends Component {
         render: (t, d, index) => index + 1
       },
       {
-        title: '种类',
-        dataIndex: 'fruit.title',
-      },
-      {
-        title: '总储量',
-        dataIndex: 'fruit.total',
-      },
-      {
-        title: '成本均价',
-        dataIndex: 'avgPrice'
-      },
-      {
-        title: '类型',
-        dataIndex: 'type',
-        render: d => {
-          let s = '';
-          switch(d) {
-            case 1:
-            s = <Tag color="red">入库</Tag>;
-            break;
-            case 2 :
-            s = <Tag color="green">出库</Tag>;
-            break;
-          }
-          return s;
-        }
-      },
-      {
         title: '数量',
         dataIndex: 'count',
       },
       {
         title: '价格',
-        render: d => d.type === 1 ? d.fruit.innerPrice : d.fruit.outerPrice
+        dataIndex: 'price'
       },
       {
         title: '更新时间',
@@ -244,7 +216,7 @@ export default class Home extends Component {
                   </Col>
                 </Row>
                 <Row gutter={10} style={{marginTop: 10}}>
-                  <Col span={12}>
+                  <Col span={24}>
                     <Card>
                       {
                         // this.state.fruits.map(fruit => <Card.Grid style={GridStyle}><Statistic title={`入库:￥${fruit.innerPrice} 出库:￥${fruit.outerPrice}`} key={fruit._id} value={fruit.title}/></Card.Grid>)
@@ -252,19 +224,10 @@ export default class Home extends Component {
                       <LineChart dataSource={this.state.outersMonth} fruits={this.state.fruits}/>
                     </Card>
                   </Col>
-                  <Col span={12}>
-                    <Card>
-                      <PieChart dataSource={this.state.fruits}/>
-                    </Card>
-                  </Col>
                 </Row>
                 <Row>
                   <Col span={24}>
                     <Layout style={{marginTop: 10, backgroundColor: '#fff'}}>
-                      <Header style={{backgroundColor: '#fff', padding: 10, height: 'auto', lineHeight: 1}}>
-                        <Button type="primary" disabled onClick={this.showGroupAction.bind(this)}><Icon type="download"/>新增库存</Button>
-                        <Button type="primary" style={{marginLeft: 10}} onClick={this.showExportModalAction.bind(this)}><Icon type="download"/>导出报告</Button>
-                      </Header>
                       <Content style={{overflow: 'auto'}}>
                         <Table rowKey="_id" columns={columns} dataSource={this.state.orders} size="middle" bordered pagination={false}/>
                         {

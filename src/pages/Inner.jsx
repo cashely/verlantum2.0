@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Layout, Pagination, Table, Tag, Progress, Button, Icon, Upload, Form } from 'antd';
+import { DatePicker, Layout, Pagination, message, Table, Tag, Progress, Button, Icon, Upload, Form } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -50,13 +50,24 @@ export default class Inner extends Component {
     })
   }
 
+  payAction(id) {
+    $.put(`/pay/${id}`).then(res => {
+      if(res.code === 0) {
+        message.success('付款成功');
+        this.listAction()
+      }else {
+        message.error('付款失败')
+      }
+    })
+  }
+
   okInnerModalAction() {
     this.cancelModelAction('inner');
     this.listAction();
   }
 
   listAction() {
-    $.get('/inners', {page: this.state.page, limit: this.state.limit, ...this.state.conditions}).then(res => {
+    $.get('/orders', {page: this.state.page, limit: this.state.limit, ...this.state.conditions}).then(res => {
       if(res.code === 0) {
         this.countListAction();
         this.setState({
@@ -67,7 +78,7 @@ export default class Inner extends Component {
   }
 
   countListAction() {
-    $.get('/outers/total', this.state.conditions).then(res => {
+    $.get('/orders/total', this.state.conditions).then(res => {
       if(res.code === 0) {
         this.setState({
           total: res.data
@@ -99,52 +110,37 @@ export default class Inner extends Component {
         render: (t, d, index) => index + 1
       },
       {
-        title: '种类',
-        dataIndex: 'fruit.title'
+        title: '订单号',
+        dataIndex: '_id'
       },
       {
-        title: '总储量',
-        dataIndex: 'fruit.total',
-      },
-      {
-        title: '数量',
-        dataIndex: 'count',
-        key: 'count',
-        render: d => `${d} 斤`
-      },
-      {
-        title: '入库价格(元)',
-        dataIndex: 'price',
-        key: 'price'
-      },
-      {
-        title: '入库人员',
-        dataIndex: 'creater',
-        key: 'creater',
-        render: d => d && d.acount
-      },
-      {
-        title: '供应商',
-        dataIndex: 'puller',
-        key: 'puller',
-        render: d => d && d.title
-      },
-      {
-        title: '入库时间',
-        dataIndex: 'createdAt',
-        render: d => m(d).format('YYYY-MM-DD')
-      },
-      {
-        title: '付款情况',
-        dataIndex: 'payStatu',
-        key: 'payStatu',
+        title: '付款方式',
+        dataIndex: 'payChannel',
         render: d => {
           let s = '';
           switch(d) {
-            case 1:
+            case 0:
+            s = '线下';
+            break;
+            case 1 :
+            s = '微信';
+            case 2 :
+            s = '支付宝';
+            break;
+          }
+          return s;
+        }
+      },
+      {
+        title: '付款情况',
+        dataIndex: 'hasPayed',
+        render: d => {
+          let s = '';
+          switch(d) {
+            case 0:
             s = <Tag color="red">未付款</Tag>;
             break;
-            case 2 :
+            case 1 :
             s = <Tag color="green">已付款</Tag>;
             break;
           }
@@ -152,13 +148,31 @@ export default class Inner extends Component {
         }
       },
       {
+        title: '价格(元)',
+        dataIndex: 'price',
+      },
+      {
+        title: '代理商',
+        dataIndex: 'agent.title',
+      },
+      {
+        title: '分成比例(%)',
+        dataIndex: 'agent.ratio'
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'createdAt',
+        render: d => m(d).format('YYYY-MM-DD')
+      },
+      {
         title: '操作',
         key: 'id',
         align: 'center',
         render: row => (
           <React.Fragment>
-            <Button type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('inner',row._id)}} size="small"><Icon type="edit"/></Button>
-            // <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
+            <Button type="primary" onClick={this.payAction.bind(this, row._id)} size="small"><Icon type="money-collect"/></Button>
+            <Button style={{marginLeft: 10}} type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('inner',row._id)}} size="small"><Icon type="edit"/></Button>
+            <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
           </React.Fragment>
         )
       }
@@ -168,7 +182,7 @@ export default class Inner extends Component {
         <Header style={{backgroundColor: '#fff', padding: 10, height: 'auto', lineHeight: 1}}>
           <Form layout="inline">
             <Form.Item>
-                <Button type="primary" onClick={this.openModelAction.bind(this, 'inner', null)}><Icon type="download"/>入库</Button>
+                <Button type="primary" onClick={this.openModelAction.bind(this, 'inner', null)}><Icon type="download"/>新增订单</Button>
             </Form.Item>
             <Form.Item label="时间">
               <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />

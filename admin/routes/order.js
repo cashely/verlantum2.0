@@ -16,9 +16,51 @@ module.exports = {
         conditions.createdAt = { $gte: formatDate[0], $lte: moment(formatDate[1]).add(1, 'days').format('YYYY-MM-DD')}
       }
     }
-    models.orders.find(conditions).populate('creater').populate('fruit').populate('pusher').populate('puller').sort({_id: -1}).skip((+page - 1) * limit).limit(+limit).then(orders => {
+    models.orders.find(conditions).populate('agent').populate('puller').sort({_id: -1}).skip((+page - 1) * limit).limit(+limit).then(orders => {
       req.response(200, orders)
     }).catch(err => {
+      req.response(500, err);
+    })
+  },
+  add(req, res) {
+    let {price, payTotal, payChannel, agent, agentProfit, hasPayed = 0, mark} = req.body;
+    let conditions = {
+      payTotal,
+      payChannel,
+      agent,
+      price,
+      agentProfit,
+      hasPayed,
+      mark
+    };
+    new models.orders(conditions).save().then(() => {
+      req.response(200, 'ok');
+    }).catch(err => {
+      console.log(err)
+      req.response(500, err);
+    })
+  },
+  delete(req, res) {
+    const {id} = req.params;
+    models.orders.deleteOne({_id: id}).then(() => {
+      req.response(200, 'ok');
+    }).catch(err => {
+      req.response(500, err);
+    })
+  },
+  pay(req, res) {
+    const { id}  = req.params;
+    models.orders.findById(id).then(order => {
+      const conditions = {
+        hasPayed: 1
+      }
+      return models.orders.updateOne({_id: id}, conditions).then(() => order )
+    }).then(order => {
+      return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.payTotal * order.agentProfit / 100}})
+    }).then(() => {
+      req.response(200, 'ok');
+    }).catch(err => {
+      console.log(err)
       req.response(500, err);
     })
   },

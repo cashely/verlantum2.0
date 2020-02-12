@@ -1,26 +1,19 @@
 const mongoose = require('../db.config');
 
-const Pullers = new mongoose.Schema({
-  title: {
-    type: String,
+const Takes = new mongoose.Schema({
+  agent: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'agents',
     required: true
   },
-  statu: {
+  score: {
     type: Number,
-    default: 1 // 1 - 正常
+    default: 0
   },
   creater: {
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
     ref: 'users'
-  },
-  contact: {
-    type: String
-  },
-  tel: {
-    type: String
-  },
-  address: {
-    type: String
   },
   mark: {
     type: String
@@ -32,4 +25,4 @@ const Pullers = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('pullers', Pullers);
+module.exports = mongoose.model('takes', Takes);
