@@ -133,4 +133,5 @@ module.exports = (app) => {
   })
 
   .get('/qrcode', routes.agent.qrcode)
+  .get('/qrRedirect', routes.agent.qrRedirect)
 }
