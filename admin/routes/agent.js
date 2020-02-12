@@ -74,7 +74,7 @@ module.exports = {
   qrcode(req, res) {
     res.render('qrcode', req.query);
   },
-  qrRedirect() {
+  qrRedirect(req, res) {
     res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn('云量科技', '21111', '0.01'))
   },
   take(req, res) {
