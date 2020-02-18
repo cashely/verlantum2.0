@@ -32,6 +32,10 @@ const Orders = new mongoose.Schema({
   },
   mark: {
     type: String
+  },
+  orderNo: {
+    type: String,
+    default: Date.now()
   }
 }, {
   timestamps: {

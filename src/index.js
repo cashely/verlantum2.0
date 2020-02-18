@@ -13,7 +13,8 @@ import Pushers from './pages/Pushers';
 import Pullers from './pages/Pullers';
 import Fruits from './pages/Fruits';
 import Login from './pages/Login';
-import Cost from './pages/Cost';
+import Arg from './pages/Arg';
+import Apis from './pages/Apis';
 import $ from './ajax';
 import * as serviceWorker from './serviceWorker';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -94,8 +95,11 @@ function Index(props) {
               <Item key="/index/pullers">
                 <Link to="/index/pullers"><Icon type="setting"/> 代理商管理</Link>
               </Item>
-              <Item key="/index/costs">
-                <Link to="/index/costs"><Icon type="setting"/> 系统变量</Link>
+              <Item key="/index/Args">
+                <Link to="/index/Args"><Icon type="setting"/> 系统变量</Link>
+              </Item>
+              <Item key="/index/apis">
+                <Link to="/index/apis"><Icon type="setting"/> 接口列表</Link>
               </Item>
             </Menu>
           </Sider>
@@ -126,7 +130,8 @@ function Routes(props) {
         <Route exact path="/index/pushers" component={Pushers} />
         <Route exact path="/index/pullers" component={Pullers} />
         <Route exact path="/index/fruits" component={Fruits} />
-        <Route exact path="/index/costs" component={Cost} />
+        <Route exact path="/index/args" component={Arg} />
+        <Route exact path="/index/apis" component={Apis} />
       </Switch>
   )
 }

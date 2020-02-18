@@ -111,7 +111,7 @@ export default class Inner extends Component {
       },
       {
         title: '订单号',
-        dataIndex: '_id'
+        dataIndex: 'orderNo'
       },
       {
         title: '付款方式',
@@ -120,10 +120,10 @@ export default class Inner extends Component {
           let s = '';
           switch(d) {
             case 0:
-            s = '线下';
+            s = '线下';break;
             break;
             case 1 :
-            s = '微信';
+            s = '微信';break;
             case 2 :
             s = '支付宝';
             break;

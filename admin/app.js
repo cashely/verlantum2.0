@@ -8,6 +8,8 @@ var bodyParser = require('body-parser');
 const passport = require('passport');
 var router = require('./router.js');
 
+var autoRouter = require('./autoRoute');
+
 var app = express();
 const session = require('./session')
 const db = require('./db.config.js')
@@ -46,6 +48,9 @@ app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
 router(app);
+autoRouter(app);
+
+
 // app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 

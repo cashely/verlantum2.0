@@ -72,10 +72,34 @@ module.exports = {
     })
   },
   qrcode(req, res) {
+    const {aid, price, ratio} = req.query;
     res.render('qrcode', req.query);
   },
   qrRedirect(req, res) {
-    res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn('云量科技', '21111', '0.01'))
+    res.render('qredirect', req.query);
+  },
+  alipay(req, res) {
+    const {aid, price, ratio} = req.query;
+    generatorOrderAction({aid, price, ratio, payChannel: 2})
+    .then(orderNo => {
+      res.send(orderNo)
+      // res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn('云量科技', orderNo, price))
+    });
+  },
+  alipaycallback(req, res) {
+    console.log(req.body)
+  },
+  wxpay(req, res) {
+    const {aid, price, ratio} = req.query;
+    generatorOrderAction({aid, price, ratio, payChannel: 1})
+    .then(orderNo => {
+      res.send(orderNo)
+      // res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn('云量科技', orderNo, price))
+    });
+    // res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn('云量科技', '21111', '0.01'))
+  },
+  wxpaycallback(req, res) {
+    console.log(req.body)
   },
   take(req, res) {
     const {id} = req.params;
@@ -90,4 +114,15 @@ module.exports = {
       req.response(500, err);
     })
   }
+}
+
+const generatorOrderAction = ({aid, price, ratio, payChannel}) => {
+  const orderNo = Date.now();
+  return new models.orders({
+    price,
+    payChannel,
+    agent: aid,
+    agentProfit: ratio,
+    orderNo
+  }).save().then(() => orderNo)
 }

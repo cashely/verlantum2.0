@@ -134,4 +134,8 @@ module.exports = (app) => {
 
   .get('/qrcode', routes.agent.qrcode)
   .get('/qrRedirect', routes.agent.qrRedirect)
+  .get('/alipay', routes.agent.alipay)
+  .get('/wxpay', routes.agent.wxpay)
+  .post('/auth/alipaycallback', routes.agent.alipaycallback)
+  .post('/auth/wxpaycallback', routes.agent.wxpaycallback)
 }
