@@ -14,7 +14,7 @@ module.exports = (product, orderId, amount) => {
   params.set('sign_type', 'RSA2');
   params.set('timestamp', moment().format('YYYY-MM-DD HH:mm:ss'));
   params.set('version', '1.0');
-  // params.set('notify_url', this.accountSettings.APP_GATEWAY_URL);
+  params.set('notify_url', 'https://api.verlantum.cn/auth/alipaycallback');
   params.set('biz_content', _buildBizContent(product, orderId, amount));
   params.set('sign', _buildSign(params));
   return [...params].map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
