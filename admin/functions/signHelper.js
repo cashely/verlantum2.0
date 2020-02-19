@@ -58,7 +58,7 @@ const _buildSign = (paramsMap) => {
     paramsList.sort();
     //3.组合成“参数=参数值”的格式，并且把这些参数用&字符连接起来
     let paramsString = paramsList.map(([k, v]) => `${k}=${v}`).join('&');
-
+    console.log(paramsString, '支付宝请求参数')
     let privateKey = fs.readFileSync(alipayRsaPath, 'utf8');
     let signType = paramsMap.get('sign_type');
     return _signWithPrivateKey(signType, paramsString, privateKey);
