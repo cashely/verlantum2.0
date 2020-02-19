@@ -107,7 +107,7 @@ module.exports = {
   },
   wxpay(req, res) {
     let {params, code} = req.query;
-    params = new Buffer('SmF2YVNjcmlwdA==', 'base64').toString();
+    params = new Buffer(params, 'base64').toString();
     console.log(params, code);
     res.send('200');
     return;
