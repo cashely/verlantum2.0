@@ -82,8 +82,8 @@ module.exports = {
     const {aid, price, ratio} = req.query;
     generatorOrderAction({aid, price, ratio, payChannel: 2})
     .then(orderNo => {
-      res.send(orderNo)
-      // res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn('云量科技', orderNo, price))
+      // res.send(orderNo)
+      res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn('云量科技', orderNo, price))
     });
   },
   alipaycallback(req, res) {
