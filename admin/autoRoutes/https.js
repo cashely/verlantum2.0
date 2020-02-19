@@ -14,5 +14,13 @@ module.exports = [
     callback: (req, res) => {
       res.send('202002170913470dzkxg8quoybdofu5qodmerkhya9mnus7hlcisw4d1sevosmq3')
     }
+  },
+  {
+    uri: '/wx_uri_auth',
+    method: 'get',
+    mark: '微信jssdk授权域名',
+    callback: (req, res) => {
+      res.send('TulMgRcUBXaRi7hY')
+    }
   }
 ]
