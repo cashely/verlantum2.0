@@ -112,7 +112,7 @@ module.exports = {
     console.log(params, code);
     const {aid, price, ratio} = qs.parse(params);
     getOpenIdAction(code).then(body => {
-      console.log(body, '----code body');
+      console.log(body, typeof body, '----code body');
       const openid = body.openid;
 
       generatorOrderAction({aid, price, ratio, payChannel: 1})
