@@ -131,7 +131,7 @@ module.exports = {
         let trade_type = 'JSAPI';
         let mchkey = '773ADDFE99B6749A16D6B9E266F8A20A';
 
-        let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey);
+        let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey, openid);
 
         console.log('sign==',sign);
 
@@ -169,7 +169,7 @@ module.exports = {
 
 
                     //将预支付订单和其他信息一起签名后返回给前端
-                    let finalsign = wxpay.paysignjsapifinal(appid,mch_id,prepay_id,nonce_str,timestamp, mchkey);
+                    let finalsign = wxpay.paysignjsapifinal(appid,mch_id,prepay_id,nonce_str,timestamp, mchkey, openid);
 
                     res.json({'appId':appid,'partnerId':mchid, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
                 });
