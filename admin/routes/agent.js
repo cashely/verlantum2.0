@@ -164,14 +164,12 @@ module.exports = {
                         return;
                     }
                     console.log('长度===', response);
-                    var prepay_id = response.xml.prepay_id.text();
+                    var prepay_id = response.xml.prepay_id;
                     console.log('解析后的prepay_id==',prepay_id);
-
-
                     //将预支付订单和其他信息一起签名后返回给前端
                     let finalsign = wxpay.paysignjsapifinal(appid,mch_id,prepay_id,nonce_str,timestamp, mchkey, openid);
 
-                    res.json({'appId':appid,'partnerId':mchid, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
+                    res.render('frontwxpay',{'appId':appid,'partnerId':mchid, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
                 });
 
 
