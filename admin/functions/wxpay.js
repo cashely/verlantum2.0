@@ -44,12 +44,12 @@ var wxpay = {
     //签名加密算法,第二次的签名
     paysignjsapifinal: function (appid,mch_id,package,noncestr,timestamp,mchkey, openid) {
         var ret = {
-            appid: appid,
+            appId: appid,
             // partnerid: mch_id,
             // prepayid: prepayid,
             package: package,
-            noncestr: noncestr,
-            timestamp: timestamp,
+            nonceStr: noncestr,
+            timeStamp: timestamp,
             signType: 'MD5'
         };
         console.log('retretret==', ret);
