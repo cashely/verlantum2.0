@@ -210,7 +210,7 @@ const generatorOrderAction = ({aid, price, ratio, payChannel}) => {
 
 
 
-const getOpenIdAction(code) {
+const getOpenIdAction = (code) => {
   return new Promise((resolve, reject) => {
     request({url:`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${wxAppId}&secret=${wxAppSecret}&code=${code}&grant_type=authorization_code`,method:'GET'},function(err,response,body){
       if (null !== errors) {
