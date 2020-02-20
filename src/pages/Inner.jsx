@@ -162,7 +162,7 @@ export default class Inner extends Component {
       {
         title: '创建时间',
         dataIndex: 'createdAt',
-        render: d => m(d).format('YYYY-MM-DD')
+        render: d => m(d).format('YYYY-MM-DD HH:mm:ss')
       },
       {
         title: '操作',
