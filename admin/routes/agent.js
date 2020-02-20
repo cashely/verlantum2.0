@@ -183,7 +183,7 @@ module.exports = {
       models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1}).then(() => {
         return models.orders.findOne({orderNo: out_trade_no})
       }).then(order => {
-        return models.agents.updateOne({_id: order.agent}, {$inc: {score: total_amount / 100 * order.agentProfit / 100}})
+        return models.agents.updateOne({_id: order.agent}, {$inc: {score: cash_fee / 100 * order.agentProfit / 100}})
       }).then(() => {
         res.send('ok')
       }).catch(err => {
