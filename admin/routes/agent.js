@@ -107,9 +107,13 @@ module.exports = {
   },
   wxpay(req, res) {
     let {params, code} = req.query;
-    params = new Buffer(params, 'base64').toString();
+    params = Buffer.from(params, 'base64').toString();
     console.log(params, code);
-    res.send('200');
+    getOpenIdAction(code).then(body => {
+      console.log(body, '----code body')
+      res.send('200');
+    })
+
     return;
     generatorOrderAction({aid, price, ratio, payChannel: 1})
     .then(orderNo => {
@@ -202,4 +206,19 @@ const generatorOrderAction = ({aid, price, ratio, payChannel}) => {
     agentProfit: ratio,
     orderNo
   }).save().then(() => orderNo)
+}
+
+
+
+const getOpenIdAction(code) {
+  return new Promise((resolve, reject) => {
+    request({url:`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${wxAppId}&secret=${wxAppSecret}&code=${code}&grant_type=authorization_code`,method:'GET'},function(err,response,body){
+      if (null !== errors) {
+          console.log(errors)
+          reject(errors)
+      }else {
+          resolve(body)
+      }
+    })
+  })
 }
