@@ -42,21 +42,21 @@ var wxpay = {
         return crypto.createHash('md5').update(string, 'utf8').digest('hex').toUpperCase();
     },
     //签名加密算法,第二次的签名
-    paysignjsapifinal: function (appid,mch_id,prepayid,noncestr,timestamp,mchkey, openid) {
+    paysignjsapifinal: function (appid,mch_id,package,noncestr,timestamp,mchkey, openid) {
         var ret = {
             appid: appid,
-            partnerid: mch_id,
-            prepayid: prepayid,
-            package: 'Sign=WXPay',
+            // partnerid: mch_id,
+            // prepayid: prepayid,
+            package: package,
             noncestr: noncestr,
             timestamp: timestamp,
-            openid
+            signType: 'MD5'
         };
         console.log('retretret==', ret);
         var string = raw(ret);
         var key = mchkey;
         string = string + '&key=' + key;
-        console.log('stringstringstring=', string);
+        console.log('string=', string);
         var crypto = require('crypto');
         return crypto.createHash('md5').update(string, 'utf8').digest('hex').toUpperCase();
     },
