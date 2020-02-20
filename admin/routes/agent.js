@@ -216,7 +216,7 @@ const getOpenIdAction = (code) => {
   return new Promise((resolve, reject) => {
     request({url:`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${wxAppId}&secret=${wxAppSecret}&code=${code}&grant_type=authorization_code`,method:'GET'},function(err,response,body){
       if(!err && response.statusCode == 200){
-          resolve(body)
+          resolve(JSON.parse(body))
       }else {
         console.log(err)
         reject(err)
