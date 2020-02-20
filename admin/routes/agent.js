@@ -172,11 +172,9 @@ module.exports = {
                     res.render('frontwxpay',{'appId':appid,'partnerId':mch_id, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
                 });
 
-
             }
         });
       });
-      res.send('200');
     });
   },
   wxpaycallback(req, res) {
