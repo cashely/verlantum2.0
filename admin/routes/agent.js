@@ -169,7 +169,7 @@ module.exports = {
                     //将预支付订单和其他信息一起签名后返回给前端
                     let finalsign = wxpay.paysignjsapifinal(appid,mch_id,prepay_id,nonce_str,timestamp, mchkey, openid);
 
-                    res.render('frontwxpay',{'appId':appid,'partnerId':mchid, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
+                    res.render('frontwxpay',{'appId':appid,'partnerId':mch_id, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
                 });
 
 

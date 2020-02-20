@@ -5,7 +5,6 @@ const { alipayRsaPath, alipayAppId } = require('../config.global.js');
 
 
 
-
 module.exports = (product, orderId, amount) => {
   let params = new Map();
   params.set('app_id', alipayAppId);
