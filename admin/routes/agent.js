@@ -179,7 +179,7 @@ module.exports = {
     console.log(req.body, typeof req.body.xml)
     const {return_code} = req.body.xml;
     if (return_code === 'SUCCESS') {
-      const {out_trade_no, cash_fee} = req.body;
+      const {out_trade_no, cash_fee} = req.body.xml;
       models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1}).then(() => {
         return models.orders.findOne({orderNo: out_trade_no})
       }).then(order => {
