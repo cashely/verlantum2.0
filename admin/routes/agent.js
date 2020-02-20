@@ -176,7 +176,7 @@ module.exports = {
     });
   },
   wxpaycallback(req, res) {
-    console.log(req.body)
+    console.log(req.body, typeof req.body.xml)
     const {return_code} = req.body.xml;
     if (return_code === 'SUCCESS') {
       const {out_trade_no, cash_fee} = req.body;
