@@ -177,7 +177,7 @@ module.exports = {
   },
   wxpaycallback(req, res) {
     console.log(req.body)
-    const {return_code} = req.body;
+    const {return_code} = req.body.xml;
     if (return_code === 'SUCCESS') {
       const {out_trade_no, cash_fee} = req.body;
       models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1}).then(() => {
