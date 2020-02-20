@@ -190,6 +190,8 @@ module.exports = {
         console.log(err)
         res.send('failed')
       })
+    }else {
+      res.send('failed');
     }
   },
   take(req, res) {
