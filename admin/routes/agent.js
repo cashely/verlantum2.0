@@ -1,6 +1,7 @@
 const models = require('../model.js');
 const request = require('request');
 const xml2js = require('xml2js');
+const qs = require('qs');
 const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
@@ -109,6 +110,7 @@ module.exports = {
     let {params, code} = req.query;
     params = Buffer.from(params, 'base64').toString();
     console.log(params, code);
+    const {aid, price, ratio} = qs.parse(params);
     getOpenIdAction(code).then(body => {
       console.log(body, '----code body');
       const openid = body.openid;
