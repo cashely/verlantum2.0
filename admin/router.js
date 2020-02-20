@@ -137,5 +137,5 @@ module.exports = (app) => {
   .get('/alipay', routes.agent.alipay)
   .get('/wxpay', routes.agent.wxpay)
   .use('/auth/alipaycallback', routes.agent.alipaycallback)
-  .post('/auth/wxpaycallback', routes.agent.wxpaycallback)
+  .use('/auth/wxpaycallback', routes.agent.wxpaycallback)
 }

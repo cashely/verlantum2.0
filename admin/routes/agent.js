@@ -156,8 +156,6 @@ module.exports = {
 
         request({url:url,method:'POST',body: formData},function(err,response,body){
             if(!err && response.statusCode == 200){
-                console.log(body);
-
                 xml2js.parseString(body, {explicitArray : false}, function (errors, response) {
                     if (null !== errors) {
                         console.log(errors)
@@ -179,6 +177,20 @@ module.exports = {
   },
   wxpaycallback(req, res) {
     console.log(req.body)
+    const {return_code} = req.body;
+    if (return_code === 'SUCCESS') {
+      const {out_trade_no, cash_fee} = req.body;
+      models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1}).then(() => {
+        return models.orders.findOne({orderNo: out_trade_no})
+      }).then(order => {
+        return models.agents.updateOne({_id: order.agent}, {$inc: {score: total_amount / 100 * order.agentProfit / 100}})
+      }).then(() => {
+        res.send('ok')
+      }).catch(err => {
+        console.log(err)
+        res.send('failed')
+      })
+    }
   },
   take(req, res) {
     const {id} = req.params;
