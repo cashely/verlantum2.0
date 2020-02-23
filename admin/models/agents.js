@@ -14,7 +14,7 @@ const Agents = new mongoose.Schema({
     ref: 'users'
   },
   score: {
-    type: Number,
+    type: mongoose.Types.Decimal128,
     default: 0
   },
   ratio: {

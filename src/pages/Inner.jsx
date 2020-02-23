@@ -170,7 +170,9 @@ export default class Inner extends Component {
         align: 'center',
         render: row => (
           <React.Fragment>
-            <Button type="primary" onClick={this.payAction.bind(this, row._id)} size="small"><Icon type="money-collect"/></Button>
+            {
+                row.hasPayed === 0 && <Button type="primary" onClick={this.payAction.bind(this, row._id)} size="small"><Icon type="money-collect"/></Button>
+            }
             <Button style={{marginLeft: 10}} type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('inner',row._id)}} size="small"><Icon type="edit"/></Button>
             <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
           </React.Fragment>

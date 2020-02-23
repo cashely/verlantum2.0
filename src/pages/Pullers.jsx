@@ -136,7 +136,7 @@ export default class Outer extends Component {
       },
       {
         title: '积分',
-        dataIndex: 'score',
+        dataIndex: 'score.$numberDecimal',
       },
       {
         title: '分成比例',

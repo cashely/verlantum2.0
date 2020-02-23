@@ -56,7 +56,6 @@ module.exports = {
       }
       return models.orders.updateOne({_id: id}, conditions).then(() => order )
     }).then(order => {
-      console.log(order, order.payTotal * order.agentProfit / 100)
       return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.price * order.agentProfit / 100}})
     }).then(() => {
       req.response(200, 'ok');
