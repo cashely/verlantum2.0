@@ -49,6 +49,9 @@ function Index(props) {
     $.get('/me').then(res => {
       if(res.code === 0) {
         setUser(res.data)
+      }else {
+        message.error(res.data);
+        props.history.push('/');
       }
     })
   }, [])

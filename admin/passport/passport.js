@@ -20,6 +20,7 @@ module.exports = () => {
   passport.use(new localStrategy({usernameField: 'acount', passwordField: 'password'}, (username, password, done) => {
     console.log('进入')
     models.users.findOne({acount: username}, (err, user) => {
+      console.log(err, user)
       if(err) {return done(err)}
       if(!user) {
         return done(null, false, { message: '用户不存在'})

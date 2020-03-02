@@ -101,7 +101,7 @@ export default class Outer extends Component {
   }
 
   makeQrcodeAction(puller) {
-    window.open(`http://localhost:5010/qrcode?aid=${puller._id}&ratio=${puller.ratio}&price=${puller.price}`)
+    window.open(`http://api.verlantum.cn/qrcode?aid=${puller._id}&ratio=${puller.ratio}&price=${puller.price}`)
   }
 
   componentWillMount() {

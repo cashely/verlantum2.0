@@ -130,7 +130,7 @@ module.exports = {
     })
   },
   //昨日出库数量
-  yesterday() {
+  yesterday(req, res) {
     const conditions = {}
     conditions.type = 2;
     conditions.createdAt = {

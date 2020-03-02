@@ -100,6 +100,9 @@ module.exports = {
     })
   },
   me(req, res, next) {
+    if(!req.user) {
+      return req.response(200, "未登录", 2)
+    }
     models.users.findById(req.user.uid).select('-password').then(user => {
       req.response(200, user)
     }).catch(error => {
