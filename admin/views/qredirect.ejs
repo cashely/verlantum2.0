@@ -4,24 +4,26 @@
     <title>云量科技</title>
     <script src="https://cdn.bootcss.com/jquery/1.8.0/jquery.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <link rel="stylesheet" href="/stylesheets/payment.css">
   </head>
   <body>
+    <div class="alipay payment">
+        <img src="/images/pay.png" alt="">
+        <p>正在支付中...</p>
+        <div class="phone">
+            <p>感谢您选择云量科技</p>
+            <p>客服电话：020-83987201</p>
+        </div>
+        <div class="official_account">
+            <p>微信公众号：云量检测</p>
+        </div>
+    </div>
     <script>
       const ua = window.navigator.userAgent.toLowerCase();
     	if(ua.match(/Alipay/i)=="alipay"){
           document.write('支付宝')
     	    location.href = '/alipay?aid=<%= aid%>&price=<%= price%>&ratio<%= ratio%>';
     	}else if(ua.match(/MicroMessenger/i)=="micromessenger"){
-          document.write('微信')
-    	    // wx.config({
-          //   debug: true,
-          //   appId: ,
-          //   timestamp: ,
-          //   nonceStr: '1',
-          //   signature: '',
-          //   jsApiList:['getNetworkType', '']
-          // })
-          // if()
           if(!/code=/.test(location.search)) {
             location.href = '/wxcode/get?uri=' + encodeURIComponent('https://api.verlantum.cn/wxpay?params=' + window.btoa(location.search.slice(1)))
           }
