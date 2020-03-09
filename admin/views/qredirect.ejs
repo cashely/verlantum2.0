@@ -5,19 +5,16 @@
     <script src="https://cdn.bootcss.com/jquery/1.8.0/jquery.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <link rel="stylesheet" href="/stylesheets/payment.css">
-  </head>
-  <body>
-    <div class="alipay payment">
-        <img src="/images/pay.png" alt="">
-        <p>正在支付中...</p>
-        <div class="phone">
-            <p>感谢您选择云量科技</p>
-            <p>客服电话：020-83987201</p>
-        </div>
-        <div class="official_account">
-            <p>微信公众号：云量检测</p>
-        </div>
-    </div>
+    <script type="text/javascript">
+        var fontSizeAuto = function () {
+            var viewportWidth = document.documentElement.clientWidth;
+            if (viewportWidth > 640) { viewportWidth = 640; }
+            if (viewportWidth < 320) { viewportWidth = 320; }
+            document.documentElement.style.fontSize = viewportWidth / 6.4 + 'px';
+        }
+        fontSizeAuto();
+        window.onresize = fontSizeAuto;
+    </script>
     <script>
       const ua = window.navigator.userAgent.toLowerCase();
     	if(ua.match(/Alipay/i)=="alipay"){
@@ -35,5 +32,18 @@
     		document.write('无法识别的设备')
     	}
     </script>
+  </head>
+  <body>
+    <div class="alipay payment">
+        <img src="/images/pay.png" alt="">
+        <p>正在支付中...</p>
+        <div class="phone">
+            <p>感谢您选择云量科技</p>
+            <p>客服电话：020-83987201</p>
+        </div>
+        <div class="official_account">
+            <p>微信公众号：云量检测</p>
+        </div>
+    </div>
   </body>
 </html>

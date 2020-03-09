@@ -90,6 +90,7 @@ module.exports = {
     })
   },
   delete(req, res, next) {
+    req.response(200, '没有权限', 2)
     const id = req.params.id;
     models.users.deleteOne({
       _id: id

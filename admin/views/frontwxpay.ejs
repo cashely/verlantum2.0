@@ -6,6 +6,16 @@
     <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <link rel="stylesheet" href="/stylesheets/payment.css">
   </head>
+  <script type="text/javascript">
+      var fontSizeAuto = function () {
+          var viewportWidth = document.documentElement.clientWidth;
+          if (viewportWidth > 640) { viewportWidth = 640; }
+          if (viewportWidth < 320) { viewportWidth = 320; }
+          document.documentElement.style.fontSize = viewportWidth / 6.4 + 'px';
+      }
+      fontSizeAuto();
+      window.onresize = fontSizeAuto;
+  </script>
   <body>
     <div class="alipay payment">
         <img src="/images/wechat.png" alt="">

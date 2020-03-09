@@ -1,9 +1,11 @@
 import axios from 'axios'
+import { message } from 'antd';
 // axios.defaults.baseURL = '/api';
 // axios.defaults.baseURL = 'http://localhost:3000';
 // axios.defaults.prefix = '';
 axios.defaults.withCredentials = true; //让ajax携带cookie
 axios.defaults.headers.post['Content-Type'] = 'application/a-www-form-urlencoded';
+
 
 
 function response(res, waring) {
@@ -12,6 +14,7 @@ function response(res, waring) {
       if(res.code === 1) {
         window.location.href="/#/"
       }else {
+        message.error(res.data)
         return res
       }
     }
