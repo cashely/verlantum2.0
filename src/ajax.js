@@ -11,7 +11,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/a-www-form-urlencoded
 function response(res, waring) {
     res = res.data;
     if(res.code !== 0) {
-      if(res.code === 1) {
+      if(res.code === 2) {
         window.location.href="/#/"
       }else {
         message.error(res.data)

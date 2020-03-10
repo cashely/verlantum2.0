@@ -9,6 +9,8 @@ require("body-parser-xml")(bodyParser);
 const passport = require('passport');
 var router = require('./router.js');
 
+const auth = require('./middleware/auth');
+
 var autoRouter = require('./autoRoute');
 
 var app = express();
@@ -62,6 +64,7 @@ app.use(express.static(path.join(__dirname, 'public/upload')))
 app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(auth);
 router(app);
 autoRouter(app);
 

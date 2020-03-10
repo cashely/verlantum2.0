@@ -3,9 +3,9 @@ module.exports = [
   {
     uri: '/list',
     method: 'get',
-    mark: '系统参数列表',
+    mark: '所有权限列表',
     callback: (req, res) => {
-      models.args.find()
+      models.auths.find()
       .then(args => {
         req.response(200, args)
       })
@@ -17,9 +17,9 @@ module.exports = [
   {
     uri: '/total',
     method: 'get',
-    mark: '获取系统参数总数量',
+    mark: '所有权限的个数',
     callback: (req, res) => {
-      models.args.countDocuments().then(count => {
+      models.auths.countDocuments().then(count => {
         req.response(200, count);
       }).catch(err => {
         req.response(500, err);
@@ -28,16 +28,17 @@ module.exports = [
   },
   {
     uri: '/create',
-    mark: '新增系统参数',
+    mark: '新增权限',
     method: 'post',
     callback: (req, res) => {
-      const {title, value, mark} = req.body;
+      const {path, role, title, method} = req.body;
       const conditions = {
+        path,
+        role,
         title,
-        value,
-        mark
+        method
       };
-      new models.args(conditions).save().then(() => {
+      new models.auths(conditions).save().then(() => {
         req.response(200, 'ok')
       }).catch(err => {
         req.response(500, err)
@@ -46,13 +47,13 @@ module.exports = [
   },
   {
     uri: '/:id',
-    mark: '根据id修改系统参数',
+    mark: '根据id修改权限',
     method: 'put',
     callback: (req, res) => {
       const { id } = req.params;
-      const { value, mark } = req.body;
-      const conditions = {value, mark};
-      models.args.updateOne({_id: id}, conditions).then(() => {
+      const { path, role, method, title } = req.body;
+      const conditions = {path, role, method, title};
+      models.auths.updateOne({_id: id}, conditions).then(() => {
         req.response(200, 'ok')
       }).catch(err => {
         req.response(500, err)
@@ -62,11 +63,11 @@ module.exports = [
   },
   {
     uri: '/:id',
-    mark: '根据id获取系统变量',
+    mark: '根据id获取权限详情',
     method: 'get',
     callback: (req, res) => {
       const { id } = req.params;
-      models.args.findById(id).then(arg => {
+      models.auths.findById(id).then(arg => {
         req.response(200, arg)
       }).catch(err => {
         req.response(500, err)
@@ -76,11 +77,11 @@ module.exports = [
   },
   {
     uri: '/:id',
-    mark: '根据id删除系统参数',
+    mark: '根据id删除权限详情',
     method: 'delete',
     callback: (req, res) => {
       const { id } = req.params;
-      models.args.deleteOne({_id: id}).then(() => {
+      models.auths.deleteOne({_id: id}).then(() => {
         req.response(200, 'ok');
       }).catch(err => {
         req.response(500, err);

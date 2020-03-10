@@ -15,6 +15,7 @@ import Fruits from './pages/Fruits';
 import Login from './pages/Login';
 import Arg from './pages/Arg';
 import Apis from './pages/Apis';
+import Auth from './pages/Auth';
 import $ from './ajax';
 import * as serviceWorker from './serviceWorker';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -103,6 +104,9 @@ function Index(props) {
               <Item key="/index/apis">
                 <Link to="/index/apis"><Icon type="setting"/> 接口列表</Link>
               </Item>
+              <Item key="/index/auths">
+                <Link to="/index/auths"><Icon type="setting"/> 权限管理</Link>
+              </Item>
             </Menu>
           </Sider>
           <Layout>
@@ -134,6 +138,7 @@ function Routes(props) {
         <Route exact path="/index/fruits" component={Fruits} />
         <Route exact path="/index/args" component={Arg} />
         <Route exact path="/index/apis" component={Apis} />
+        <Route exact path="/index/auths" component={Auth} />
       </Switch>
   )
 }
