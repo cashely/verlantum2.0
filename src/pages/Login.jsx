@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, {Component, createRef} from 'react'
 import {Layout, Form, Icon, Input, Button, message} from 'antd'
 import $ from '../ajax'
 import Particleground from 'Particleground.js';
+import { validator } from '../functions';
 // const api = {}
 class Template extends Component {
   constructor(props) {
@@ -29,8 +30,11 @@ export default class Login extends Template {
 
 
 class LoginForm extends Component {
+  constructor(props) {
+    super(props)
+    this.loginForm = createRef();
+  }
   submitAction() {
-    console.log(this.props.form.getFieldsValue())
     $.post('/login', this.props.form.getFieldsValue()).then(res => {
       console.log(res)
       if(res.code === 0) {
@@ -43,10 +47,27 @@ class LoginForm extends Component {
       }
     })
   }
+  validAction() {
+    const rules = {
+      acount: [
+        {
+          required: true,
+          message: '账号字段不能为空'
+        }
+      ],
+      password: {
+        required: true
+      }
+    };
+    validator(rules)(this.props.form.getFieldsValue()).then(() => {
+      this.submitAction()
+    })
+  }
   componentDidMount() {
     this.setState({
       particle: new Particleground.particle('#demo')
     });
+    console.log(this.loginForm)
   }
 
   componentWillUnmount() {
@@ -60,11 +81,12 @@ class LoginForm extends Component {
         <div style={{textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 30, lineHeight: '24px', fontSize: '24px'}}>
           <span style={{color: '#fff', backgroundColor: '#000', fontSize: 24, borderRadius: 5, width: 120, height: 26, fontWeight: 600, lineHeight: 1, textAlign: 'center', marginRight: 5}}>Verlantum</span>云量科技后台管理系统
         </div>
-        <Form style={{width: '300px'}} labelCol = {{span: 6}} wrapperCol = {{span: 14}}>
+        <Form ref={this.loginForm} style={{width: '300px'}} labelCol = {{span: 6}} wrapperCol = {{span: 14}}>
           <Form.Item label="用户名">
             {
               getFieldDecorator('acount', {})(
                 <Input
+                  rules={[{required: true, message: 'Please input your note!' }]}
                   prefix={<Icon type="user"/>}
                   placeholder="用户名">
                 </Input>
@@ -83,7 +105,7 @@ class LoginForm extends Component {
             }
           </Form.Item>
           <Form.Item wrapperCol = {{span: 14, offset: 6}}>
-            <Button block type="primary" onClick={this.submitAction.bind(this)}>提交</Button>
+            <Button block type="primary" onClick={this.validAction.bind(this)}>提交</Button>
           </Form.Item>
         </Form>
       </div>
