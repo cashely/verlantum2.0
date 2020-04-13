@@ -7,6 +7,7 @@ export default class InnerModal extends Component {
     super(props);
     this.state = {
       fields: {
+        good: '',
         price: 4900,
         payTotal: 0,
         payChannel: 0,
@@ -87,6 +88,9 @@ export default class InnerModal extends Component {
         onCancel={this.props.onCancel}
       >
         <Form layout="horizontal" labelCol={{span: 4}} wrapperCol={{span: 20}}>
+          <Item label="商品名称">
+            <Input value={this.state.fields.good} onChange={(e) => this.changeAction('good', e)} style={{width: 250}} />
+          </Item>
           <Item label="代理商">
             <Select value={this.state.fields.agent} onChange={(e) => this.changeAction('agent', e)}>
               {

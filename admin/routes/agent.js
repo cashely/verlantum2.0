@@ -78,23 +78,23 @@ module.exports = {
     })
   },
   qrcode(req, res) {
-    const {aid, price, ratio} = req.query;
     res.render('qrcode', req.query);
   },
   qrRedirect(req, res) {
-    res.render('qredirect', req.query);
+    const {orderNo} = req.query;
+    res.render('qredirect', {orderNo});
+
   },
   alipay(req, res) {
-    const {aid, price, ratio, good = '天赋基因检测'} = req.query;
-    generatorOrderAction({aid, price, ratio, payChannel: 2, good})
-    .then(orderNo => {
-      // res.send(orderNo)
-      res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn(good, orderNo, price))
-    });
+    const { orderNo } = req.query;
+    models.orders.findOne({ orderNo}).then(order => {
+      const { good, paymentAmount} = order;
+      res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn(good, orderNo, paymentAmount))
+    })
   },
   alipaycallback(req, res) {
     const {out_trade_no, total_amount} = req.body;
-    models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: total_amount * 1}).then(() => {
+    models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: total_amount * 1, payChannel: 2,}).then(() => {
       return models.orders.findOne({orderNo: out_trade_no})
     }).then(order => {
       return models.agents.updateOne({_id: order.agent}, {$inc: {score: total_amount * order.agentProfit / 100}})
@@ -106,20 +106,21 @@ module.exports = {
 
   },
   wxpay(req, res) {
-    let {params, code} = req.query;
-    params = Buffer.from(params, 'base64').toString();
-    console.log(params, code);
-    const {aid, price, ratio, good = '天赋基因检测'} = qs.parse(params);
+    let {orderNo, code} = req.query;
+    // params = Buffer.from(params, 'base64').toString();
+    // const {aid, price, ratio, good = '天赋基因检测'} = qs.parse(params);
+
     getOpenIdAction(code).then(body => {
       // console.log(body, typeof body, '----code body');
       const openid = body.openid;
-      generatorOrderAction({aid, price, ratio, payChannel: 1, good})
-      .then(orderNo => {
+      models.orders.findOne({ orderNo})
+      .then(order => {
+        const { paymentAmount, good } = order;
         return generatorWxpay({
           orderNo,
           openid,
-          price,
-          body: '天赋基因检测',
+          paymentAmount,
+          body: good,
           res
         })
       })
@@ -129,7 +130,7 @@ module.exports = {
     const {return_code} = req.body.xml;
     if (return_code === 'SUCCESS') {
       const {out_trade_no, cash_fee} = req.body.xml;
-      models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1}).then(() => {
+      models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1, payChannel: 1,}).then(() => {
         return models.orders.findOne({orderNo: out_trade_no})
       }).then(order => {
         return models.agents.updateOne({_id: order.agent}, {$inc: {score: cash_fee / 100 * order.agentProfit / 100}})
@@ -158,18 +159,6 @@ module.exports = {
   }
 }
 
-const generatorOrderAction = ({aid, price, ratio, payChannel, good}) => {
-  const orderNo = Date.now();
-  return new models.orders({
-    price,
-    payChannel,
-    agent: aid,
-    agentProfit: ratio,
-    good,
-    orderNo
-  }).save().then(() => orderNo)
-}
-
 
 
 const getOpenIdAction = (code) => {
@@ -185,7 +174,7 @@ const getOpenIdAction = (code) => {
   })
 }
 
-const generatorWxpay = ({orderNo, price, body,openid, res}) => {
+const generatorWxpay = ({orderNo, paymentAmount, body,openid, res}) => {
   return new Promise((resolve) => {
     // res.send(orderNo)
     let appid = wxAppId;
@@ -193,7 +182,7 @@ const generatorWxpay = ({orderNo, price, body,openid, res}) => {
     let nonce_str = wxpay.createNonceStr();
     let timestamp = wxpay.createTimeStamp();
     let out_trade_no = String(orderNo);
-    let total_fee = wxpay.getmoney(price);
+    let total_fee = wxpay.getmoney(paymentAmount);
     // let spbill_create_ip = req.ip.slice(req.connection.remoteAddress.lastIndexOf(':')+1);
     let spbill_create_ip = '10.101.68.93';
     let notify_url = 'https://api.verlantum.cn/auth/wxpaycallback';

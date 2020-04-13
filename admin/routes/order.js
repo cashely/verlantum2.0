@@ -23,18 +23,25 @@ module.exports = {
     })
   },
   add(req, res) {
-    let {price, payTotal, payChannel, agent, agentProfit, hasPayed = 0, mark} = req.body;
+
+    let {price, payTotal, agent, agentProfit, hasPayed = 0, mark, good, address, card, phone, count = 1} = req.body;
+    const paymentAmount = price * count;
     let conditions = {
       payTotal,
-      payChannel,
       agent,
       price,
       agentProfit,
       hasPayed,
-      mark
+      mark,
+      card,
+      phone,
+      good,
+      address,
+      count,
+      paymentAmount,
     };
-    new models.orders(conditions).save().then(() => {
-      req.response(200, 'ok');
+    new models.orders(conditions).save().then(order => {
+      req.response(200, order);
     }).catch(err => {
       console.log(err)
       req.response(500, err);
@@ -52,16 +59,27 @@ module.exports = {
     const { id}  = req.params;
     models.orders.findById(id).then(order => {
       const conditions = {
-        hasPayed: 1
+        hasPayed: 1,
+        payTotal: order.paymentAmount
       }
       return models.orders.updateOne({_id: id}, conditions).then(() => order )
     }).then(order => {
-      return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.price * order.agentProfit / 100}})
+      if(order.agent) {
+        return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.paymentAmount * order.agentProfit / 100}})
+      } else {
+        return null
+      }
     }).then(() => {
       req.response(200, 'ok');
     }).catch(err => {
       console.log(err)
       req.response(500, err);
+    })
+  },
+  detail(req, res) {
+    const { id } = req.params;
+    models.orders.findOne({_id: id}).then(order => {
+      req.response(200, order);
     })
   },
   total(req, res) {

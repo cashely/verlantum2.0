@@ -110,6 +110,7 @@ module.exports = (app) => {
   .get('/count/:fruit', authenticationMiddleware(), routes.count.detail)
 
   .get('/orders', routes.order.list)
+  .get('/order/:id', routes.order.detail)
   .get('/orders/total', routes.order.total)
   .post('/order', routes.order.add)
   .put('/pay/:id', routes.order.pay)

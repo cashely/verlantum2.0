@@ -110,15 +110,35 @@ export default class Inner extends Component {
         render: (t, d, index) => index + 1
       },
       {
+        title: '商品名称',
+        dataIndex: 'good',
+      },
+      {
         title: '订单号',
         dataIndex: 'orderNo'
+      },
+      {
+        title: '数量',
+        dataIndex: 'count',
+      },
+      {
+        title: '单价(元)',
+        dataIndex: 'price',
+      },
+      {
+        title: '总计(元)',
+        dataIndex: 'paymentAmount',
+      },
+      {
+        title: '已付金额(元)',
+        dataIndex: 'payTotal',
       },
       {
         title: '付款方式',
         dataIndex: 'payChannel',
         render: d => {
           let s = '';
-          switch(d) {
+          switch (d) {
             case 0:
             s = '线下';break;
             break;
@@ -148,16 +168,12 @@ export default class Inner extends Component {
         }
       },
       {
-        title: '价格(元)',
-        dataIndex: 'price',
-      },
-      {
         title: '代理商',
-        dataIndex: 'agent.title',
+        render: d => d.agent ? d.agent.title : '——',
       },
       {
         title: '分成比例(%)',
-        dataIndex: 'agent.ratio'
+        render: d => d.agent ? d.agent.title : '——',
       },
       {
         title: '创建时间',
@@ -171,10 +187,10 @@ export default class Inner extends Component {
         render: row => (
           <React.Fragment>
             {
-                row.hasPayed === 0 && <Button type="primary" onClick={this.payAction.bind(this, row._id)} size="small"><Icon type="money-collect"/></Button>
+                row.hasPayed === 0 && <Button type="primary" onClick={this.payAction.bind(this, row._id)} size="small" title="手动付款" ><Icon type="money-collect"/></Button>
             }
             <Button style={{marginLeft: 10}} type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('inner',row._id)}} size="small"><Icon type="edit"/></Button>
-            <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
+            <Button style={{marginLeft: 10}} type="danger" size="small" title="删除" ><Icon type="delete"/></Button>
           </React.Fragment>
         )
       }

@@ -1,7 +1,7 @@
 const models = require('../model')
 module.exports = (req, res, next) => {
   const { path, method, user } =req;
-  if (method === 'GET' || path === '/login' || path === '/logout') {
+  if (method === 'GET' || path === '/login' || path === '/logout' || (path === '/order' && method === 'POST')) {
     next()
   } else {
     if(!user) {

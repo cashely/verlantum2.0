@@ -19,15 +19,11 @@
       const ua = window.navigator.userAgent.toLowerCase();
     	if(ua.match(/Alipay/i)=="alipay"){
           document.write('支付宝')
-    	    location.href = '/alipay?aid=<%= aid%>&price=<%= price%>&ratio<%= ratio%>';
+    	    location.href = '/alipay?orderNo=<%= orderNo%>';
     	}else if(ua.match(/MicroMessenger/i)=="micromessenger"){
           if(!/code=/.test(location.search)) {
-            location.href = '/wxcode/get?uri=' + encodeURIComponent('https://api.verlantum.cn/wxpay?params=' + window.btoa(location.search.slice(1)))
+            location.href = '/wxcode/get?uri=' + encodeURIComponent('https://api.verlantum.cn/wxpay?orderNo=<%= orderNo%>')
           }
-          // location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri='+encodeURIComponent(location.href)+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirec'
-          // $.get('/wxpay', {aid:'<%= aid%>', price:'<%= price%>', ratio:'<%= ratio%>'}, (res, statu) => {
-          //   console.log(res, statu)
-          // })
     	}else{
     		document.write('无法识别的设备')
     	}
@@ -39,7 +35,6 @@
         <p class="pay_state">正在支付中...</p>
         <div class="phone">
             <p>感谢您选择云量科技</p>
-            <p>客服电话：020-83987201</p>
         </div>
         <div class="official_account">
             <p>微信公众号：云量检测</p>

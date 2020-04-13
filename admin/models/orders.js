@@ -9,6 +9,10 @@ const Orders = new mongoose.Schema({
     type: String,
     default: '',
   },
+  paymentAmount: { // 付款金额
+    type: Number,
+    default: 0,
+  },
   payTotal: { // 付款数量
     type: Number,
     default: 0
@@ -40,7 +44,20 @@ const Orders = new mongoose.Schema({
   orderNo: {
     type: String,
     default: Date.now()
-  }
+  },
+  card: {
+    type: String
+  },
+  phone: {
+    type: String
+  },
+  address: {
+    type: String
+  },
+  count: {
+    type: Number,
+    default: 1
+  },
 }, {
   timestamps: {
     createdAt: 'createdAt',
