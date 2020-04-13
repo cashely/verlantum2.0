@@ -16,7 +16,7 @@
         window.onresize = fontSizeAuto;
     </script>
     <script>
-      const ua = window.navigator.userAgent.toLowerCase();
+      let ua = window.navigator.userAgent.toLowerCase();
     	if(ua.match(/MicroMessenger/i)=="micromessenger"){
           if(!/code=/.test(location.search)) {
             location.href = '/wxcode/get?uri=' + encodeURIComponent('https://api.verlantum.cn/wxpay?orderNo=<%= orderNo%>')
@@ -36,7 +36,7 @@
         </div>
     </div>
     <script>
-    const ua = window.navigator.userAgent.toLowerCase();
+    let ua = window.navigator.userAgent.toLowerCase();
     if(ua.match(/Alipay/i)=="alipay"){
         location.href = '/alipay?orderNo=<%= orderNo%>';
     }else{
