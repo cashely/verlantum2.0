@@ -17,15 +17,10 @@
     </script>
     <script>
       const ua = window.navigator.userAgent.toLowerCase();
-    	if(ua.match(/Alipay/i)=="alipay"){
-          document.write('支付宝')
-    	    location.href = '/alipay?orderNo=<%= orderNo%>';
-    	}else if(ua.match(/MicroMessenger/i)=="micromessenger"){
+    	if(ua.match(/MicroMessenger/i)=="micromessenger"){
           if(!/code=/.test(location.search)) {
             location.href = '/wxcode/get?uri=' + encodeURIComponent('https://api.verlantum.cn/wxpay?orderNo=<%= orderNo%>')
           }
-    	}else{
-    		document.write('无法识别的设备')
     	}
     </script>
   </head>
@@ -40,5 +35,13 @@
             <p>微信公众号：云量检测</p>
         </div>
     </div>
+    <script>
+    const ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/Alipay/i)=="alipay"){
+        location.href = '/alipay?orderNo=<%= orderNo%>';
+    }else{
+      document.write('无法识别的设备')
+    }
+    </script>
   </body>
 </html>
