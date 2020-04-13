@@ -43,22 +43,7 @@
           alert('下单数量必须是大于1的整数')
           return;
         }
-        $.post({
-          url: '/order',
-          data: {
-            phone: form.phone.value,
-            address: form.address.value,
-            card: form.card.value,
-            count: form.count.value,
-            price: <%= price%>,
-            good: '<%= good%>'
-          }
-        }).then(res => {
-          const {code} = res;
-          if(code === 0) {
-            location.href = `/qrRedirect?orderNo=${res.data.orderNo}`
-          }
-        })
+        location.href = `/qrRedirect?address=${address}&price=<%= price%>&good=<%= good%>&count=${count}&card=${card}&phone=${phone}`
       }
     </script>
   </head>

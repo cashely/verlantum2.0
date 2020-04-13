@@ -81,8 +81,13 @@ module.exports = {
     res.render('qrcode', req.query);
   },
   qrRedirect(req, res) {
-    const {orderNo} = req.query;
-    res.render('qredirect', {orderNo});
+    const {aid, price, ratio, good, address, phone, card, count = 1} = req.query;
+    generatorOrderAction({aid, price, ratio, good, address, card, count, phone})
+    .then(orderNo => {
+      // res.send(orderNo)
+      res.render('qredirect', {orderNo});
+      // res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn(good, orderNo, price))
+    });
 
   },
   alipay(req, res) {
@@ -157,6 +162,19 @@ module.exports = {
       req.response(500, err);
     })
   }
+}
+
+const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count}) => {
+  const orderNo = Date.now();
+  const paymentAmount = count * price;
+  return new models.orders({
+    price,
+    paymentAmount,
+    agent: aid,
+    agentProfit: ratio,
+    good,
+    orderNo
+  }).save().then(() => orderNo)
 }
 
 
