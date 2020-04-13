@@ -36,7 +36,6 @@
         </div>
     </div>
     <script>
-    let ua = window.navigator.userAgent.toLowerCase();
     if(ua.match(/Alipay/i)=="alipay"){
         location.href = '/alipay?orderNo=<%= orderNo%>';
     }else{
