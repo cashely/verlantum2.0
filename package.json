@@ -1,5 +1,5 @@
 {
-  "name": "fruit-store-system",
+  "name": "verlantum2.0",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -151,5 +151,8 @@
     ]
   },
   "proxy": "http://localhost:5010",
-  "port": 5009
+  "port": 5009,
+  "devDependencies": {
+    "@loadable/component": "^5.12.0"
+  }
 }

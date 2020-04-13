@@ -5,6 +5,10 @@ const Orders = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  good: { // 商品名称
+    type: String,
+    default: '',
+  },
   payTotal: { // 付款数量
     type: Number,
     default: 0

@@ -1,21 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
+import loadable from '@loadable/component';
 import './index.css';
 import 'antd/dist/antd.css';
 import App from './App';
-import Home from './pages/Home';
-import Add from './pages/Add';
-import DetailList from './pages/DetailList';
-import User from './pages/User';
-import Outer from './pages/Outer';
-import Inner from './pages/Inner';
-import Pushers from './pages/Pushers';
-import Pullers from './pages/Pullers';
-import Fruits from './pages/Fruits';
-import Login from './pages/Login';
-import Arg from './pages/Arg';
-import Apis from './pages/Apis';
-import Auth from './pages/Auth';
+// import Home from './pages/Home';
+// import Add from './pages/Add';
+// import DetailList from './pages/DetailList';
+// import User from './pages/User';
+// import Outer from './pages/Outer';
+// import Inner from './pages/Inner';
+// import Pushers from './pages/Pushers';
+// import Pullers from './pages/Pullers';
+// import Fruits from './pages/Fruits';
+// // import Login from './pages/Login';
+// import Arg from './pages/Arg';
+// import Apis from './pages/Apis';
+// import Auth from './pages/Auth';
+import { Auth, Apis, Arg, Fruits, Pullers, Pushers, Inner, Outer, User, DetailList, Add, Home} from './route';
 import $ from './ajax';
 import * as serviceWorker from './serviceWorker';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -156,7 +158,7 @@ function Global(props) {
           <Content>
             <Switch>
               <Route component={Index} path="/index" />
-              <Route exact path="/" component={Login} />
+              <Route exact path="/" component={loadable(() => import('./pages/Login'))} />
             </Switch>
           </Content>
         </Layout>
