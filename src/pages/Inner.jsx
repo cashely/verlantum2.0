@@ -173,7 +173,7 @@ export default class Inner extends Component {
       },
       {
         title: '分成比例(%)',
-        render: d => d.agent ? d.agent.title : '——',
+        render: d => d.agent ? d.agent.ratio : '——',
       },
       {
         title: '创建时间',
