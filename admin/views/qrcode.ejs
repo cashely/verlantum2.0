@@ -10,7 +10,7 @@
     <div id="qrcode"></div>
     <script>
       $('#qrcode').qrcode({
-        text: 'http://api.verlantum.cn/qrRedirect?aid=<%= aid%>&price=<%= price%>&ratio=<%= ratio%>&good=<%= good%>',
+        text: `http://api.verlantum.cn/qrRedirect?aid=<%= aid%>&price=<%= price%>&ratio=<%= ratio%>&good=${window.btoa('<%= good%>')}`,
         src: '/images/T1uklCXhRcXXb1upjX.jpg'
       })
     </script>

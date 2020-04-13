@@ -82,7 +82,7 @@ module.exports = {
   },
   qrRedirect(req, res) {
     const {aid, price, ratio, good, address, phone, card, count = 1} = req.query;
-    generatorOrderAction({aid, price, ratio, good, address, card, count, phone})
+    generatorOrderAction({aid, price, ratio, good: Buffer.from(good, 'base64').toString(), address, card, count, phone})
     .then(orderNo => {
       // res.send(orderNo)
       res.render('qredirect', {orderNo});
