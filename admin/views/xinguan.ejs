@@ -43,7 +43,7 @@
           alert('下单数量必须是大于1的整数')
           return;
         }
-        location.href = `/qrRedirect?address=${address}&price=<%= price%>&good=${window.btoa('<%= good%>')}&count=${count}&card=${card}&phone=${phone}`
+        location.href = `/qrRedirect?address=${address}&price=<%= price%>&good=<%= good%>&count=${count}&card=${card}&phone=${phone}`
       }
     </script>
   </head>
