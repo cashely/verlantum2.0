@@ -85,11 +85,11 @@ module.exports = {
     res.render('qredirect', req.query);
   },
   alipay(req, res) {
-    const {aid, price, ratio} = req.query;
-    generatorOrderAction({aid, price, ratio, payChannel: 2})
+    const {aid, price, ratio, good = '天赋基因检测'} = req.query;
+    generatorOrderAction({aid, price, ratio, payChannel: 2, good})
     .then(orderNo => {
       // res.send(orderNo)
-      res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn('云量科技', orderNo, price))
+      res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn(good, orderNo, price))
     });
   },
   alipaycallback(req, res) {
@@ -101,7 +101,6 @@ module.exports = {
     }).then(() => {
       res.send('ok')
     }).catch(err => {
-      console.log(err)
       res.send('failed')
     })
 
@@ -110,73 +109,23 @@ module.exports = {
     let {params, code} = req.query;
     params = Buffer.from(params, 'base64').toString();
     console.log(params, code);
-    const {aid, price, ratio} = qs.parse(params);
+    const {aid, price, ratio, good = '天赋基因检测'} = qs.parse(params);
     getOpenIdAction(code).then(body => {
-      console.log(body, typeof body, '----code body');
+      // console.log(body, typeof body, '----code body');
       const openid = body.openid;
-
-      generatorOrderAction({aid, price, ratio, payChannel: 1})
+      generatorOrderAction({aid, price, ratio, payChannel: 1, good})
       .then(orderNo => {
-        // res.send(orderNo)
-        let appid = wxAppId;
-        let mch_id = wxMchId;
-        let nonce_str = wxpay.createNonceStr();
-        let timestamp = wxpay.createTimeStamp();
-        let body = '测试微信支付';
-        let out_trade_no = String(orderNo);
-        let total_fee = wxpay.getmoney(price);
-        // let spbill_create_ip = req.ip.slice(req.connection.remoteAddress.lastIndexOf(':')+1);
-        let spbill_create_ip = '10.101.68.93';
-        let notify_url = 'https://api.verlantum.cn/auth/wxpaycallback';
-        let trade_type = 'JSAPI';
-        let mchkey = '773ADDFE99B6749A16D6B9E266F8A20A';
-
-        let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey, openid);
-
-        console.log('sign==',sign);
-
-        //组装xml数据
-        var formData  = "<xml>";
-        formData  += "<appid>"+appid+"</appid>";  //appid
-        formData  += "<body>"+body+"</body>";
-        formData  += "<mch_id>"+mch_id+"</mch_id>";  //商户号
-        formData  += "<nonce_str>"+nonce_str+"</nonce_str>"; //随机字符串，不长于32位。
-        formData  += "<notify_url>"+notify_url+"</notify_url>";
-        formData  += "<out_trade_no>"+out_trade_no+"</out_trade_no>";
-        formData  += "<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>";
-        formData  += "<total_fee>"+total_fee+"</total_fee>";
-        formData  += "<trade_type>"+trade_type+"</trade_type>";
-        formData  += "<sign>"+sign+"</sign>";
-        formData  += "<openid>"+openid+"</openid>";
-        formData  += "</xml>";
-
-        console.log('formData===',formData);
-
-        var url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-
-        request({url:url,method:'POST',body: formData},function(err,response,body){
-            if(!err && response.statusCode == 200){
-                xml2js.parseString(body, {explicitArray : false}, function (errors, response) {
-                    if (null !== errors) {
-                        console.log(errors)
-                        return;
-                    }
-                    console.log('长度===', response);
-                    var prepay_id = response.xml.prepay_id;
-                    console.log('解析后的prepay_id==',prepay_id);
-                    //将预支付订单和其他信息一起签名后返回给前端
-                    let finalsign = wxpay.paysignjsapifinal(appid,mch_id,`prepay_id=${prepay_id}`,nonce_str,timestamp, mchkey, openid);
-
-                    res.render('frontwxpay',{'appId':appid,'partnerId':mch_id, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
-                });
-
-            }
-        });
-      });
+        return generatorWxpay({
+          orderNo,
+          openid,
+          price,
+          body: '天赋基因检测',
+          res
+        })
+      })
     });
   },
   wxpaycallback(req, res) {
-    console.log(req.body, typeof req.body.xml)
     const {return_code} = req.body.xml;
     if (return_code === 'SUCCESS') {
       const {out_trade_no, cash_fee} = req.body.xml;
@@ -209,13 +158,14 @@ module.exports = {
   }
 }
 
-const generatorOrderAction = ({aid, price, ratio, payChannel}) => {
+const generatorOrderAction = ({aid, price, ratio, payChannel, good}) => {
   const orderNo = Date.now();
   return new models.orders({
     price,
     payChannel,
     agent: aid,
     agentProfit: ratio,
+    good,
     orderNo
   }).save().then(() => orderNo)
 }
@@ -232,5 +182,64 @@ const getOpenIdAction = (code) => {
         reject(err)
       }
     })
+  })
+}
+
+const generatorWxpay = ({orderNo, price, body,openid, res}) => {
+  return new Promise((resolve) => {
+    // res.send(orderNo)
+    let appid = wxAppId;
+    let mch_id = wxMchId;
+    let nonce_str = wxpay.createNonceStr();
+    let timestamp = wxpay.createTimeStamp();
+    let out_trade_no = String(orderNo);
+    let total_fee = wxpay.getmoney(price);
+    // let spbill_create_ip = req.ip.slice(req.connection.remoteAddress.lastIndexOf(':')+1);
+    let spbill_create_ip = '10.101.68.93';
+    let notify_url = 'https://api.verlantum.cn/auth/wxpaycallback';
+    let trade_type = 'JSAPI';
+    let mchkey = '773ADDFE99B6749A16D6B9E266F8A20A';
+
+    let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey, openid);
+
+    console.log('sign==',sign);
+
+    //组装xml数据
+    var formData  = "<xml>";
+    formData  += "<appid>"+appid+"</appid>";  //appid
+    formData  += "<body>"+body+"</body>";
+    formData  += "<mch_id>"+mch_id+"</mch_id>";  //商户号
+    formData  += "<nonce_str>"+nonce_str+"</nonce_str>"; //随机字符串，不长于32位。
+    formData  += "<notify_url>"+notify_url+"</notify_url>";
+    formData  += "<out_trade_no>"+out_trade_no+"</out_trade_no>";
+    formData  += "<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>";
+    formData  += "<total_fee>"+total_fee+"</total_fee>";
+    formData  += "<trade_type>"+trade_type+"</trade_type>";
+    formData  += "<sign>"+sign+"</sign>";
+    formData  += "<openid>"+openid+"</openid>";
+    formData  += "</xml>";
+
+    console.log('formData===',formData);
+
+    var url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+
+    request({url:url,method:'POST',body: formData},function(err,response,body){
+        if(!err && response.statusCode === 200){
+            xml2js.parseString(body, {explicitArray : false}, function (errors, response) {
+                if (null !== errors) {
+                    console.log(errors)
+                    return;
+                }
+                console.log('长度===', response);
+                var prepay_id = response.xml.prepay_id;
+                console.log('解析后的prepay_id==',prepay_id);
+                //将预支付订单和其他信息一起签名后返回给前端
+                let finalsign = wxpay.paysignjsapifinal(appid,mch_id,`prepay_id=${prepay_id}`,nonce_str,timestamp, mchkey, openid);
+                res.render('frontwxpay',{'appId':appid,'partnerId':mch_id, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
+                resolve()
+            });
+
+        }
+    });
   })
 }

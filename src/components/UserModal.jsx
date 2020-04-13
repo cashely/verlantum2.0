@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Modal, Form, Icon, Input, Button, Select} from 'antd';
 import _ from 'lodash';
 import $ from '../ajax';
+import {validator} from '../functions'
 export default class UserModal extends Component {
   constructor(props) {
     super(props);
@@ -20,6 +21,27 @@ export default class UserModal extends Component {
       fields
     })
   }
+  validAction() {
+    const rules = {
+      acount: {
+        required: true,
+        message: '账号不能为空'
+      },
+      password: {
+        required: true,
+        message: '密码不能为空'
+      },
+      statu: {
+        required: true,
+        message: '状态不能为空'
+      },
+      role: {
+        required: true,
+        message: '角色不能为空'
+      }
+    }
+    return validator(rules)(this.state.fields)
+  }
   userDetailAction() {
     $.get(`/user/${this.props.uid}`).then(res => {
       if(res.code === 0) {
@@ -31,8 +53,9 @@ export default class UserModal extends Component {
     })
   }
   okAction() {
-
-    this.props.onOk && this.props.onOk(this.state.fields);
+    this.validAction().then(() => {
+      this.props.onOk && this.props.onOk(this.state.fields);
+    })
   }
   componentWillMount() {
     this.props.uid && this.userDetailAction();
