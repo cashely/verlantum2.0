@@ -81,8 +81,8 @@ module.exports = {
     res.render('qrcode', req.query);
   },
   qrRedirect(req, res) {
-    const {aid, price, ratio, good, address, phone, card, count = 1} = req.query;
-    generatorOrderAction({aid, price, ratio, good, address, card, count, phone})
+    const {aid, price, ratio, good, address, phone, card, count = 1, username} = req.query;
+    generatorOrderAction({aid, price, ratio, good, address, card, count, phone, username})
     .then(orderNo => {
       // res.send(orderNo)
       res.render('qredirect', {orderNo});
@@ -164,7 +164,7 @@ module.exports = {
   }
 }
 
-const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count}) => {
+const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count = 1, username}) => {
   const orderNo = Date.now();
   const paymentAmount = count * price;
   return new models.orders({
@@ -173,6 +173,8 @@ const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, co
     agent: aid,
     agentProfit: ratio,
     good,
+    count,
+    username,
     orderNo
   }).save().then(() => orderNo)
 }

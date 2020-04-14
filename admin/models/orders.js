@@ -58,6 +58,9 @@ const Orders = new mongoose.Schema({
     type: Number,
     default: 1
   },
+  username: {
+    type: String
+  }
 }, {
   timestamps: {
     createdAt: 'createdAt',

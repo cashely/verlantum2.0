@@ -24,7 +24,7 @@ module.exports = {
   },
   add(req, res) {
 
-    let {price, payTotal, agent, agentProfit, hasPayed = 0, mark, good, address, card, phone, count = 1} = req.body;
+    let {price, payTotal, agent, agentProfit, hasPayed = 0, mark, good, address, card, phone, count = 1, username} = req.body;
     const paymentAmount = price * count;
     let conditions = {
       payTotal,
@@ -39,6 +39,7 @@ module.exports = {
       address,
       count,
       paymentAmount,
+      username,
     };
     new models.orders(conditions).save().then(order => {
       req.response(200, order);

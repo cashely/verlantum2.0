@@ -168,6 +168,18 @@ export default class Inner extends Component {
         }
       },
       {
+        title: '用户姓名',
+        dataIndex: 'username'
+      },
+      {
+        title: '联系方式',
+        dataIndex: 'phone'
+      },
+      {
+        title: '联系地址',
+        dataIndex: 'address'
+      },
+      {
         title: '代理商',
         render: d => d.agent ? d.agent.title : '——',
       },
