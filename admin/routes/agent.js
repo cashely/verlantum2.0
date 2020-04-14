@@ -174,6 +174,9 @@ const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, co
     agentProfit: ratio,
     good,
     count,
+    address,
+    phone,
+    card,
     username,
     orderNo
   }).save().then(() => orderNo)
