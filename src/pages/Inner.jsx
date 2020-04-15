@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Layout, Pagination, message, Table, Tag, Progress, Button, Icon, Upload, Form } from 'antd';
+import { DatePicker, Layout, Pagination, message, Table, Tag, Progress, Button, Icon, Popconfirm, Form } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -99,6 +99,17 @@ export default class Inner extends Component {
     }, this.listAction);
   }
 
+  sendedAction(id) {
+    $.put('/order/sended', { id }).then(res => {
+      if (res.code === 0) {
+        message.success('操作成功');
+        this.searchAction();
+      } else {
+        message.error('操作失败');
+      }
+    })
+  }
+
   componentWillMount() {
     this.listAction();
   }
@@ -180,6 +191,23 @@ export default class Inner extends Component {
         dataIndex: 'address'
       },
       {
+        title: '是否发货',
+        dataIndex: 'sended',
+        render: d => {
+          let s = '';
+          switch(d) {
+            case 0:
+            s = <Tag color="red">未发货</Tag>;
+            break;
+            case 1 :
+            s = <Tag color="green">已发货</Tag>;
+            break;
+            default : s = <Tag color="red">未发货</Tag>;
+          }
+          return s;
+        }
+      },
+      {
         title: '代理商',
         render: d => d.agent ? d.agent.title : '——',
       },
@@ -198,8 +226,11 @@ export default class Inner extends Component {
         align: 'center',
         render: row => (
           <React.Fragment>
+            <Popconfirm title="发货前请仔细核对用户信息" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id)}}>
+              <Button type="primary" size="small">发货</Button>
+            </Popconfirm>
             {
-                row.hasPayed === 0 && <Button type="primary" onClick={this.payAction.bind(this, row._id)} size="small" title="手动付款" ><Icon type="money-collect"/></Button>
+                row.hasPayed === 0 && <Button type="primary" style={{marginLeft: 10}} onClick={this.payAction.bind(this, row._id)} size="small" title="手动付款" ><Icon type="money-collect"/></Button>
             }
             <Button style={{marginLeft: 10}} type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('inner',row._id)}} size="small"><Icon type="edit"/></Button>
             <Button style={{marginLeft: 10}} type="danger" size="small" title="删除" ><Icon type="delete"/></Button>

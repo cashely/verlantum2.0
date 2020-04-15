@@ -60,6 +60,10 @@ const Orders = new mongoose.Schema({
   },
   username: {
     type: String
+  },
+  sended: { // 是否已发货 0 - 未发货  1 - 已发货
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: {
