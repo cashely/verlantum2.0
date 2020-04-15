@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 mongoose.promise = Promise
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://127.0.0.1:27017/verlantum_dev', {
+// mongoose.connect('mongodb://127.0.0.1:27017/verlantum_dev', {
+//     useNewUrlParser: true
+// })
+
+mongoose.connect('mongodb://127.0.0.1:27017/verlantum', {
     useNewUrlParser: true
 })
 
