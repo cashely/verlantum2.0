@@ -102,7 +102,10 @@ module.exports = {
     models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: total_amount * 1, payChannel: 2,}).then(() => {
       return models.orders.findOne({orderNo: out_trade_no})
     }).then(order => {
-      return models.agents.updateOne({_id: order.agent}, {$inc: {score: total_amount * order.agentProfit / 100}})
+      if(order.agent) {
+        return models.agents.updateOne({_id: order.agent}, {$inc: {score: total_amount * order.agentProfit / 100}})
+      }
+      return null
     }).then(() => {
       res.send('ok')
     }).catch(err => {
@@ -138,7 +141,10 @@ module.exports = {
       models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1, payChannel: 1,}).then(() => {
         return models.orders.findOne({orderNo: out_trade_no})
       }).then(order => {
-        return models.agents.updateOne({_id: order.agent}, {$inc: {score: cash_fee / 100 * order.agentProfit / 100}})
+        if(order.agent) {
+          return models.agents.updateOne({_id: order.agent}, {$inc: {score: cash_fee / 100 * order.agentProfit / 100}})
+        }
+        return null
       }).then(() => {
         res.send('ok')
       }).catch(err => {
