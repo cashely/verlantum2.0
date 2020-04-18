@@ -101,7 +101,7 @@ export default class Outer extends Component {
   }
 
   makeQrcodeAction(puller) {
-    window.open(`http://api.verlantum.cn/qrcode?aid=${puller._id}&ratio=${puller.ratio}&price=${puller.price}&good=天赋基因检测`)
+    window.open(`http://api.verlantum.cn/qrcode?aid=${puller._id}&ratio=${puller.ratio}&price=${puller.price}&good=MIT基因分析与潜能优势`)
   }
 
   componentWillMount() {
