@@ -14,9 +14,11 @@ module.exports = [
       getOpenIdAction(code).then(body => {
         console.log(body)
         const openid = body.openid;
+        // const openid = 'ot6_41JDOuSFk0LB1qL0G_wIQ9ZE';
         models.goods.findOne({ number: good})
         .then(good => {
-          const { discount } = good;
+          // const { discount } = good;
+          const discount = '10410300'
           return {
             sign: generatorWxCardSign({
               openid,
