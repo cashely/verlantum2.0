@@ -30,34 +30,32 @@ module.exports = [
             discount,
             out_request_no,
           }
-        })
-        .then(({sign, discount, out_request_no}) => {
-          // req.response(200, {
-          //   stock_id: discount,
-          //   out_request_no: wxcard.createTimeStamp(),
-          //   sign,
-          //   send_coupon_merchant: wxMchId,
-          //   openid: openid
-          // })
-          // var formData  = "<xml>";
-          // formData  += "<appid>"+appid+"</appid>";  //appid
-          // formData  += "<coupon_stock_id>"+discount+"</coupon_stock_id>";
-          // formData  += "<mch_id>"+wxMchId+"</mch_id>";  //商户号
-          // formData  += "<nonce_str>"+wxcard.createNonceStr()+"</nonce_str>"; //随机字符串，不长于32位。
-          // formData  += "<notify_url>"+notify_url+"</notify_url>";
-          // formData  += "<openid_count>"+1+"</openid_count>";
-          // formData  += "<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>";
-          // formData  += "<total_fee>"+total_fee+"</total_fee>";
-          // formData  += "<trade_type>"+trade_type+"</trade_type>";
-          // formData  += "<sign>"+sign+"</sign>";
-          // formData  += "<openid>"+openid+"</openid>";
-          // formData  += "</xml>";
 
-          const url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
-
-          console.log(sign, '======')
-          res.redirect(`https://action.weixin.qq.com/busifavor/getcouponinfo?stock_id=${discount}&out_request_no=${out_request_no}&sign=${sign}&send_coupon_merchant=${wxMchId}&open_id=${openid}#wechat_redirect`)
+          const url = `https://api.mch.weixin.qq.com/v3/marketing/favor/users/{${}}/coupons`;
+          const params = {
+            "stock_id": discount,
+            "out_request_no": out_request_no,
+            "appid": wxAppId,
+            "stock_creator_mchid": wxMchId,
+          }
+          request({url:url,method:'POST',body: JSON.stringify(params)},function(err,response,body){
+            console.log(response, body, err)
+          })
         })
+        // .then(({sign, discount, out_request_no}) => {
+        //   // req.response(200, {
+        //   //   stock_id: discount,
+        //   //   out_request_no: wxcard.createTimeStamp(),
+        //   //   sign,
+        //   //   send_coupon_merchant: wxMchId,
+        //   //   openid: openid
+        //   // })
+        //
+        //
+        //
+        //   console.log(sign, '======')
+        //   res.redirect(`https://action.weixin.qq.com/busifavor/getcouponinfo?stock_id=${discount}&out_request_no=${out_request_no}&sign=${sign}&send_coupon_merchant=${wxMchId}&open_id=${openid}#wechat_redirect`)
+        // })
       });
     }
   }
