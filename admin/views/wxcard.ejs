@@ -10,6 +10,8 @@
         $.ajax({
           url: "https://api.mch.weixin.qq.com/v3/marketing/favor/users/<%= openid%>/coupons",
           method: 'post',
+          contentType: 'application/json',
+          dataType: 'json',
           data: {
             "stock_id": "<%= stock_id%>",
             "out_request_no": '<%= out_request_no %>',
