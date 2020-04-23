@@ -11,10 +11,10 @@
           url: "https://api.mch.weixin.qq.com/v3/marketing/favor/users/<%= openid%>/coupons",
           method: 'post',
           data: {
-            "stock_id": "<%= discount%>",
+            "stock_id": "<%= stock_id%>",
             "out_request_no": '<%= out_request_no %>',
-            "appid": '<%= wxAppId %>',
-            "stock_creator_mchid": '<%= wxMchId %>'
+            "appid": '<%= appid %>',
+            "stock_creator_mchid": '<%= stock_creator_mchid %>'
           },
           success: result => {
             alert(JSON.stringify(result))
