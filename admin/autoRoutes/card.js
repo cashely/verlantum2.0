@@ -10,28 +10,15 @@ module.exports = [
       const {code, good} = req.query;
       if (!code) {
         res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wxAppId+'&redirect_uri='+ encodeURIComponent('http://api.verlantum.cn/card/wx')+ '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirec')
+        return;
       }
       getOpenIdAction(code).then(body => {
-        console.log(body)
         const openid = body.openid;
-        // const openid = 'ot6_41JDOuSFk0LB1qL0G_wIQ9ZE';
         models.goods.findOne({ number: good})
         .then(good => {
           // const { discount } = good;
           const discount = '10410300'
           const out_request_no = wxcard.createTimeStamp();
-          // return {
-          //   sign: generatorWxCardSign({
-          //     openid,
-          //     mch_id: wxMchId,
-          //     stock_id: discount,
-          //     out_request_no,
-          //   }),
-          //   discount,
-          //   out_request_no,
-          // }
-
-          // const url = ``;
           const params = {
             openid,
             "stock_id": discount,
