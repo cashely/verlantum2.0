@@ -5,24 +5,10 @@
     <title>冠状病毒抵抗能力评估-云量检测</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
-    <style media="screen">
-        body {
-          background-image: url('/images/xinguan_bg.png');
-        }
-        .xinguan_form {
-          padding: 2vw;
-        }
-        .xinguan_form > h2 {
-          font-size: 7vw;
-          line-height: 3;
-          text-align: center;
-          text-shadow: 0.5vw 0.5vw 0px #d9d9d9;
-        }
-    </style>
     <script type="text/javascript">
       function addcard() {
         $.ajax({
-          url: "https://api.mch.weixin.qq.com/v3/marketing/favor/users/<%= openid}%>/coupons",
+          url: "https://api.mch.weixin.qq.com/v3/marketing/favor/users/<%= openid%>/coupons",
           method: 'post',
           data: {
             "stock_id": "<%= discount%>",
@@ -30,7 +16,7 @@
             "appid": '<%= wxAppId %>',
             "stock_creator_mchid": '<%= wxMchId %>'
           },
-          success: function( result ) {
+          success: result => {
             alert(JSON.stringify(result))
           }
         });
@@ -39,7 +25,7 @@
   </head>
   <body>
     <div>
-      <button onclick="addcard()">添加卡券</button>
+      <button onclick="addcard">添加卡券</button>
     </div>
   </body>
 </html>
