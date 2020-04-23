@@ -9,7 +9,7 @@
       function addcard() {
         $.ajax({
           url: "https://api.mch.weixin.qq.com/v3/marketing/favor/users/<%= openid%>/coupons",
-          method: 'post',
+          type: 'post',
           contentType: 'application/json',
           dataType: 'json',
           data: {
