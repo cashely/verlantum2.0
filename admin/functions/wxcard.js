@@ -20,8 +20,8 @@ var wxcard = {
         };
         var string = raw(ret);
         var key = mchkey;
-        // string = string + '&key=' + key;
-        // console.log('string=', string);
+        string = string + '&key=' + key;
+        console.log('string=', string);
         var crypto = require('crypto');
         return crypto.createHash('md5').update(string, 'utf8').digest('hex').toUpperCase();
     }
