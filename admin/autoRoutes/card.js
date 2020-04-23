@@ -43,20 +43,6 @@ module.exports = [
           res.render('wxcard', params);
 
         })
-        // .then(({sign, discount, out_request_no}) => {
-        //   // req.response(200, {
-        //   //   stock_id: discount,
-        //   //   out_request_no: wxcard.createTimeStamp(),
-        //   //   sign,
-        //   //   send_coupon_merchant: wxMchId,
-        //   //   openid: openid
-        //   // })
-        //
-        //
-        //
-        //   console.log(sign, '======')
-        //   res.redirect(`https://action.weixin.qq.com/busifavor/getcouponinfo?stock_id=${discount}&out_request_no=${out_request_no}&sign=${sign}&send_coupon_merchant=${wxMchId}&open_id=${openid}#wechat_redirect`)
-        // })
       });
     }
   }
