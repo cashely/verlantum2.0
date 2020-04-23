@@ -20,16 +20,16 @@ module.exports = [
           // const { discount } = good;
           const discount = '10410300'
           const out_request_no = wxcard.createTimeStamp();
-          return {
-            sign: generatorWxCardSign({
-              openid,
-              mch_id: wxMchId,
-              stock_id: discount,
-              out_request_no,
-            }),
-            discount,
-            out_request_no,
-          }
+          // return {
+          //   sign: generatorWxCardSign({
+          //     openid,
+          //     mch_id: wxMchId,
+          //     stock_id: discount,
+          //     out_request_no,
+          //   }),
+          //   discount,
+          //   out_request_no,
+          // }
 
           const url = `https://api.mch.weixin.qq.com/v3/marketing/favor/users/${openid}/coupons`;
           const params = {
