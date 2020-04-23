@@ -31,16 +31,17 @@ module.exports = [
           //   out_request_no,
           // }
 
-          const url = `https://api.mch.weixin.qq.com/v3/marketing/favor/users/${openid}/coupons`;
+          // const url = ``;
           const params = {
+            openid,
             "stock_id": discount,
             "out_request_no": out_request_no,
             "appid": wxAppId,
             "stock_creator_mchid": wxMchId,
           }
-          request({url:url,method:'POST',body: JSON.stringify(params)},function(err,response,body){
-            console.log(response, body, err)
-          })
+
+          res.render('wxcard', params);
+
         })
         // .then(({sign, discount, out_request_no}) => {
         //   // req.response(200, {

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>冠状病毒抵抗能力评估-云量检测</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+    <style media="screen">
+        body {
+          background-image: url('/images/xinguan_bg.png');
+        }
+        .xinguan_form {
+          padding: 2vw;
+        }
+        .xinguan_form > h2 {
+          font-size: 7vw;
+          line-height: 3;
+          text-align: center;
+          text-shadow: 0.5vw 0.5vw 0px #d9d9d9;
+        }
+    </style>
+    <<body>
+      <button onclick="addcard()">添加卡券</button>
+    </body>
+    <script type="text/javascript">
+      function addcard() {
+        $.ajax({
+          url: "https://api.mch.weixin.qq.com/v3/marketing/favor/users/<%= openid}%>/coupons",
+          method: 'post',
+          data: {
+            "stock_id": "<%= discount%>",
+            "out_request_no": '<%= out_request_no %>',
+            "appid": '<%= wxAppId %>',
+            "stock_creator_mchid": '<%= wxMchId %>'
+          },
+          success: function( result ) {
+            alert(JSON.stringify(result))
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div>
+
+    </div>
+  </body>
+</html>
