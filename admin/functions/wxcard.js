@@ -5,16 +5,21 @@ var fs = require("fs");
 
 var wxcard = {
 
+    // 随机字符串产生函数
+    createNonceStr: function () {
+        return Math.random().toString(36).substr(2, 15);
+    },
+
     // 时间戳产生函数
     createTimeStamp: function () {
         return parseInt(new Date().getTime() / 1000) + '';
     },
 
     //签名加密算法
-    cardsignjsapi: function (stock_id, send_coupon_merchant, open_id, mchkey) {
+    cardsignjsapi: function (stock_id, send_coupon_merchant, open_id, out_request_no, mchkey) {
         var ret = {
             stock_id,
-            out_request_no: wxcard.createTimeStamp(),
+            out_request_no: out_request_no,
             send_coupon_merchant,
             open_id
         };
