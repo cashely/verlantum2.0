@@ -31,7 +31,7 @@ module.exports = [
             out_request_no,
           }
 
-          const url = `https://api.mch.weixin.qq.com/v3/marketing/favor/users/{${}}/coupons`;
+          const url = `https://api.mch.weixin.qq.com/v3/marketing/favor/users/${openid}/coupons`;
           const params = {
             "stock_id": discount,
             "out_request_no": out_request_no,
