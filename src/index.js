@@ -17,7 +17,7 @@ import App from './App';
 // import Arg from './pages/Arg';
 // import Apis from './pages/Apis';
 // import Auth from './pages/Auth';
-import { Auth, Apis, Arg, Fruits, Pullers, Pushers, Inner, Outer, User, DetailList, Add, Home} from './route';
+import { Auth, Apis, Arg, Fruits, Pullers, Pushers, Inner, Outer, User, DetailList, Add, Home, Good} from './route';
 import $ from './ajax';
 import * as serviceWorker from './serviceWorker';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -93,6 +93,9 @@ function Index(props) {
                 <Item key="/index/inner">
                   <Link to="/index/inner"><Icon type="user"/> 订单管理</Link>
                 </Item>
+                <Item key="/index/inner">
+                  <Link to="/index/good"><Icon type="box"/> 商品管理</Link>
+                </Item>
               </SubMenu>
               <Item key="/index/users">
                 <Link to="/index/users"><Icon type="setting"/> 设置</Link>
@@ -141,6 +144,7 @@ function Routes(props) {
         <Route exact path="/index/args" component={Arg} />
         <Route exact path="/index/apis" component={Apis} />
         <Route exact path="/index/auths" component={Auth} />
+        <Route exact path="/index/good" component={Good} />
       </Switch>
   )
 }

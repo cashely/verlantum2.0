@@ -4,6 +4,7 @@ export const Login = loadable(() => import('./pages/Login'))
 export const Home = loadable(() => import('./pages/Home'))
 export const Add = loadable(() => import('./pages/Add'))
 export const DetailList = loadable(() => import('./pages/DetailList'));
+export const Good = loadable(() => import('./pages/Good'));
 export const User = loadable(() => import('./pages/User'));
 export const Outer = loadable(() => import('./pages/Outer'));
 export const Inner = loadable(() => import('./pages/Inner'));
