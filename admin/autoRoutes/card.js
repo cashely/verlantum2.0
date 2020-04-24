@@ -32,7 +32,7 @@ module.exports = [
 
           const sign = generatorWxCardSign(params)
           const formData = `<xml>
-          <appid>${params.openid}</appid>
+          <appid>${params.appid}</appid>
           <coupon_stock_id>${params.coupon_stock_id}</coupon_stock_id>
           <mch_id>${params.stock_creator_mchid}</mch_id>
           <nonce_str>${params.nonce_str}</nonce_str>
