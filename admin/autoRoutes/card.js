@@ -19,7 +19,7 @@ module.exports = [
         models.goods.findOne({ number: good})
         .then(good => {
           // const { discount } = good;
-          const discount = '10410300'
+          const discount = '10463301'
           const out_request_no = wxcard.createTimeStamp();
           const params = {
             openid,
