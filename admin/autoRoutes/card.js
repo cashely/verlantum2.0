@@ -47,7 +47,7 @@ module.exports = [
           request({url:url,method:'POST',body: formData},function(err,response,body){
               console.log(err, response, body)
           });
-          res.json({...params, sign});
+          res.send(formData);
 
         })
       });
