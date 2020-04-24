@@ -33,16 +33,17 @@ module.exports = [
           }
 
           const sign = generatorWxCardSign(params)
-          const formData = `<xml>
-          <appid>${params.appid}</appid>
-          <coupon_stock_id>${params.coupon_stock_id}</coupon_stock_id>
-          <mch_id>${params.stock_creator_mchid}</mch_id>
-          <nonce_str>${params.nonce_str}</nonce_str>
-          <openid>${params.openid}</openid>
-          <openid_count>${params.openid_count}</openid_count>
-          <partner_trade_no>${params.partner_trade_no}</partner_trade_no>
-          <sign>${sign}</sign>
-          </xml>`;
+
+          let formData = '<xml>';
+          formData += `<appid>${params.appid}</appid>`;
+          formData += `<coupon_stock_id>${params.coupon_stock_id}</coupon_stock_id>`;
+          formData += `<mch_id>${params.stock_creator_mchid}</mch_id>`;
+          formData += `<nonce_str>${params.nonce_str}</nonce_str>`;
+          formData += `<openid>${params.openid}</openid>`;
+          formData += `<openid_count>${params.openid_count}</openid_count>`;
+          formData += `<partner_trade_no>${params.partner_trade_no}</partner_trade_no>`;
+          formData += `<sign>${sign}</sign>`;
+          formData += '</xml>';
 
           var url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
 
