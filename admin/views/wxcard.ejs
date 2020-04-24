@@ -5,29 +5,10 @@
     <title>冠状病毒抵抗能力评估-云量检测</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
-    <script type="text/javascript">
-      function addcard() {
-        $.ajax({
-          url: "https://api.mch.weixin.qq.com/v3/marketing/favor/users/<%= openid%>/coupons",
-          type: 'post',
-          contentType: 'application/json',
-          dataType: 'json',
-          data: {
-            "stock_id": "<%= stock_id%>",
-            "out_request_no": '<%= out_request_no %>',
-            "appid": '<%= appid %>',
-            "stock_creator_mchid": '<%= stock_creator_mchid %>'
-          },
-          success: result => {
-            alert(JSON.stringify(result))
-          }
-        });
-      }
-    </script>
   </head>
   <body>
     <div>
-      <button onclick="addcard()">添加卡券</button>
+      获取微信卡券
     </div>
   </body>
 </html>

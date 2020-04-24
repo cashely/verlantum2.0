@@ -3,6 +3,7 @@ const wxcard = require('../functions/wxcard');
 const request = require('request');
 const fs = require('fs');
 const path = require('path');
+const xml2js = require('xml2js');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 module.exports = [
   {
@@ -51,10 +52,18 @@ module.exports = [
             pfx: fs.readFileSync(path.resolve(__dirname, '../1472079802_20200424_cert/apiclient_cert.p12')),
             passphrase: params.stock_creator_mchid // 商家id
           }},function(err,response,body){
-              console.log(err, body)
+              if(!err && response.statusCode === 200){
+                  xml2js.parseString(body, {explicitArray : false}, function (errors, response) {
+                      if (null !== errors) {
+                          console.log(errors)
+                          return;
+                      }
+                      res.render('card', response.xml);
+                  });
+
+              }
           });
           res.send(formData);
-
         })
       });
     }

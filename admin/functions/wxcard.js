@@ -1,8 +1,5 @@
 var xmlreader = require("xmlreader");
 var fs = require("fs");
-
-
-
 var wxcard = {
 
     // 随机字符串产生函数
