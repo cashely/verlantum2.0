@@ -1,6 +1,7 @@
 const models = require('../model')
 const wxcard = require('../functions/wxcard');
 const request = require('request');
+const fs = require('fs');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 module.exports = [
   {
@@ -44,7 +45,10 @@ module.exports = [
 
           var url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
 
-          request({url:url,method:'POST',body: formData},function(err,response,body){
+          request({url:url,method:'POST',body: formData, agentOptions: {
+            pfx: fs.readFileSync('../1472079802_20200424_cert/apiclient_cert.p12'),
+            passphrase: params.stock_creator_mchid // 商家id
+          }},function(err,response,body){
               console.log(err, response, body)
           });
           res.send(formData);
