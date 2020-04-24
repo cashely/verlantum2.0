@@ -16,12 +16,15 @@ var wxcard = {
     },
 
     //签名加密算法
-    cardsignjsapi: function (stock_id, send_coupon_merchant, open_id, out_request_no, mchkey) {
+    cardsignjsapi: function (coupon_stock_id, openid_count, partner_trade_no, openid, appid, mch_id, nonce_str, mchkey) {
         var ret = {
-            stock_id,
-            out_request_no: out_request_no,
-            send_coupon_merchant,
-            open_id
+            coupon_stock_id,
+            openid_count,
+            partner_trade_no,
+            openid,
+            appid,
+            mch_id,
+            nonce_str
         };
         var string = raw(ret);
         var key = mchkey;

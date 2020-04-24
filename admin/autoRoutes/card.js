@@ -21,13 +21,33 @@ module.exports = [
           const out_request_no = wxcard.createTimeStamp();
           const params = {
             openid,
-            "stock_id": discount,
-            "out_request_no": out_request_no,
-            "appid": wxAppId,
-            "stock_creator_mchid": wxMchId,
+            openid_count: 1,
+            partner_trade_no: wxcard.createTimeStamp(),
+            coupon_stock_id: discount,
+            out_request_no: out_request_no,
+            appid: wxAppId,
+            stock_creator_mchid: wxMchId,
+            nonce_str: wxcard.createNonceStr(),
           }
 
-          res.render('wxcard', params);
+          const sign = generatorWxCardSign(params)
+          const formData = `<xml>
+          <appid>${params.openid}</appid>
+          <coupon_stock_id>${params.coupon_stock_id}</coupon_stock_id>
+          <mch_id>${params.stock_creator_mchid}</mch_id>
+          <nonce_str>${params.nonce_str}</nonce_str>
+          <openid>${params.openid}</openid>
+          <openid_count>${params.openid_count}</openid_count>
+          <partner_trade_no>${params.partner_trade_no}</partner_trade_no>
+          <sign>${sign}</sign>
+          </xml>`;
+
+          var url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
+
+          request({url:url,method:'POST',body: formData},function(err,response,body){
+              console.log(err, response, body)
+          });
+          res.json({...params, sign});
 
         })
       });
@@ -49,6 +69,20 @@ const getOpenIdAction = (code) => {
   })
 }
 
-const generatorWxCardSign = ({openid, mch_id, stock_id, out_request_no}) => {
-  return wxcard.cardsignjsapi(stock_id, mch_id, openid, out_request_no, '773ADDFE99B6749A16D6B9E266F8A20A')
+const generatorWxCardSign = ({
+    coupon_stock_id,
+    openid_count,
+    partner_trade_no,
+    openid,
+    appid,
+    mch_id,
+    nonce_str
+}) => {
+  return wxcard.cardsignjsapi(coupon_stock_id,
+  openid_count,
+  partner_trade_no,
+  openid,
+  appid,
+  mch_id,
+  nonce_str, '773ADDFE99B6749A16D6B9E266F8A20A')
 }
