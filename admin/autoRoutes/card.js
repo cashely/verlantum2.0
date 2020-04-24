@@ -51,7 +51,7 @@ module.exports = [
             pfx: fs.readFileSync(path.resolve(__dirname, '../1472079802_20200424_cert/apiclient_cert.p12')),
             passphrase: params.stock_creator_mchid // 商家id
           }},function(err,response,body){
-              console.log(err, response, body)
+              console.log(err, body)
           });
           res.send(formData);
 
@@ -81,7 +81,7 @@ const generatorWxCardSign = ({
     partner_trade_no,
     openid,
     appid,
-    mch_id,
+    stock_creator_mchid,
     nonce_str
 }) => {
   return wxcard.cardsignjsapi(coupon_stock_id,
@@ -89,6 +89,6 @@ const generatorWxCardSign = ({
   partner_trade_no,
   openid,
   appid,
-  mch_id,
+  stock_creator_mchid,
   nonce_str, '773ADDFE99B6749A16D6B9E266F8A20A')
 }
