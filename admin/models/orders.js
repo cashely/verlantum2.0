@@ -9,6 +9,9 @@ const Orders = new mongoose.Schema({
     type: String,
     default: '',
   },
+  goodNumber: { // 商品编号
+    type: mongoose.Schema.Types.ObjectId,
+  },
   paymentAmount: { // 付款金额
     type: Number,
     default: 0,

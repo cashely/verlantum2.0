@@ -93,7 +93,7 @@ function Index(props) {
                 <Item key="/index/inner">
                   <Link to="/index/inner"><Icon type="user"/> 订单管理</Link>
                 </Item>
-                <Item key="/index/inner">
+                <Item key="/index/good">
                   <Link to="/index/good"><Icon type="box"/> 商品管理</Link>
                 </Item>
               </SubMenu>

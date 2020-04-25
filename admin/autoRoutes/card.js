@@ -18,8 +18,8 @@ module.exports = [
       getOpenIdAction(code).then(body => {
         const openid = body.openid;
         models.goods.findOne({ number: good})
-        .then(good => {
-          const { discount, url } = good;
+        .then(resultGood => {
+          const { discount, template, number } = resultGood;
           const out_request_no = wxcard.createTimeStamp();
           const params = {
             openid,
@@ -57,7 +57,7 @@ module.exports = [
                           console.log(errors)
                           return;
                       }
-                      res.render('wxcard', {...response.xml, url});
+                      res.render('wxcard', {...response.xml, url: `http://api.verlantum.cn/good/page/${number}`});
                   });
               }
           });

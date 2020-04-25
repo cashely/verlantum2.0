@@ -81,8 +81,8 @@ module.exports = {
     res.render('qrcode', req.query);
   },
   qrRedirect(req, res) {
-    const {aid, price, ratio, good, address, phone, card, count = 1, username} = req.query;
-    generatorOrderAction({aid, price, ratio, good, address, card, count, phone, username})
+    const {aid, price, ratio, good, address, phone, card, count = 1, username, goodNumber} = req.query;
+    generatorOrderAction({aid, price, ratio, good, address, card, count, phone, username, goodNumber})
     .then(orderNo => {
       // res.send(orderNo)
       res.render('qredirect', {orderNo});
@@ -123,13 +123,14 @@ module.exports = {
       const openid = body.openid;
       models.orders.findOne({ orderNo})
       .then(order => {
-        const { paymentAmount, good } = order;
+        const { paymentAmount, good, goodNumber } = order;
         return generatorWxpay({
           orderNo,
           openid,
           paymentAmount,
           body: good,
-          res
+          res,
+          goodNumber,
         })
       })
     });
@@ -170,7 +171,7 @@ module.exports = {
   }
 }
 
-const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count = 1, username}) => {
+const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count = 1, username, goodNumber}) => {
   const orderNo = Date.now();
   const paymentAmount = count * price;
   return new models.orders({
@@ -184,7 +185,8 @@ const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, co
     phone,
     card,
     username,
-    orderNo
+    orderNo,
+    goodNumber,
   }).save().then(() => orderNo)
 }
 
@@ -203,7 +205,7 @@ const getOpenIdAction = (code) => {
   })
 }
 
-const generatorWxpay = ({orderNo, paymentAmount, body,openid, res}) => {
+const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, goodNumber}) => {
   return new Promise((resolve) => {
     // res.send(orderNo)
     let appid = wxAppId;
@@ -216,9 +218,10 @@ const generatorWxpay = ({orderNo, paymentAmount, body,openid, res}) => {
     let spbill_create_ip = '10.101.68.93';
     let notify_url = 'https://api.verlantum.cn/auth/wxpaycallback';
     let trade_type = 'JSAPI';
+    let product_id = goodNumber;
     let mchkey = '773ADDFE99B6749A16D6B9E266F8A20A';
 
-    let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey, openid);
+    let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey, openid , product_id);
 
     console.log('sign==',sign);
 
@@ -235,6 +238,9 @@ const generatorWxpay = ({orderNo, paymentAmount, body,openid, res}) => {
     formData  += "<trade_type>"+trade_type+"</trade_type>";
     formData  += "<sign>"+sign+"</sign>";
     formData  += "<openid>"+openid+"</openid>";
+    if (product_id) {
+      formData += "<product_id>" + product_id + "</product_id>"
+    }
     formData  += "</xml>";
 
     console.log('formData===',formData);
