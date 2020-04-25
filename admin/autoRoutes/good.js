@@ -93,9 +93,8 @@ module.exports = [
     callback: (req, res) => {
       const { number } = req.params;
       models.goods.findOne({ number }).then(good => {
-        console.log(good)
-        const { template, price, title } = good;
-        res.render(`good/${template}`, { price, title, number })
+        const { template, price, title, _id } = good;
+        res.render(`good/${template}`, { price, title, _id })
       })
     }
   }
