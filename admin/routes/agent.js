@@ -250,7 +250,7 @@ const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, order}) => {
     formData  += "<sign>"+sign+"</sign>";
     formData  += "<openid>"+openid+"</openid>";
     if (order.goodNumber) {
-      formData += "<detail><![CDATA[" + JSON.stringify(detail) + "]]</detail>"
+      formData += "<detail><![CDATA[" + detail + "]]</detail>"
     }
     formData  += "</xml>";
 
