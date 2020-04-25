@@ -11,6 +11,7 @@ const Orders = new mongoose.Schema({
   },
   goodNumber: { // 商品编号
     type: mongoose.Schema.Types.ObjectId,
+    ref: 'goods',
   },
   paymentAmount: { // 付款金额
     type: Number,
