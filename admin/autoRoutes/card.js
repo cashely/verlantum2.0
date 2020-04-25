@@ -58,7 +58,7 @@ module.exports = [
                           console.log(errors)
                           return;
                       }
-                      res.render('card', response.xml);
+                      res.render('wxcard', response.xml);
                   });
               }
           });
