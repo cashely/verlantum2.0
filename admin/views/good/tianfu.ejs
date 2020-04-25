@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title><%= title%>-云量检测</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+    <style media="screen">
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+        body {
+          background-image: url('/images/tianfu_bg.png');
+          background-position: center bottom;
+          background-size: 100% auto;
+          background-repeat: no-repeat;
+        }
+        .tiannfu_form {
+          padding: 2vw;
+        }
+        b.red {
+          color: red;
+        }
+        b.green{
+          color: #4d8d56;
+        }
+        b.blue {
+          color: #14417e
+        }
+        .tiannfu_form > h2 {
+          font-size: 7vw;
+          margin-bottom: 7vh;
+          line-height: 1.5;
+          text-align: center;
+          text-shadow: 0 0.5vw 0px #d9d9d9;
+        }
+        .tiannfu_form > h2 > p {
+          font-size: 4vw;
+          font-weight: normal;
+          text-shadow: 0 0 0px #d9d9d9;
+        }
+    </style>
+    <script type="text/javascript">
+      function submitOrder() {
+        const form = $('.tiannfu_form')[0];
+        const phone = form.phone.value;
+        const username = form.username.value;
+        const address = form.address.value;
+        const count = form.count.value;
+        if (!/^([1][3,4,5,6,7,8,9])\d{9}$/.test(phone)) {
+          alert('手机号码不合法')
+          return;
+        }
+        if (!username) {
+          alert('姓名必填')
+          return;
+        }
+        if (!address) {
+          alert('地址必填')
+          return;
+        }
+        if (!/[0-9]/.test(count)) {
+          alert('下单数量必须是大于1的整数')
+          return;
+        }
+        location.href = `/qrRedirect?address=${address}&price=<%= price%>&good=<%= title%>&count=${count}&username=${username}&phone=${phone}`
+      }
+    </script>
+  </head>
+  <body>
+    <div>
+        <form class="tiannfu_form">
+          <h2>
+            <b class="red">MIT</b><b class="green">基因分析</b>与<b class="blue">潜能优势</b>
+            <p>
+              <b class="red">M</b>y Potential <b class="green">I</b>ntelligence & <b class="blue">T</b>alent Advantage
+            </p>
+          </h2>
+          <div class="form-group">
+            <label for="exampleInputEmail1">姓名</label>
+            <input type="text" class="form-control" name="username" id="exampleInputEmail1" placeholder="请输入您的姓名">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">联系电话</label>
+            <input type="tel" class="form-control" name="phone" id="exampleInputEmail1" placeholder="+86">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">联系地址</label>
+            <input type="text" class="form-control" name="address" id="exampleInputEmail1" placeholder="请完整的填写您的地址">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">下单数量</label>
+            <input type="number" value="1" class="form-control" name="count" id="exampleInputEmail1" placeholder="1">
+          </div>
+          <p>
+              <span>注意:</span>为了方便我能为您提供准确的服务，请仔细核对您所填写的信息
+          </p>
+          <button type="button" onclick="submitOrder()" class="btn btn-default btn-block btn-primary">提交</button>
+        </form>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</html>

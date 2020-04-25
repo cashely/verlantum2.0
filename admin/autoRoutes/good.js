@@ -6,12 +6,14 @@ module.exports = [
     method: 'post',
     mark: '创建商品',
     callback: (req, res) => {
-      const { title, price, number, discount } = req.body;
+      const { title, price, number, discount, url, template } = req.body;
       const good = new models.goods({
         title,
         price,
         number,
-        discount
+        discount,
+        url,
+        template,
       }).saveGood().then(result => {
         req.response(200, 'ok')
       })
@@ -49,8 +51,8 @@ module.exports = [
     mark: '修改商品信息',
     callback: (req, res) => {
       const { id } = req.params;
-      const { title, price, number, discount } = req.body;
-      const conditions = {title, price, number, discount};
+      const { title, price, number, discount, url, template } = req.body;
+      const conditions = {title, price, number, discount, template};
       models.goods.updateOne({_id: id }, conditions).then(() => {
         req.response(200, 'ok')
       }).catch(err => {
@@ -81,6 +83,19 @@ module.exports = [
         req.response(200, 'ok')
       }).catch(err => {
         req.response(500, err)
+      })
+    }
+  },
+  {
+    uri: '/page/:number',
+    method: 'get',
+    mark: '获取表单页地址',
+    callback: (req, res) => {
+      const { number } = req.params;
+      models.goods.findOne({ number }).then(good => {
+        console.log(good)
+        const { template, price, title } = good;
+        res.render(`good/${template}`, { price, title, number })
       })
     }
   }

@@ -19,8 +19,7 @@ module.exports = [
         const openid = body.openid;
         models.goods.findOne({ number: good})
         .then(good => {
-          // const { discount } = good;
-          const discount = '10463301'
+          const { discount, url } = good;
           const out_request_no = wxcard.createTimeStamp();
           const params = {
             openid,
@@ -46,9 +45,9 @@ module.exports = [
           formData += `<sign>${sign}</sign>`;
           formData += '</xml>';
 
-          var url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
+          var wxurl = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon';
 
-          request({url:url,method:'POST',body: formData, agentOptions: {
+          request({url:wxurl,method:'POST',body: formData, agentOptions: {
             pfx: fs.readFileSync(path.resolve(__dirname, '../1472079802_20200424_cert/apiclient_cert.p12')),
             passphrase: params.stock_creator_mchid // 商家id
           }},function(err,response,body){
@@ -58,7 +57,7 @@ module.exports = [
                           console.log(errors)
                           return;
                       }
-                      res.render('wxcard', response.xml);
+                      res.render('wxcard', {...response.xml, url});
                   });
               }
           });

@@ -8,7 +8,17 @@
   </head>
   <body>
     <div>
-      获取微信卡券 错误结果：<%= err_code_des%> 错误代码：<%= err_code%>
+
     </div>
+    <script>
+      const err = {
+        code: '<%= err_code%>',
+        msg:'<%= err_code_des%>'
+      }
+      if (err.code) {
+        alert(err.msg)
+      }
+      location.href="<%= url%>"
+    </script>
   </body>
 </html>

@@ -102,12 +102,18 @@ export default class Good extends Component {
         render: d => m(d).format('YYYY-MM-DD')
       },
       {
+        title: '宣传地址',
+        dataIndex: 'number',
+        render: d => d && `http://localhost:5010/good/page/${d}`
+      },
+      {
         title: '操作',
         key: 'id',
         align: 'center',
         render: row => (
           <React.Fragment>
-            <Button type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('good', row._id)}} size="small"><Icon type="edit"/></Button>
+            <Button type="primary" onClick={() => {}} size="small"><Icon type="qrcode"/></Button>
+            <Button type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('good', row._id)}} size="small" style={{marginLeft: 10}}><Icon type="edit"/></Button>
               <Popconfirm
                 title="您确定要删除?"
                 onConfirm={this.deleteAction.bind(this, row._id)}
@@ -123,7 +129,7 @@ export default class Good extends Component {
     return (
       <Layout style={{height: '100%', backgroundColor: '#fff', display: 'flex'}}>
         <Header style={{backgroundColor: '#fff', padding: 10, height: 'auto', lineHeight: 1}}>
-          <Button type="primary" onClick={this.openModelAction.bind(this, 'good', null)}><Icon type="plus"/>新增</Button>
+          <Button type="primary" onClick={this.openModelAction.bind(this, 'good', null)}><Icon type="plus"/>新增商品</Button>
         </Header>
         <Content style={{overflow: 'auto'}}>
           <Table rowKey="_id" onRow={r => {return {onClick: e => {} }}} columns={columns} dataSource={this.state.goods} size="middle" bordered pagination={false}/>
