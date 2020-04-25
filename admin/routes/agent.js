@@ -82,6 +82,7 @@ module.exports = {
   },
   qrRedirect(req, res) {
     const {aid, price, ratio, good, address, phone, card, count = 1, username, goodNumber} = req.query;
+    console.log(goodNumber, '商品编号')
     const orderPromise = function () {
       return new Promise((resolve) => {
         if (goodNumber) {
@@ -93,6 +94,7 @@ module.exports = {
       })
     }
     orderPromise().then(({_id}) => {
+      console.log(_id, '商品id')
       return generatorOrderAction({aid, price, ratio, good, address, card, count, phone, username, goodId: _id})
     })
     .then(orderNo => {
