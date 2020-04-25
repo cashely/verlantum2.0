@@ -93,8 +93,12 @@ export default class Good extends Component {
         render: d => d && d.$numberDecimal
       },
       {
-        title: '优惠券',
+        title: '优惠券号',
         dataIndex: 'discount'
+      },
+      {
+        title: '优惠券领取地址',
+        render: d => d.discount && `http://api.verlantum.cn/card/wx?good=${d.number}`
       },
       {
         title: '创建时间',
@@ -104,7 +108,7 @@ export default class Good extends Component {
       {
         title: '宣传地址',
         dataIndex: 'number',
-        render: d => d && `http://localhost:5010/good/page/${d}`
+        render: d => d && `http://api.verlantum.cn/good/page/${d}`
       },
       {
         title: '操作',
