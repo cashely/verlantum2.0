@@ -35,7 +35,7 @@ var wxpay = {
         };
 
         if (detail) {
-            ret.detail = detail;
+            ret.detail = JSON.stringify(detail);
             ret.version = version;
         }
         console.log('ret==', ret);
