@@ -227,7 +227,7 @@ const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, order}) => {
         goods_detail: [{
           goods_id: order.goodNumber.number,
           quantity: order.count,
-          price: order.price
+          price: wxpay.getmoney(order.price)
         }]
       }
     }
