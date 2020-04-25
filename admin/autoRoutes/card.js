@@ -58,6 +58,7 @@ module.exports = [
                           console.log(errors)
                           return;
                       }
+                      console.log(response.xml, '优惠券领取结果')
                       res.render('wxcard', {...response.xml, url: `http://api.verlantum.cn/good/page/${number}`});
                   });
               }
