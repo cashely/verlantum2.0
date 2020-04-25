@@ -82,7 +82,19 @@ module.exports = {
   },
   qrRedirect(req, res) {
     const {aid, price, ratio, good, address, phone, card, count = 1, username, goodNumber} = req.query;
-    generatorOrderAction({aid, price, ratio, good, address, card, count, phone, username, goodNumber})
+    const orderPromise = function () {
+      return new Promise((resolve) => {
+        if (goodNumber) {
+          models.goods.findOne({number: goodNumber}).then(good => {
+            resolve(good)
+          })
+        }
+        resolve({})
+      })
+    }
+    orderPromise().then(({_id}) => {
+      return generatorOrderAction({aid, price, ratio, good, address, card, count, phone, username, goodId: _id})
+    })
     .then(orderNo => {
       // res.send(orderNo)
       res.render('qredirect', {orderNo});
@@ -171,7 +183,7 @@ module.exports = {
   }
 }
 
-const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count = 1, username, goodNumber}) => {
+const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count = 1, username, goodId}) => {
   const orderNo = Date.now();
   const paymentAmount = count * price;
   return new models.orders({
@@ -186,7 +198,7 @@ const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, co
     card,
     username,
     orderNo,
-    goodNumber,
+    goodNumber: goodId,
   }).save().then(() => orderNo)
 }
 
