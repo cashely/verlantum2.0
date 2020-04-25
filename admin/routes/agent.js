@@ -121,7 +121,7 @@ module.exports = {
     getOpenIdAction(code).then(body => {
       // console.log(body, typeof body, '----code body');
       const openid = body.openid;
-      models.orders.findOne({ orderNo})
+      models.orders.findOne({ orderNo}).populate('goodNumber')
       .then(order => {
         const { paymentAmount, good, goodNumber } = order;
         return generatorWxpay({
@@ -130,7 +130,7 @@ module.exports = {
           paymentAmount,
           body: good,
           res,
-          goodNumber,
+          goodNumber: goodNumber ? goodNumber.number : false,
         })
       })
     });
