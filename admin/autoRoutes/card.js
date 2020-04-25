@@ -60,10 +60,8 @@ module.exports = [
                       }
                       res.render('card', response.xml);
                   });
-
               }
           });
-          res.send(formData);
         })
       });
     }
