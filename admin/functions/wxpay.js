@@ -31,7 +31,6 @@ var wxpay = {
             spbill_create_ip: spbill_create_ip,
             total_fee: total_fee,
             trade_type: trade_type,
-            product_id,
             openid
         };
 
