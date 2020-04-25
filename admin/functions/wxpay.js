@@ -20,7 +20,7 @@ var wxpay = {
     },
 
     //签名加密算法
-    paysignjsapi: function (appid, body, mch_id, nonce_str, notify_url, out_trade_no, spbill_create_ip, total_fee, trade_type, mchkey, openid, product_id) {
+    paysignjsapi: function (appid, body, mch_id, nonce_str, notify_url, out_trade_no, spbill_create_ip, total_fee, trade_type, mchkey, openid, detail, version) {
         var ret = {
             appid: appid,
             mch_id: mch_id,
@@ -34,8 +34,9 @@ var wxpay = {
             openid
         };
 
-        if (product_id) {
-            ret.product_id = product_id;
+        if (detail) {
+            ret.detail = detail;
+            ret.version = version;
         }
         console.log('ret==', ret);
         var string = raw(ret);

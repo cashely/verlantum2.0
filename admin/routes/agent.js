@@ -130,7 +130,7 @@ module.exports = {
           paymentAmount,
           body: good,
           res,
-          goodNumber: goodNumber ? goodNumber.number : false,
+          order
         })
       })
     });
@@ -205,7 +205,7 @@ const getOpenIdAction = (code) => {
   })
 }
 
-const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, goodNumber}) => {
+const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, order}) => {
   return new Promise((resolve) => {
     // res.send(orderNo)
     let appid = wxAppId;
@@ -218,10 +218,21 @@ const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, goodNumber}) 
     let spbill_create_ip = '10.101.68.93';
     let notify_url = 'https://api.verlantum.cn/auth/wxpaycallback';
     let trade_type = 'JSAPI';
-    let product_id = goodNumber;
     let mchkey = '773ADDFE99B6749A16D6B9E266F8A20A';
+    let version = '1.0';
+    let detail
 
-    let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey, openid , product_id);
+    if (order.goodNumber) {
+      detail = {
+        goods_detail: [{
+          goods_id: order.goodNumber.number,
+          quantity: order.count,
+          price: order.price
+        }]
+      }
+    }
+
+    let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey, openid , detail, version);
 
     console.log('sign==',sign);
 
@@ -238,8 +249,8 @@ const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, goodNumber}) 
     formData  += "<trade_type>"+trade_type+"</trade_type>";
     formData  += "<sign>"+sign+"</sign>";
     formData  += "<openid>"+openid+"</openid>";
-    if (product_id) {
-      formData += "<product_id>" + product_id + "</product_id>"
+    if (order.goodNumber) {
+      formData += "<detail>" + JSON.stringify(detail) + "</detail>"
     }
     formData  += "</xml>";
 
