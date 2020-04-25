@@ -19,6 +19,7 @@ module.exports = [
         const openid = body.openid;
         models.goods.findOne({ number: good})
         .then(resultGood => {
+          console.log(resultGood)
           const { discount, template, number } = resultGood;
           const out_request_no = wxcard.createTimeStamp();
           const params = {
