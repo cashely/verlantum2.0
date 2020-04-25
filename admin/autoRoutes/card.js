@@ -59,8 +59,8 @@ module.exports = [
                           return;
                       }
                       const  $result = {
-                        err_code = response.xml.err_code || '',
-                        err_code_des = response.xml.err_code_des || ''
+                        err_code: response.xml.err_code || '',
+                        err_code_des: response.xml.err_code_des || ''
                       }
                       console.log(response.xml, '优惠券领取结果')
                       res.render('wxcard', {...$result, url: `http://api.verlantum.cn/good/page/${number}`});
