@@ -12,7 +12,7 @@ module.exports = [
     callback: (req, res) => {
       const {code, good} = req.query;
       if (!code) {
-        res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wxAppId+'&redirect_uri='+ encodeURIComponent('http://api.verlantum.cn/card/wx')+ '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirec')
+        res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wxAppId+'&redirect_uri='+ encodeURIComponent(`http://api.verlantum.cn/card/wx?good=${good}`)+ '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirec')
         return;
       }
       getOpenIdAction(code).then(body => {
