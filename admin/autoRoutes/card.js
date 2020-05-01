@@ -32,7 +32,7 @@ module.exports = [
               if (agentDetail && agentDetail.discount) {
                 return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
               }
-              res.render('wxcard', { broken: '1', url: `http://api.verlantum.cn/good/page/${good}`});
+              res.render('wxcard', { err_code: '', err_code_des: '', broken: '1', url: `http://api.verlantum.cn/good/page/${good}`});
               return null
             })
           }
