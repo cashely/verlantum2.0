@@ -29,7 +29,7 @@ module.exports = [
                 return resultGood
               }
               if (!agentDetail) {
-                res.render('wxcard', { break: true, url: `http://api.verlantum.cn/good/page/${good}` });
+                res.render('wxcard', { break: 1, url: `http://api.verlantum.cn/good/page/${good}` });
                 return;
               }
               return {...resultGood, discount: agentDetail.discount, agentDetail }
@@ -85,7 +85,7 @@ module.exports = [
                       if (agent) {
                         url += `?agent=${agent}`
                       }
-                      res.render('wxcard', { ...$result, url, break: false });
+                      res.render('wxcard', { ...$result, url, break: 0 });
                   });
               }
           });
