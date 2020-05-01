@@ -26,7 +26,9 @@ module.exports = () => {
         return done(null, false, { message: '用户不存在'})
       }
 
+
       if(user.password !== password) {
+        console.log(user.password, password);
         return done(null, false, { message: '密码不正确'})
       }
       console.log(user)
