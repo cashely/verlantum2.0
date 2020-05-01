@@ -9,6 +9,10 @@ const Agents = new mongoose.Schema({
     type: Number,
     default: 1 // 1 - 正常
   },
+  good: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'goods',
+  },
   creater: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'

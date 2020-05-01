@@ -7,11 +7,13 @@ export default class PusherModal extends Component {
     this.state = {
       fields: {
         title: '',
+        good: '',
         address:'',
         tel: '',
         contact: '',
         mark: ''
-      }
+      },
+      goods: [],
     }
   }
   changeAction(fieldname, e) {
@@ -52,8 +54,19 @@ export default class PusherModal extends Component {
     })
   }
 
+  goodListAction() {
+    $.get('/goods/list').then(res => {
+      if (res.code === 0) {
+        this.setState({
+          goods: res.data
+        })
+      }
+    })
+  }
+
   componentWillMount() {
     this.props.id && this.detailAction();
+    this.goodListAction();
   }
   render() {
     const {Item} = Form;
@@ -69,6 +82,14 @@ export default class PusherModal extends Component {
           <Item label="出货商名称">
             <Input value={this.state.fields.title} onChange={(e) => {this.changeAction('title', e)}} />
           </Item>
+          <Item label="代理商品">
+            <Select value={this.state.fields.good} onChange={(e) => this.changeAction('good', e)}>
+              {
+                this.state.goods.map(good => <Option value={good._id} key={good._id} >{good.title}</Option>)
+              }
+            </Select>
+          </Item>
+
           <Item label="联系人">
             <Input value={this.state.fields.contact} onChange={(e) => {this.changeAction('contact', e)}} />
           </Item>

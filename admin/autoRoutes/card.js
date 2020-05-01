@@ -4,23 +4,41 @@ const request = require('request');
 const fs = require('fs');
 const path = require('path');
 const xml2js = require('xml2js');
+const qs = require('qs');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 module.exports = [
   {
     uri: 'wx',
     method: 'get',
     callback: (req, res) => {
-      const {code, good} = req.query;
+      const {code, params} = req.query;
       if (!code) {
-        res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wxAppId+'&redirect_uri='+ encodeURIComponent(`http://api.verlantum.cn/card/wx?good=${good}`)+ '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirec')
+        res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wxAppId+'&redirect_uri='+ encodeURIComponent(`http://api.verlantum.cn/card/wx?params=${params}`)+ '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirec')
         return;
       }
+      let paramsBuffer = Buffer.form(params, 'base64').toString()
+      paramsBuffer = qs.parse(paramsBuffer);
+      const { good, agent }  = paramsBuffer;
       getOpenIdAction(code).then(body => {
         const openid = body.openid;
         models.goods.findOne({ number: good})
         .then(resultGood => {
-          console.log(resultGood, good)
-          const { discount, template, number } = resultGood;
+          if (agent) {
+            return models.findOne({_id: agent}).then(agentDetail => {
+              if(!agentDetail) {
+                return resultGood
+              }
+              if (!agentDetail) {
+                res.render('wxcard', { break: true, url: `http://api.verlantum.cn/good/page/${good}` });
+                return;
+              }
+              return {...resultGood, discount: agentDetail.discount, agentDetail }
+            })
+          }
+          return resultGood;
+        })
+        .then(resultGood => {
+          const { discount, number, agentDetail } = resultGood;
           const out_request_no = wxcard.createTimeStamp();
           const params = {
             openid,
@@ -62,8 +80,12 @@ module.exports = [
                         err_code: response.xml.err_code || '',
                         err_code_des: response.xml.err_code_des || ''
                       }
-                      console.log(response.xml, '优惠券领取结果')
-                      res.render('wxcard', {...$result, url: `http://api.verlantum.cn/good/page/${number}`});
+                      // console.log(response.xml, '优惠券领取结果')
+                      let url = `http://api.verlantum.cn/good/page/${number}`
+                      if (agent) {
+                        url += `?agent=${agent}`
+                      }
+                      res.render('wxcard', { ...$result, url, break: false });
                   });
               }
           });

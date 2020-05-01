@@ -101,7 +101,12 @@ export default class Outer extends Component {
   }
 
   makeQrcodeAction(puller) {
-    window.open(`http://api.verlantum.cn/qrcode?aid=${puller._id}&ratio=${puller.ratio}&price=${puller.price}&good=MIT基因分析与潜能优势`)
+    const { good, _id, ratio, price } = puller;
+    const params = [`aid=${_id}`, `ratio=${ratio}`, `price=${price}`]
+    if (good) {
+      params.push(`goodNumber=${good._id}`)
+    }
+    window.open(`http://api.verlantum.cn/qrcode?params=${btoa(`good=${good._id}&agent=${puller._id}`)}`)
   }
 
   componentWillMount() {
@@ -133,6 +138,11 @@ export default class Outer extends Component {
       {
         title: '代理商名称',
         dataIndex: 'title',
+      },
+      {
+        title: '商品',
+        dataIndex: 'good',
+        render: d => d && d.title
       },
       {
         title: '积分',

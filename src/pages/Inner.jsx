@@ -122,7 +122,7 @@ export default class Inner extends Component {
       },
       {
         title: '商品名称',
-        dataIndex: 'good',
+        render: row => row.goodNumber ? row.goodNumber.title : row.good
       },
       {
         title: '订单号',

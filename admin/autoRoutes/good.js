@@ -92,9 +92,30 @@ module.exports = [
     mark: '获取表单页地址',
     callback: (req, res) => {
       const { number } = req.params;
+      const { agent } = req.query;
       models.goods.findOne({ number }).then(good => {
         const { template, price, title, _id } = good;
-        res.render(`good/${template}`, { price, title, _id })
+        if (agent) {
+          return models.agent.findOne({_id: agent}).then(agentDetail => {
+            return {
+              title,
+              _id,
+              price: agentDetail.price,
+              template,
+              agent
+            }
+          })
+        }
+        return {
+          title,
+          _id,
+          price,
+          template,
+          agent,
+        }
+
+      }).then(({price, title, _id, agent, template}) => {
+        res.render(`good/${template}`, { price, title, _id, agent })
       })
     }
   }

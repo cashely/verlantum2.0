@@ -16,7 +16,7 @@ module.exports = {
         conditions.createdAt = { $gte: formatDate[0], $lte: moment(formatDate[1]).add(1, 'days').format('YYYY-MM-DD')}
       }
     }
-    models.orders.find(conditions).populate('agent').populate('puller').sort({_id: -1}).skip((+page - 1) * limit).limit(+limit).then(orders => {
+    models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).skip((+page - 1) * limit).limit(+limit).then(orders => {
       req.response(200, orders)
     }).catch(err => {
       req.response(500, err);

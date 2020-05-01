@@ -5,6 +5,10 @@ const Pushers = new mongoose.Schema({
     type: String,
     required: true
   },
+  goodId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'goods',
+  },
   statu: {
     type: Number,
     default: 1 // 1 - 正常

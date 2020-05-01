@@ -11,9 +11,11 @@ export default class PullerModal extends Component {
         tel: '',
         contact: '',
         mark: '',
+        good: '',
         price: 0,
         ratio: 0,
-      }
+      },
+      goods: [],
     }
   }
   changeAction(fieldname, e) {
@@ -53,9 +55,19 @@ export default class PullerModal extends Component {
       }
     })
   }
+  goodListAction() {
+    $.get('/good/list').then(res => {
+      if (res.code === 0) {
+        this.setState({
+          goods: res.data
+        })
+      }
+    })
+  }
 
   componentWillMount() {
     this.props.id && this.detailAction();
+    this.goodListAction();
   }
   render() {
     const {Item} = Form;
@@ -70,6 +82,13 @@ export default class PullerModal extends Component {
         <Form layout="horizontal" labelCol={{span: 4}} wrapperCol={{span: 20}}>
           <Item label="代理商名称">
             <Input value={this.state.fields.title} onChange={(e) => {this.changeAction('title', e)}} />
+          </Item>
+          <Item label="代理商品">
+            <Select value={this.state.fields.good} onChange={(e) => this.changeAction('good', e)}>
+              {
+                this.state.goods.map(good => <Option value={good._id} key={good._id} >{good.title}</Option>)
+              }
+            </Select>
           </Item>
           <Item label="价格">
             <Input value={this.state.fields.price} onChange={(e) => {this.changeAction('price', e)}} />

@@ -10,17 +10,18 @@ module.exports = {
   list(req, res) {
     const { page = 1, limit = 20 } = req.query;
     const conditions = {}
-    models.agents.find(conditions).populate('creater').sort({updatedAt: -1}).skip((+page - 1) * limit).limit(+limit).then(agents => {
+    models.agents.find(conditions).populate('creater good').sort({updatedAt: -1}).skip((+page - 1) * limit).limit(+limit).then(agents => {
       req.response(200, agents)
     }).catch(err => {
       req.response(500, err);
     })
   },
   add(req, res) {
-    const {title, statu, contact, address, tel, price = 0, ratio = 0} = req.body;
+    const {title, statu, contact, address, tel, price = 0, ratio = 0, good} = req.body;
     const conditions = {
       title,
       statu,
+      good,
       contact, address, tel,
       price,
       ratio,
@@ -50,12 +51,13 @@ module.exports = {
   },
   update(req, res) {
     const {id} = req.params;
-    const {title, statu, contact, address, tel, price, ratio} = req.body;
+    const {title, statu, contact, address, tel, price, ratio, good} = req.body;
     const conditions = {
       title,
       statu,
       price,
       ratio,
+      good,
       contact, address, tel,
       creater: req.user.uid
     };
@@ -103,7 +105,7 @@ module.exports = {
       return models.orders.findOne({orderNo: out_trade_no})
     }).then(order => {
       if(order.agent) {
-        return models.agents.updateOne({_id: order.agent}, {$inc: {score: total_amount * order.agentProfit / 100}})
+        return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.paymentAmount * order.agentProfit / 100}})
       }
       return null
     }).then(() => {
@@ -143,7 +145,7 @@ module.exports = {
         return models.orders.findOne({orderNo: out_trade_no})
       }).then(order => {
         if(order.agent) {
-          return models.agents.updateOne({_id: order.agent}, {$inc: {score: cash_fee / 100 * order.agentProfit / 100}})
+          return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.paymentAmount * order.agentProfit / 100}})
         }
         return null
       }).then(() => {
