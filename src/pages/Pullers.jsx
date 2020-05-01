@@ -145,6 +145,11 @@ export default class Outer extends Component {
         render: d => d && d.title
       },
       {
+        title: '优惠券号',
+        dataIndex: 'discount',
+        render: d => d ? d : '无' 
+      },
+      {
         title: '积分',
         dataIndex: 'score.$numberDecimal',
       },

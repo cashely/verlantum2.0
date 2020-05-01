@@ -17,7 +17,7 @@ module.exports = {
     })
   },
   add(req, res) {
-    const {title, statu, contact, address, tel, price = 0, ratio = 0, good} = req.body;
+    const {title, statu, contact, address, tel, price = 0, ratio = 0, good, discount} = req.body;
     const conditions = {
       title,
       statu,
@@ -25,6 +25,7 @@ module.exports = {
       contact, address, tel,
       price,
       ratio,
+      discount,
       creater: req.user.uid
     };
     new models.agents(conditions).save().then(() => {
@@ -51,13 +52,14 @@ module.exports = {
   },
   update(req, res) {
     const {id} = req.params;
-    const {title, statu, contact, address, tel, price, ratio, good} = req.body;
+    const {title, statu, contact, address, tel, price, ratio, good, discount} = req.body;
     const conditions = {
       title,
       statu,
       price,
       ratio,
       good,
+      discount,
       contact, address, tel,
       creater: req.user.uid
     };
