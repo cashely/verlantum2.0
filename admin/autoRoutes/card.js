@@ -33,7 +33,8 @@ module.exports = [
                 return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
               }
               res.render('wxcard', { broken: true, url: `http://api.verlantum.cn/good/page/${good}`});
-              return throw new Error(0)
+              throw new Error(0)
+              return {}
             })
           }
           return resultGood;
