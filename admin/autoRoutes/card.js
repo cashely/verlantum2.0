@@ -28,11 +28,11 @@ module.exports = [
               if(!agentDetail) {
                 return resultGood
               }
-              if (!agentDetail) {
-                res.render('wxcard', { broken: true, url: `http://api.verlantum.cn/good/page/${good}` });
-                return;
+              if (agentDetail && agentDetail.discount) {
+                return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
               }
-              return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
+              res.render('wxcard', { broken: true, url: `http://api.verlantum.cn/good/page/${good}` });
+              return;
             })
           }
           return resultGood;
