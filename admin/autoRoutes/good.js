@@ -94,6 +94,7 @@ module.exports = [
       const { number } = req.params;
       const { agent } = req.query;
       models.goods.findOne({ number }).then(good => {
+        console.log(good, number)
         const { template, price, title, _id } = good;
         if (agent) {
           return models.agents.findOne({_id: agent}).then(agentDetail => {
