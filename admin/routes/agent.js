@@ -54,19 +54,21 @@ module.exports = {
     const {id} = req.params;
     const {title, statu, contact, address, tel, price, ratio, good, discount} = req.body;
     const conditions = {
-      title,
-      statu,
-      price,
-      ratio,
-      good,
-      discount,
-      contact, address, tel,
-      creater: req.user.uid
+      $set: {
+        title,
+        statu,
+        price,
+        ratio,
+        good,
+        discount,
+        contact, address, tel,
+        creater: req.user.uid
+      }
     };
     if (!discount) {
-      conditions.discount = undefined
+      conditions.$unset = ''
     }
-    models.agents.findOneAndUpdate({_id: id}, conditions, {omitUndefined: true}).then(() => {
+    models.agents.findOneAndUpdate({_id: id}, conditions).then(() => {
       req.response(200, 'ok');
     }).catch(err => {
       req.response(500, err);
