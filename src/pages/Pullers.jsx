@@ -151,7 +151,6 @@ export default class Outer extends Component {
       },
       {
         title: '优惠券领取地址',
-        dataIndex: 'discount',
         render: row => row.discount ? `http://api.verlantum.cn/card/wx?params=${btoa(`good=${row.good._id}&agent=${row._id}`)}` : '无'
       },
       {
