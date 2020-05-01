@@ -21,7 +21,7 @@ module.exports = [
       const { good, agent }  = paramsBuffer;
       getOpenIdAction(code).then(body => {
         const openid = body.openid;
-        models.goods.findOne({ number: good})
+        models.goods.findOne({ _id: good})
         .then(resultGood => {
           if (agent) {
             return models.agents.findOne({_id: agent}).then(agentDetail => {
@@ -32,7 +32,6 @@ module.exports = [
                 res.render('wxcard', { broken: true, url: `http://api.verlantum.cn/good/page/${good}` });
                 return;
               }
-              console.log(resultGood, 'resultGood')
               return Object.assign({}, resultGood, { discount: agentDetail.discount, agentDetail })
             })
           }
