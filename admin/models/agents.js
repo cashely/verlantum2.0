@@ -13,6 +13,9 @@ const Agents = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'goods',
   },
+  discount: {
+    type: String
+  },
   creater: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'users'
