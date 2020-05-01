@@ -63,7 +63,10 @@ module.exports = {
       contact, address, tel,
       creater: req.user.uid
     };
-    models.agents.findOneAndUpdate({_id: id}, conditions).then(() => {
+    if (!discount) {
+      conditions.discount = undefined
+    }
+    models.agents.findOneAndUpdate({_id: id}, conditions, {omitUndefined: true}).then(() => {
       req.response(200, 'ok');
     }).catch(err => {
       req.response(500, err);
@@ -184,10 +187,9 @@ module.exports = {
 const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count = 1, username, goodId}) => {
   const orderNo = Date.now();
   const paymentAmount = count * price;
-  return new models.orders({
+  const order = {
     price,
     paymentAmount,
-    agent: aid,
     agentProfit: ratio,
     good,
     count,
@@ -197,7 +199,11 @@ const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, co
     username,
     orderNo,
     goodNumber: goodId,
-  }).save().then(() => orderNo)
+  }
+  if (aid) {
+    order.aid = aid
+  }
+  return new models.orders(order).save().then(() => orderNo)
 }
 
 
