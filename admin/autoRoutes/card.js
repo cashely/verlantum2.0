@@ -16,7 +16,7 @@ module.exports = [
         res.redirect('https://open.weixin.qq.com/connect/oauth2/authorize?appid='+wxAppId+'&redirect_uri='+ encodeURIComponent(`http://api.verlantum.cn/card/wx?params=${params}`)+ '&response_type=code&scope=snsapi_base&state=STATE#wechat_redirec')
         return;
       }
-      let paramsBuffer = Buffer.form(params, 'base64').toString()
+      let paramsBuffer = Buffer.from(params, 'base64').toString()
       paramsBuffer = qs.parse(paramsBuffer);
       const { good, agent }  = paramsBuffer;
       getOpenIdAction(code).then(body => {
