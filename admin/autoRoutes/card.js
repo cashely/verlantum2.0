@@ -39,6 +39,7 @@ module.exports = [
         })
         .then(resultGood => {
           const { discount, number, agentDetail } = resultGood;
+          console.log(resultGood, 'resultGood');
           const out_request_no = wxcard.createTimeStamp();
           const params = {
             openid,
@@ -80,7 +81,7 @@ module.exports = [
                         err_code: response.xml.err_code || '',
                         err_code_des: response.xml.err_code_des || ''
                       }
-                      // console.log(response.xml, '优惠券领取结果')
+                      console.log(response.xml, '优惠券领取结果')
                       let url = `http://api.verlantum.cn/good/page/${number}`
                       if (agent) {
                         url += `?agent=${agent}`
