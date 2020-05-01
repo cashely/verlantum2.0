@@ -33,13 +33,13 @@ module.exports = [
                 return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
               }
               res.render('wxcard', { broken: true, url: `http://api.verlantum.cn/good/page/${good}`});
-              throw new Error(0)
-              return {}
+              return null
             })
           }
           return resultGood;
         })
         .then(resultGood => {
+          if (!resultGood) return;
           const { discount, number, agentDetail } = resultGood;
           console.log(resultGood, 'resultGood');
           const out_request_no = wxcard.createTimeStamp();
