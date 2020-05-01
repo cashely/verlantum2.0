@@ -28,6 +28,7 @@ module.exports = [
               if(!agentDetail) {
                 return resultGood
               }
+              console.log(agentDetail, 'agentDetail')
               if (agentDetail && agentDetail.discount) {
                 return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
               }
