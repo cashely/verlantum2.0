@@ -18,6 +18,7 @@ module.exports = [
       }
       let paramsBuffer = Buffer.from(params, 'base64').toString()
       paramsBuffer = qs.parse(paramsBuffer);
+      console.log(paramsBuffer = qs.parse(paramsBuffer), 'buffer')
       const { good, agent }  = paramsBuffer;
       getOpenIdAction(code).then(body => {
         const openid = body.openid;
