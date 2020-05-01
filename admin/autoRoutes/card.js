@@ -18,7 +18,6 @@ module.exports = [
       }
       let paramsBuffer = Buffer.from(params, 'base64').toString()
       paramsBuffer = qs.parse(paramsBuffer);
-      console.log(paramsBuffer = qs.parse(paramsBuffer), 'buffer')
       const { good, agent }  = paramsBuffer;
       getOpenIdAction(code).then(body => {
         const openid = body.openid;
@@ -33,7 +32,7 @@ module.exports = [
               if (agentDetail && agentDetail.discount) {
                 return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
               }
-              res.render('wxcard', { err_code: '', err_code_des: '', broken: '1', url: `http://api.verlantum.cn/good/page/${good}`});
+              res.render('wxcard', { err_code: '', err_code_des: '', broken: '1', url: `http://api.verlantum.cn/good/page/${resultGood._id}`});
               return null
             })
           }
