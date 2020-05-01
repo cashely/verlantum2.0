@@ -24,7 +24,7 @@ module.exports = [
         models.goods.findOne({ number: good})
         .then(resultGood => {
           if (agent) {
-            return models.findOne({_id: agent}).then(agentDetail => {
+            return models.agents.findOne({_id: agent}).then(agentDetail => {
               if(!agentDetail) {
                 return resultGood
               }
