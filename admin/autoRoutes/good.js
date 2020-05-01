@@ -96,7 +96,7 @@ module.exports = [
       models.goods.findOne({ number }).then(good => {
         const { template, price, title, _id } = good;
         if (agent) {
-          return models.agent.findOne({_id: agent}).then(agentDetail => {
+          return models.agents.findOne({_id: agent}).then(agentDetail => {
             return {
               title,
               _id,
