@@ -98,7 +98,7 @@ export default class Good extends Component {
       },
       {
         title: '优惠券领取地址',
-        render: d => d.discount && `http://api.verlantum.cn/card/wx?params=${`${btoa(`good=${d.number}`)}`}`
+        render: d => d.discount && `http://api.verlantum.cn/card/wx?params=${`${btoa(`good=${d._id}`)}`}`
       },
       {
         title: '创建时间',
