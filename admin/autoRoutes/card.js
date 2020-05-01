@@ -32,7 +32,7 @@ module.exports = [
                 res.render('wxcard', { broken: true, url: `http://api.verlantum.cn/good/page/${good}` });
                 return;
               }
-              return Object.assign({}, resultGood, { discount: agentDetail.discount, agentDetail })
+              return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
             })
           }
           return resultGood;
