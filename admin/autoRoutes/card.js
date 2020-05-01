@@ -32,8 +32,8 @@ module.exports = [
               if (agentDetail && agentDetail.discount) {
                 return Object.assign({}, resultGood.toObject(), { discount: agentDetail.discount, agentDetail })
               }
-              res.render('wxcard', { broken: true, url: `http://api.verlantum.cn/good/page/${good}` });
-              return;
+              res.render('wxcard', { broken: true, url: `http://api.verlantum.cn/good/page/${good}`});
+              return throw new Error(0)
             })
           }
           return resultGood;
@@ -91,6 +91,11 @@ module.exports = [
                   });
               }
           });
+        })
+        .catch(err => {
+          if(err !== 0) {
+            console.log(err)
+          }
         })
       });
     }
