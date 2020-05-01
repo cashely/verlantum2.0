@@ -107,7 +107,10 @@ module.exports = {
       return models.orders.findOne({orderNo: out_trade_no})
     }).then(order => {
       if(order.agent) {
-        return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.paymentAmount * order.agentProfit / 100}})
+        return models.agents.findOne({_id: order.agent}).then(agent => {
+          return models.agents.updateOne({_id: agent._id}, {$inc: {score: order.paymentAmount * agent.ratio / 100}})
+        })
+        // return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.paymentAmount * order.agentProfit / 100}})
       }
       return null
     }).then(() => {
@@ -147,7 +150,10 @@ module.exports = {
         return models.orders.findOne({orderNo: out_trade_no})
       }).then(order => {
         if(order.agent) {
-          return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.paymentAmount * order.agentProfit / 100}})
+          return models.agents.findOne({_id: order.agent}).then(agent => {
+            return models.agents.updateOne({_id: agent._id}, {$inc: {score: order.paymentAmount * agent.ratio / 100}})
+          })
+          // return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.paymentAmount * order.agentProfit / 100}})
         }
         return null
       }).then(() => {
