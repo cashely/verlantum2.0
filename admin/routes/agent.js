@@ -201,7 +201,7 @@ const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, co
     goodNumber: goodId,
   }
   if (aid) {
-    order.aid = aid
+    order.agent = aid
   }
   return new models.orders(order).save().then(() => orderNo)
 }
