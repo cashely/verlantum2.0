@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Layout, Pagination, message, Form, Input, Table, Tag, Progress, Button, Icon, Upload, Modal } from 'antd';
+import { Popconfirm, Layout, Pagination, message, Form, Input, Table, Tag, Progress, Button, Icon, Upload, Modal } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -46,6 +46,15 @@ export default class Outer extends Component {
   okPullerModalAction() {
     this.cancelModelAction('puller');
     this.listAction();
+  }
+
+  deleteAction(id) {
+    $.delete(`/agent/${id}`).then(res => {
+      if(res.code === 0) {
+        message.success('操作成功');
+        this.listAction();
+      }
+    })
   }
 
   listAction() {
@@ -193,7 +202,15 @@ export default class Outer extends Component {
             }
             <Button type="primary" onClick={this.makeQrcodeAction.bind(this, row)} size="small" style={{marginLeft: 10}}><Icon type="qrcode"/></Button>
             <Button type="primary" onClick={this.openMoneyModalAction.bind(this, row._id)} size="small" style={{marginLeft: 10}}><Icon type="money-collect"/></Button>
-          </React.Fragment>
+              <Popconfirm
+                title="您确定要删除?"
+                onConfirm={this.deleteAction.bind(this, row._id)}
+                okText="是"
+                cancelText="否"
+              >
+                <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
+              </Popconfirm>
+        </React.Fragment>
         )
       }
     ];

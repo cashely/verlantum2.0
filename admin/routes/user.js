@@ -95,9 +95,9 @@ module.exports = {
     models.users.deleteOne({
       _id: id
     }).then(() => {
-      response(200, 'ok', res);
+      req.response(200, 'ok');
     }).catch(error => {
-      response(500, error, res);
+      req.response(500, error);
     })
   },
   me(req, res, next) {

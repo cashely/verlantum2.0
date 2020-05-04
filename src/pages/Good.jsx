@@ -118,14 +118,14 @@ export default class Good extends Component {
           <React.Fragment>
             <Button type="primary" onClick={() => {}} size="small"><Icon type="qrcode"/></Button>
             <Button type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('good', row._id)}} size="small" style={{marginLeft: 10}}><Icon type="edit"/></Button>
-              <Popconfirm
-                title="您确定要删除?"
-                onConfirm={this.deleteAction.bind(this, row._id)}
-                okText="是"
-                cancelText="否"
-              >
-                <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
-              </Popconfirm>
+            <Popconfirm
+              title="您确定要删除?"
+              onConfirm={this.deleteAction.bind(this, row._id)}
+              okText="是"
+              cancelText="否"
+            >
+              <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
+            </Popconfirm>
           </React.Fragment>
         )
       }

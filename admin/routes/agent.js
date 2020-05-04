@@ -43,8 +43,8 @@ module.exports = {
     })
   },
   delete(req, res) {
-    const {id} = req.params.id;
-    models.agents.deleteById(id).then(() => {
+    const {id} = req.params;
+    models.agents.deleteOne({_id: id}).then(() => {
       req.response(200, 'ok');
     }).catch(err => {
       req.response(500, err);

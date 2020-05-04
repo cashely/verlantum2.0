@@ -66,6 +66,15 @@ export default class Inner extends Component {
     this.listAction();
   }
 
+  deleteAction(id) {
+    $.delete(`/order/${id}`).then(res => {
+      if(res.code === 0) {
+        message.success('操作成功');
+        this.listAction();
+      }
+    })
+  }
+
   listAction() {
     $.get('/orders', {page: this.state.page, limit: this.state.limit, ...this.state.conditions}).then(res => {
       if(res.code === 0) {
@@ -233,7 +242,14 @@ export default class Inner extends Component {
                 row.hasPayed === 0 && <Button type="primary" style={{marginLeft: 10}} onClick={this.payAction.bind(this, row._id)} size="small" title="手动付款" ><Icon type="money-collect"/></Button>
             }
             <Button style={{marginLeft: 10}} type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('inner',row._id)}} size="small"><Icon type="edit"/></Button>
-            <Button style={{marginLeft: 10}} type="danger" size="small" title="删除" ><Icon type="delete"/></Button>
+            <Popconfirm
+              title="您确定要删除?"
+              onConfirm={this.deleteAction.bind(this, row._id)}
+              okText="是"
+              cancelText="否"
+            >
+              <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
+            </Popconfirm>
           </React.Fragment>
         )
       }
