@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { DatePicker, Layout, Pagination, Table, Tag, Progress, Button, Icon, Upload, Popconfirm, message } from 'antd';
+import { Popover, Layout, Pagination, Table, Button, Icon, Upload, Popconfirm, message } from 'antd';
 import $ from '../ajax';
+import QRender from 'qrender-react';
 import m from 'moment';
+import logo from '../T1uklCXhRcXXb1upjX.jpg'
 import _ from 'lodash';
 import GoodModal from '../components/models/GoodModal';
 
@@ -98,7 +100,9 @@ export default class Good extends Component {
       },
       {
         title: '优惠券领取地址',
-        render: d => d.discount && `http://api.verlantum.cn/card/wx?params=${`${btoa(`good=${d._id}`)}`}`
+        render: d => d.discount && <Popover content={<QRender src={logo} text={`http://api.verlantum.cn/card/wx?params=${`${btoa(`good=${d._id}`)}`}`} />} trigger="click">
+                                        <Button type="link">查看</Button>
+                                      </Popover>
       },
       {
         title: '创建时间',
@@ -108,7 +112,9 @@ export default class Good extends Component {
       {
         title: '宣传地址',
         dataIndex: 'number',
-        render: d => d && `http://api.verlantum.cn/good/page/${d}`
+        render: d => d && <Popover content={<QRender src={logo} text={`http://api.verlantum.cn/good/page/${d}`} />} trigger="click">
+                                        <Button type="link">查看</Button>
+                                      </Popover>
       },
       {
         title: '操作',
@@ -116,7 +122,6 @@ export default class Good extends Component {
         align: 'center',
         render: row => (
           <React.Fragment>
-            <Button type="primary" onClick={() => {}} size="small"><Icon type="qrcode"/></Button>
             <Button type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('good', row._id)}} size="small" style={{marginLeft: 10}}><Icon type="edit"/></Button>
             <Popconfirm
               title="您确定要删除?"

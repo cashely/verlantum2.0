@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Popconfirm, Layout, Pagination, message, Form, Input, Table, Tag, Progress, Button, Icon, Upload, Modal } from 'antd';
+import { Popconfirm, Popover, Layout, Pagination, message, Form, Input, Table, Tag, Progress, Button, Icon, Upload, Modal } from 'antd';
+import QRender from 'qrender-react';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
 import PullerModal from '../components/models/PullerModal';
+import logo from '../T1uklCXhRcXXb1upjX.jpg'
 
 export default class Outer extends Component {
   constructor(props) {
@@ -160,7 +162,9 @@ export default class Outer extends Component {
       },
       {
         title: '优惠券领取地址',
-        render: row => row.discount ? `http://api.verlantum.cn/card/wx?params=${btoa(`good=${row.good._id}&agent=${row._id}`)}` : '无'
+        render: row => row.discount ? <Popover content={<QRender src={logo} text={`http://api.verlantum.cn/card/wx?params=${btoa(`good=${row.good._id}&agent=${row._id}`)}`} />} trigger="click">
+                                        <Button type="link">查看</Button>
+                                      </Popover> : '无'
       },
       {
         title: '积分',
