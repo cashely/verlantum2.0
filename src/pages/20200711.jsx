@@ -1,7 +1,7 @@
 import React, {Component, createRef} from 'react'
 import {Layout, Form, Icon, Input, Button, message} from 'antd'
 import _ from 'lodash'
-import music from '../有澤孝紀 - ラブセレナーデ(エテモンのテーマ).mp3'
+import music from '../mu.mp3'
 import bg from '../timg.png'
 
 import $ from '../ajax'
