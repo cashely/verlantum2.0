@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>云量医学科技卫星会-报名入口</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+    <style media="screen">
+        body {
+        }
+        .xinguan_form {
+          padding: 2vw;
+        }
+        .xinguan_form > h2 {
+          font-size: 7vw;
+          line-height: 3;
+          text-align: center;
+          text-shadow: 0.5vw 0.5vw 0px #d9d9d9;
+        }
+        .form {
+          padding: 0 2vw;
+        }
+        .title {
+          text-align: center
+        }
+    </style>
+    <script type="text/javascript">
+      function submitOrder() {
+        const form = $('.form')[0];
+        const phone = form.phone.value;
+        const username = form.username.value;
+        const company = form.company.value;
+        if (!/^([1][3,4,5,6,7,8,9])\d{9}$/.test(phone)) {
+          alert('手机号码不合法')
+          return;
+        }
+        if (!username) {
+          alert('姓名必填')
+          return;
+        }
+        if (!company) {
+          alert('所属单位必填')
+          return;
+        }
+        $.post('/form/activity/20200711', {
+          username,
+          phone,
+          company,
+        }).then(res => {
+          console.log(res)
+          if (res.code === 0) {
+            $('#myModal').modal()
+          } else {
+            alert(res.data)
+          }
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <div>
+        <form class="form">
+          <h2 class="title">报名入口</h2>
+          <div class="form-group">
+            <label for="exampleInputEmail1">姓名</label>
+            <input type="text" class="form-control" name="username" id="exampleInputEmail1" placeholder="请输入您的姓名">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">联系电话</label>
+            <input type="tel" class="form-control" name="phone" id="exampleInputEmail1" placeholder="+86">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail12">所属单位</label>
+            <input type="text" class="form-control" name="company" id="exampleInputEmail12" placeholder="必填">
+          </div>
+          <button type="button" onclick="submitOrder()" class="btn btn-default btn-block btn-primary">提交</button>
+        </form>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">报名成功</h4>
+          </div>
+          <div class="modal-body">
+            恭喜您报名成功，请留意稍后抽奖结果公布
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">我知道了</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</html>

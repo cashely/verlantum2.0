@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import loadable from '@loadable/component';
 import './index.css';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import App from './App';
 // import Home from './pages/Home';
 // import Add from './pages/Add';
@@ -17,7 +17,7 @@ import App from './App';
 // import Arg from './pages/Arg';
 // import Apis from './pages/Apis';
 // import Auth from './pages/Auth';
-import { Auth, Apis, Arg, Fruits, Pullers, Pushers, Inner, Outer, User, DetailList, Add, Home, Good} from './route';
+import { Auth, Apis, Arg, Fruits, Pullers, Pushers, Inner, Outer, User, DetailList, Add, Home, Good, Activity} from './route';
 import $ from './ajax';
 import * as serviceWorker from './serviceWorker';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -96,6 +96,9 @@ function Index(props) {
                 <Item key="/index/good">
                   <Link to="/index/good"><Icon type="box"/> 商品管理</Link>
                 </Item>
+                <Item key="/index/activity">
+                  <Link to="/index/activity"><Icon type="box"/>活动管理</Link>
+                </Item>
               </SubMenu>
               <Item key="/index/users">
                 <Link to="/index/users"><Icon type="setting"/> 设置</Link>
@@ -144,7 +147,7 @@ function Routes(props) {
         <Route exact path="/index/args" component={Arg} />
         <Route exact path="/index/apis" component={Apis} />
         <Route exact path="/index/auths" component={Auth} />
-        <Route exact path="/index/good" component={Good} />
+        <Route exact path="/index/activity" component={Activity} />
       </Switch>
   )
 }
@@ -162,6 +165,7 @@ function Global(props) {
           <Content>
             <Switch>
               <Route component={Index} path="/index" />
+              <Route exact path="/20200711" component={loadable(() => import('./pages/20200711'))} />
               <Route exact path="/" component={loadable(() => import('./pages/Login'))} />
             </Switch>
           </Content>

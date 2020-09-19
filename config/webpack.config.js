@@ -543,6 +543,15 @@ module.exports = function(webpackEnv) {
         },
       ],
     },
+    externals: {
+      react: 'React',
+      'react-dom': 'ReactDOM',
+      lodash: '_',
+      'momnet': 'moment',
+      'echarts': 'echarts',
+      'antd': 'antd',
+      'axios': 'axios'
+    },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
