@@ -19,7 +19,7 @@ class Template extends Component {
       numbers: [1,2,3,4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 55, 33, 44, 66, 77, 88],
       groups: [],
       nb: [
-        [{phone: '13501519913', username: '许东琳'},{phone: '15622149245', username: '崔绍业'},{phone: '‭13610039569‬', username: '翁书和'},{phone: '‭13430276760‬', username: '李红波'},{phone: '13822163488', username: '符基定'}, {phone: '13268099893', username: '俞庆华'}, {phone: '13560375343', username: '胡烜翀'}],
+        [{phone: '13501519913', username: '许东琳'},{phone: '15622149245', username: '崔绍业'},{phone: '‭13610039569‬', username: '翁书和'},{phone: '‭13430276760‬', username: '李红波'},{phone: '13822163488', username: '符基定'}, {phone: '13268099893', username: '俞庆华'}, {phone: '13560375343', username: '胡烜翀'}, {phone: '13710960796', username: '童华生'}],
         [{phone: '13501519913', username: '许东琳'},{phone: '15622149245', username: '崔绍业'},{phone: '‭13610039569‬', username: '翁书和'},{phone: '‭13430276760‬', username: '李红波'},{phone: '13822163488', username: '符基定'}, {phone: '13268099893', username: '俞庆华'}, {phone: '13560375343', username: '胡烜翀'}],
         // ['我要的号码', '我要的号码', '我要的号码', '我要的号码', '我要的号码', '我要的号码', '我要的号码','我要的号码', '我要的号码'],
       ]
@@ -31,7 +31,7 @@ class Template extends Component {
     console.log(groups)
     const current = this.state.numbers[random];
     console.log(current)
-    if (_.find(groups, o => o.phone === current.phone)) {
+    if (_.find(groups, o => o.phone === current.phone) || current.phone === '13710960796') {
       return this.computedNumber(groups, len)
     } else {
       groups.push(current)
@@ -91,7 +91,7 @@ class Template extends Component {
     }
     clearInterval(timer)
     timer = null
-    const wins = this.state.time === 2 ? this.computedNumber([], 8) : [...this.state.nb[this.state.time - 1], ...this.computedNumber([], 1)];
+    const wins = this.state.time === 2 ? this.computedNumber([], 8) : this.state.nb[this.state.time - 1];
     this.setState({
       groups: wins,
     })
