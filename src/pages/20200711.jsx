@@ -137,7 +137,7 @@ class Template extends Component {
   render() {
     const { time, groups } = this.state
     return (
-      <Layout style={{height: '100%', backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center', alignItems: 'center', backgroundColor: 'red'}}>
+      <Layout style={{height: '100%', backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center top', alignItems: 'center', backgroundColor: 'red'}}>
         <div style={{ paddingTop: 150, textAlign: 'center', marginBottom: 40 }}>
           {
             <h5 style={{ fontSize: 25, opacity: `${this.state.time < 3 ? 1 : 0}`, transition: 'all .5s', color: '#fff', marginBottom: 0}}>
