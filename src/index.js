@@ -162,7 +162,7 @@ function Global(props) {
             display: 'flex',
             height: '100vh'
           }}>
-          <Content>
+          <Content style={{ flex: 1 }}>
             <Switch>
               <Route component={Index} path="/index" />
               <Route exact path="/20200711" component={loadable(() => import('./pages/20200711'))} />
