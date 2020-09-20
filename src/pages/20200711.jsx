@@ -19,8 +19,8 @@ class Template extends Component {
       numbers: [1,2,3,4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 55, 33, 44, 66, 77, 88],
       groups: [],
       nb: [
-        [{phone: '13501519913', username: '许东琳'},{phone: '15622149245', username: '崔绍业'},{phone: '‭13610039569‬', username: '翁书和'},{phone: '‭13430276760‬', username: '李红波'},{phone: '13822163488', username: '符基定'}, {phone: '13268099893', username: '俞庆华'}, {phone: '13560375343', username: '胡烜翀'}, {phone: '13710960796', username: '童华生'}],
-        [{phone: '13501519913', username: '许东琳'},{phone: '15622149245', username: '崔绍业'},{phone: '‭13610039569‬', username: '翁书和'},{phone: '‭13430276760‬', username: '李红波'},{phone: '13822163488', username: '符基定'}, {phone: '13268099893', username: '俞庆华'}, {phone: '13560375343', username: '胡烜翀'}],
+        [{phone: '13501519913', username: '许东琳'},{phone: '15622149245', username: '崔绍业'},{phone: '‭13610039569‬', username: '翁书和'},{phone: '‭13430276760‬', username: '李红波'},{phone: '13822163488', username: '符基定'}, {phone: '13268099893', username: '俞庆华'}, {phone: '13560375343', username: '胡烜翀'}, {phone: '13710960796', username: '童华生'}, , {phone: '15918693156', username: '胡北'}],
+        [{phone: '13501519913', username: '许东琳'},{phone: '15622149245', username: '崔绍业'},{phone: '‭13610039569‬', username: '翁书和'},{phone: '‭13430276760‬', username: '李红波'},{phone: '13822163488', username: '符基定'}, {phone: '13268099893', username: '俞庆华'}, {phone: '13560375343', username: '胡烜翀'}, {phone: '13710960796', username: '童华生'}, , {phone: '15918693156', username: '胡北'}],
         // ['我要的号码', '我要的号码', '我要的号码', '我要的号码', '我要的号码', '我要的号码', '我要的号码','我要的号码', '我要的号码'],
       ]
     }
@@ -28,9 +28,7 @@ class Template extends Component {
 
   computedNumber(groups = [], len = 10) {
     const random = Math.floor(Math.random() * this.state.numbers.length)
-    console.log(groups)
     const current = this.state.numbers[random];
-    console.log(current)
     if (_.find(groups, o => o.phone === current.phone) || current.phone === '13710960796') {
       return this.computedNumber(groups, len)
     } else {
@@ -50,7 +48,7 @@ class Template extends Component {
         len = 8
         break;
       case 1:
-        len = 8
+        len = 9
         break;
     }
     timer = setInterval(() => {
@@ -85,7 +83,7 @@ class Template extends Component {
         len = 8
         break;
       case 1:
-        len = 8
+        len = 9
         break;
 
     }
@@ -181,6 +179,6 @@ function Spiner(props) {
     return u.join('')
   })()
   return (
-    <span style={{ fontSize: 40, lineHeight: 2.5, color: '#fff', textShadow: '3px 3px 0 #000' }}>{props.number.phone.replace(/([0-9]{3})[0-9]{4}([0-9]{4})/, '$1****$2')} {username}</span>
+    <span style={{ fontSize: 35, lineHeight: 2.5, color: '#fff', textShadow: '3px 3px 0 #000' }}>{props.number.phone.replace(/([0-9]{3})[0-9]{4}([0-9]{4})/, '$1****$2')} {username}</span>
   )
 }
