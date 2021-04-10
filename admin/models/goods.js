@@ -21,6 +21,16 @@ const Good = new mongoose.Schema({
   },
   template: { // 模板名称
     type: String,
+  },
+  platform: { // 上架平台 0 - 微信公众号 1 - 小程序
+    type: Number,
+    default: 0,
+  },
+  mark: { // 商品备注
+    type: String,
+  },
+  statu: { // 商品状态 0 - 下架 1 - 上架
+    type: Number,
   }
 }, {
   timestamps: {

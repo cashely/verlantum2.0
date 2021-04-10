@@ -42,33 +42,37 @@ const Orders = new mongoose.Schema({
     type: Number,
     default: 1 // 1 - 正常
   },
-  mark: {
+  mark: { // 订单备注
     type: String
   },
-  orderNo: {
+  orderNo: { // 订单号，根据时间戳生成
     type: String,
     default: Date.now()
   },
-  card: {
+  card: { // 微信优惠券码
     type: String
   },
-  phone: {
+  phone: { // 电话
     type: String
   },
-  address: {
+  address: { // 地址
     type: String
   },
-  count: {
+  count: { // 数量
     type: Number,
     default: 1
   },
-  username: {
+  username: { // 姓名
     type: String
   },
   sended: { // 是否已发货 0 - 未发货  1 - 已发货
     type: Number,
     default: 0
-  }
+  },
+  isTake: { // 是否收货 0 - 未收货 1 - 已收货
+    type: Number,
+    default: 0,
+  },
 }, {
   timestamps: {
     createdAt: 'createdAt',

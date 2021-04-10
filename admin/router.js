@@ -54,20 +54,6 @@ module.exports = (app) => {
   .put('/user/:id', routes.user.update)
   .get('/me', routes.user.me)
 
-  .post('/fruit', authenticationMiddleware(), routes.fruit.add)
-  .get('/fruits', routes.fruit.list)
-  .get('/fruits/total', authenticationMiddleware(), routes.fruit.total)
-  .delete('/fruit/:id', authenticationMiddleware(), routes.fruit.delete)
-  .get('/fruit/:id', authenticationMiddleware(), routes.fruit.detail)
-  .put('/fruit/:id', authenticationMiddleware(), routes.fruit.update)
-
-  .post('/pusher', authenticationMiddleware(), routes.pusher.add)
-  .get('/pushers', authenticationMiddleware(), routes.pusher.list)
-  .get('/pushers/total', authenticationMiddleware(), routes.pusher.total)
-  .delete('/pusher/:id', authenticationMiddleware(), routes.pusher.delete)
-  .get('/pusher/:id', authenticationMiddleware(), routes.pusher.detail)
-  .put('/pusher/:id', authenticationMiddleware(), routes.pusher.update)
-
   .post('/agent', authenticationMiddleware(), routes.agent.add)
   .get('/agents', authenticationMiddleware(), routes.agent.list)
   .get('/agents/total', authenticationMiddleware(), routes.agent.total)
@@ -75,39 +61,6 @@ module.exports = (app) => {
   .get('/agent/:id', authenticationMiddleware(), routes.agent.detail)
   .put('/agent/:id', authenticationMiddleware(), routes.agent.update)
   .post('/take/:id', routes.agent.take)
-
-  .post('/outer', authenticationMiddleware(), routes.outer.add)
-  .get('/outers', routes.outer.list)
-  .get('/outers/total', authenticationMiddleware(), routes.outer.total)
-  .delete('/outer/:id', authenticationMiddleware(), routes.outer.delete)
-  .get('/outer/today', routes.outer.today)
-  .get('/outer/yesterday', routes.outer.yesterday)
-  .get('/outer/:id', authenticationMiddleware(), routes.outer.detail)
-  .put('/outer/:id', authenticationMiddleware(), routes.outer.update)
-
-  .post('/inner', authenticationMiddleware(), routes.inner.add)
-  .get('/inners', routes.inner.list)
-  .get('/inners/total', authenticationMiddleware(), routes.inner.total)
-  .delete('/inner/:id', authenticationMiddleware(), routes.inner.delete)
-  .get('/inner/:id', authenticationMiddleware(), routes.inner.detail)
-  .put('/inner/:id', authenticationMiddleware(), routes.inner.update)
-
-
-  .post('/costCategory', authenticationMiddleware(), routes.costCategory.add)
-  .get('/costCategorys', routes.costCategory.list)
-  .get('/costCategorys/total', authenticationMiddleware(), routes.costCategory.total)
-  .delete('/costCategory/:id', authenticationMiddleware(), routes.costCategory.delete)
-  .get('/costCategory/:id', authenticationMiddleware(), routes.costCategory.detail)
-  .put('/costCategory/:id', authenticationMiddleware(), routes.costCategory.update)
-
-  .post('/costDetail', routes.costDetail.add)
-  .get('/costDetails', routes.costDetail.list)
-  .get('/costDetails/total', authenticationMiddleware(), routes.costDetail.total)
-  .delete('/costDetail/:id', authenticationMiddleware(), routes.costDetail.delete)
-  .get('/costDetail/:id', authenticationMiddleware(), routes.costDetail.detail)
-  .put('/costDetail/:id', authenticationMiddleware(), routes.costDetail.update)
-
-  .get('/count/:fruit', authenticationMiddleware(), routes.count.detail)
 
   .get('/orders',authenticationMiddleware(), routes.order.list)
   .get('/order/:id', routes.order.detail)
