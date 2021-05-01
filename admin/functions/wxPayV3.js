@@ -41,7 +41,7 @@ module.exports = {
         body: JSON.stringify(formData),
       }, (err, response, body) => {
         if (!err && response.statusCode === 200) {
-          console.log(body)
+          console.log('统一下单信息:',response, body)
           resolve({
             orderNo
           })
