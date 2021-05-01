@@ -28,7 +28,7 @@ module.exports = [
       if (!code) {
         return res.send('缺少微信授权code');
       }
-      getOpenIdAction.then(openid => {
+      getOpenIdAction(code).then(openid => {
         const orderInfo = {
           description,
           orderNo,
