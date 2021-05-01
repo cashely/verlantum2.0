@@ -41,7 +41,8 @@ module.exports = {
         headers: {
           'Accept':'application/json, text/javascript, */*; q=0.01',
           'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36',
-        'X-Requested-With':'XMLHttpRequest',
+          'X-Requested-With':'XMLHttpRequest',
+          'Content-Type':'application/json; charset=UTF-8',
         },
         body: JSON.stringify(formData),
       }, (err, response, body) => {
