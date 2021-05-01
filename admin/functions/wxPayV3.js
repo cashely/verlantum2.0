@@ -19,9 +19,9 @@ module.exports = {
     description, // 订单描述
     total, // 订单金额
     openid, // 用户微信id
+    orderNo,
   }) => {
     return new Promise((resolve, reject) => {
-      const orderNo = +Date.now()
       const formData = {
         appid: wxAppId,
           mchid: wxMchId,
@@ -42,9 +42,7 @@ module.exports = {
       }, (err, response, body) => {
         if (!err && response.statusCode === 200) {
           console.log('统一下单信息:',response, body)
-          resolve({
-            orderNo
-          })
+          resolve(response, body)
         } else {
           reject(err)
         }
