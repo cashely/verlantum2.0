@@ -40,8 +40,8 @@ module.exports = {
         method: 'POST',
         body: JSON.stringify(formData),
       }, (err, response, body) => {
+        console.log('统一下单信息:',response, body)
         if (!err && response.statusCode === 200) {
-          console.log('统一下单信息:',response, body)
           resolve(response, body)
         } else {
           reject(err)
