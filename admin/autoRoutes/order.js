@@ -22,12 +22,16 @@ module.exports = [
     method: 'get',
     mark: '获取jsApi微信支付信息',
     callback(req, res) {
-      const {description, total, code} = req.query;
+      const {params, code} = req.query;
       const orderNo = +Date.now();
       // const 
       if (!code) {
         return res.send('缺少微信授权code');
       }
+      const { description, total } = JSON.parse(params);
+      console.log('订单描述:', description)
+      console.log('订单价格:', total)
+      
       getOpenIdAction(code).then(openid => {
         const orderInfo = {
           description,
@@ -35,6 +39,7 @@ module.exports = [
           total,
           openid,
         };
+        console.log('openid:', openid)
         new models.wxorder(orderInfo).save().then(result => {
           return order({
             description,
