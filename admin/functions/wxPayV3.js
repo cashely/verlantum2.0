@@ -22,11 +22,8 @@ module.exports = {
   }) => {
     return new Promise((resolve, reject) => {
       const orderNo = +Date.now()
-      request({
-        url: 'https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi',
-        method: 'POST',
-        body: {
-          appid: wxAppId,
+      const formData = {
+        appid: wxAppId,
           mchid: wxMchId,
           description: description,
           out_trade_no: orderNo,
@@ -37,7 +34,11 @@ module.exports = {
             openid,
           },
           notify_url: 'https://api.verlantum.cn/auth/wxpaycallback', // 订单支付通知地址
-        },
+      };
+      request({
+        url: 'https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi',
+        method: 'POST',
+        body: JSON.stringify(formData),
       }, (err, response, body) => {
         if (!err && response.statusCode === 200) {
           console.log(body)
