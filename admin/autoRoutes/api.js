@@ -6,8 +6,14 @@ const files = fs.readdirSync(path.resolve(__dirname));
 
 const routes = {};
 files.map(file => {
-  routes[file.split('.')[0]] = require(path.resolve(__dirname, file))
+  routes[file.split('.')[0]] = file
+  return null;
 })
+
+function requireFile(file) {
+  return require(path.resolve(__dirname, file))
+}
+
 
 
 module.exports = [
@@ -15,9 +21,10 @@ module.exports = [
     uri: '/list',
     method: 'get',
     callback: (req, res) => {
-      res.response(200, _.keys(routes).map(key => {
-        console.log(routes[key])
-        routes[key].map(({uri, method, callback}) => ({uri, method}))
+      console.log(res.response)
+      req.response(200, _.keys(routes).map(key => {
+        const file = requireFile(routes[key])
+        return file.map(({uri, method, callback}) => ({uri, method}))
       }))
     }
   },

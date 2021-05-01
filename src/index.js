@@ -4,19 +4,6 @@ import loadable from '@loadable/component';
 import './index.css';
 // import 'antd/dist/antd.css';
 import App from './App';
-// import Home from './pages/Home';
-// import Add from './pages/Add';
-// import DetailList from './pages/DetailList';
-// import User from './pages/User';
-// import Outer from './pages/Outer';
-// import Inner from './pages/Inner';
-// import Pushers from './pages/Pushers';
-// import Pullers from './pages/Pullers';
-// import Fruits from './pages/Fruits';
-// // import Login from './pages/Login';
-// import Arg from './pages/Arg';
-// import Apis from './pages/Apis';
-// import Auth from './pages/Auth';
 import { Auth, Apis, Arg, Fruits, Pullers, Pushers, Inner, Outer, User, DetailList, Add, Home, Good, Activity} from './route';
 import $ from './ajax';
 import * as serviceWorker from './serviceWorker';
@@ -139,7 +126,7 @@ function Routes(props) {
         </Route>
         <Route exact path="/index/users" component={User}>
         </Route>
-        <Route exact path="/index/outer" component={Outer} />
+        <Route exact path="/index/good" component={Good} />
         <Route exact path="/index/inner" component={Inner} />
         <Route exact path="/index/pushers" component={Pushers} />
         <Route exact path="/index/pullers" component={Pullers} />

@@ -6,6 +6,9 @@ const Good = new mongoose.Schema({
     type: String,
     required: true
   },
+  thumb: { // 缩略图
+    type: String,
+  },
   number: { // 商品编号
     type: String,
   },
@@ -23,15 +26,20 @@ const Good = new mongoose.Schema({
     type: String,
   },
   platform: { // 上架平台 0 - 微信公众号 1 - 小程序
-    type: Number,
-    default: 0,
+    type: [Number],
+    default: [],
   },
   mark: { // 商品备注
     type: String,
   },
   statu: { // 商品状态 0 - 下架 1 - 上架
     type: Number,
+  },
+  stock: { // 库存
+    type: Number,
+    default: 0,
   }
+
 }, {
   timestamps: {
     createdAt: 'createdAt',
@@ -42,14 +50,16 @@ const Good = new mongoose.Schema({
 const model = mongoose.model('goods', Good);
 
 model.prototype.saveGood = function () {
-  const { title, number, price, discount } = this;
+  const { title, number, price, discount, thumb, stock } = this;
   return new Promise((resolve, reject) => {
     model.count().then(count => {
       const good = {
         title,
         price,
         discount,
-        number: number ? number : `YL-GOOD-${m().format('YYYYMMDD')}-${count+1}`
+        thumb,
+        stock,
+        number: number ? number : `YL-GOOD-${m().format('YYYYMMDD')}-${count+1}`,
       }
       new model(good).save().then(resolve).catch(reject)
     })

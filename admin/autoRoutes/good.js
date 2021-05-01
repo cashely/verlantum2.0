@@ -6,7 +6,7 @@ module.exports = [
     method: 'post',
     mark: '创建商品',
     callback: (req, res) => {
-      const { title, price, number, discount, url, template } = req.body;
+      const { title, price, number, discount, url, template, thumb, stock, } = req.body;
       const good = new models.goods({
         title,
         price,
@@ -14,6 +14,8 @@ module.exports = [
         discount,
         url,
         template,
+        thumb,
+        stock,
       }).saveGood().then(result => {
         req.response(200, 'ok')
       })

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, Icon, Modal, Select, message, Radio} from 'antd';
+import {Form, Input, Button, Icon, Modal, Select, message, Radio, Upload} from 'antd';
 import $ from '../../ajax';
 import _ from 'lodash';
 export default class GoodModal extends Component {
@@ -13,7 +13,9 @@ export default class GoodModal extends Component {
         number: '',
         url: '',
         template: '',
-      }
+        thumb: '',
+      },
+      uploading: false,
     }
   }
   changeAction(fieldname, e) {
@@ -53,11 +55,33 @@ export default class GoodModal extends Component {
     })
   }
 
+  handleChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      console.log(info)
+      this.setState({
+        loading: false,
+        fields: { ...this.state.fields, thumb: info.file.response.data.path }
+      })
+    }
+  }
+
   componentWillMount() {
     this.props.id && this.detailAction();
   }
   render() {
     const {Item} = Form;
+    const { fields: { thumb } } = this.state;
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.uploading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     return (
       <Modal
         title="商品信息"
@@ -74,6 +98,21 @@ export default class GoodModal extends Component {
           </Item>
           <Item label="价格">
             <Input value={this.state.fields.price} onChange={(e) => this.changeAction('price', e)}  addonAfter={<span>元</span>}/>
+          </Item>
+          <Item label="缩略图">
+            <Upload
+              name="file"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="/upload"
+              // beforeUpload={beforeUpload}
+              onChange={this.handleChange}
+            >
+              {
+                thumb ? <img style={{ width: '100%' }} src={`/uploads/${thumb}`} alt="" /> : uploadButton
+              }
+            </Upload>
           </Item>
           <Item label="优惠券号">
             <Input value={this.state.fields.discount} onChange={(e) => this.changeAction('discount', e)} placeholder="请输入微信卡券批次号" />

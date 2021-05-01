@@ -118,7 +118,7 @@ module.exports = {
         if(err) reject(err);
         let splitnames = file.name.split('.');
         fs.rename(file.path, file.path + '.' + splitnames[splitnames.length - 1], (err) => {
-          resolve([staticPath+ '/' + file.path.split('/').reverse()[0] + '.' + splitnames[splitnames.length - 1], fields.group])
+          resolve([file.path.split('/').reverse()[0] + '.' + splitnames[splitnames.length - 1], fields.group])
         })
       })
     })

@@ -80,14 +80,24 @@ export default class Good extends Component {
     const {Content, Footer, Header} = Layout;
     const columns = [
       {
-        title: '商品编号',
+        title: '商品信息',
         dataIndex: 'number',
         key: 'number',
-      },
-      {
-        title: '商品名称',
-        dataIndex: 'title',
-        key: 'title',
+        render: (t, d) => {
+          return (
+            <div style={{ display: 'flex' }}>
+              {
+                d.thumb && <div>
+                  <img style={{ width: 100 }} src={`/uploads/${d.thumb}`} alt="" />
+                </div>
+              }
+              <div style={{ marginLeft: 10 }}>
+                <p>商品编号: {d.number}</p>
+                <p>商品名称: {d.title}</p>
+              </div>
+            </div>
+          )
+        }
       },
       {
         title: '价格(元)',
