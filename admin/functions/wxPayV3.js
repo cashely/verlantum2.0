@@ -3,7 +3,7 @@ const Payment = require('wxpay-v3');
 const path = require('path');
 const fs = require('fs');
 const { wxAppId, wxMchId } = require('../config.global');
-const private_key = fs.readFileSync(path.resolve(__dirname, '../1472079802_20200424_cert/apiclient_cert.pem')).toString())
+const private_key = fs.readFileSync(path.resolve(__dirname, '../1472079802_20200424_cert/apiclient_cert.pem')).toString();
 const payment = new Payment({
   appid: wxAppId,
   mchid: wxMchId,
