@@ -72,6 +72,7 @@ module.exports = [
         timestamp,
         mchkey: '773ADDFE99B6749A16D6B9E266F8A20A',
       });
+      console.log(finalsign, '<-最终签名')
       req.response(200, {
         appid: wxAppId,
         mch_id: wxMchId,

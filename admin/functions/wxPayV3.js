@@ -73,22 +73,22 @@ module.exports = {
     };
   },
   //签名加密算法,第二次的签名
-  paysignjsapifinal: function ({
+  paysignjsapifinal({
     appid, pkg, noncestr,timestamp, mchkey, mch_id
   }) {
-      var ret = {
-          appId: appid,
-          mch_id,
-          package: pkg,
-          nonceStr: noncestr,
-          timeStamp: timestamp,
-          signType: 'HMAC-SHA256'
-      };
-      console.log('retretret==', ret);
-      var string = raw(ret);
-      var key = mchkey;
-      string = string + '&key=' + key;
-      console.log('string=', string);
-      return payment.rsaSign(string, mchkey);
+    var ret = {
+        appId: appid,
+        mch_id,
+        package: pkg,
+        nonceStr: noncestr,
+        timeStamp: timestamp,
+        signType: 'HMAC-SHA256'
+    };
+    console.log('retretret==', ret);
+    var string = raw(ret);
+    var key = mchkey;
+    string = string + '&key=' + key;
+    console.log('string=', string);
+    return payment.rsaSign(string, mchkey);
   },
 }
