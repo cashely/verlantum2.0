@@ -40,16 +40,15 @@ module.exports = [
           openid,
         };
         console.log('openid:', openid)
-        new models.wxorder(orderInfo).save().then(result => {
-          return order({
+        new models.wxorder(orderInfo).save().then(async () => {
+          let result = await order({
             description,
             total,
             openid,
             orderNo,
-          })
-        }).then(result => {
-          console.log(result, '---')
-        })
+          });
+          console.log(result, '----')
+        });
       })
     }
   }

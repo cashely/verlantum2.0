@@ -9,7 +9,7 @@
   </script>
   <body>
     <div>
-      <button onclick="">获取微信支付信息</button>
+      <button onclick="getWxInfo">获取微信支付信息</button>
     </div>
     <script>
       // function onBridgeReady(){
@@ -40,6 +40,12 @@
       // }else{
       //    onBridgeReady();
       // }
+      function getWxInfo() {
+        $.ajax({
+          url: '/',
+          data: {},
+        })
+      }
     </script>
   </body>
 </html>

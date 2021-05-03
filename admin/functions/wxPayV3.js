@@ -1,5 +1,16 @@
 const request = require('request');
+const Payment = require('wxpay-v3');
+const path = require('path');
 const { wxAppId, wxMchId } = require('../config.global');
+
+const payment = new Payment({
+  appid: wxAppId,
+  mchid: wxMchId,
+  private_key: require('fs').readFileSync(path.resolve(__dirname, '../1472079802_20200424_cert/apiclient_cert.pem')).toString(), //或者直接复制证书文件内容
+  serial_no:'55B518F71AFB2E5A99AABED154BEC0D99DEA9216',
+  apiv3_private_key:'773ADDFE99B6749A16D6B9E266F8A30A',
+  notify_url: 'https://api.verlantum.cn/auth/wxpaycallback',
+})
 module.exports = {
   // 获取openId
   getOpenId(code) {
@@ -15,44 +26,26 @@ module.exports = {
     })
   },
   // jsAPI统一下单
-  order: ({
+  async order ({
     description, // 订单描述
     total, // 订单金额
     openid, // 用户微信id
     orderNo,
-  }) => {
-    return new Promise((resolve, reject) => {
-      const formData = {
-        appid: wxAppId,
-          mchid: wxMchId,
-          description: description,
-          out_trade_no: orderNo,
-          amount: {
-            total: total,
-          },
-          payer: {
-            openid,
-          },
-          notify_url: 'https://api.verlantum.cn/auth/wxpaycallback', // 订单支付通知地址
-      };
-      request({
-        url: 'https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi',
-        method: 'POST',
-        headers: {
-          'Accept':'application/json, text/javascript, */*; q=0.01',
-          'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36',
-          'X-Requested-With':'XMLHttpRequest',
-          'Content-Type':'application/json; charset=UTF-8',
+  }) {
+    try {
+      let result = await payment.jsapi({
+        description,
+        out_trade_no: orderNo,
+        amount: {
+          total,
         },
-        body: JSON.stringify(formData),
-      }, (err, response, body) => {
-        console.log('统一下单信息:',response, body)
-        if (!err && response.statusCode === 200) {
-          resolve(response, body)
-        } else {
-          reject(err)
+        payer: {
+          openid,
         }
       })
-    })
-  },
+      console.log(result)
+    }catch(e) {
+      console.log(e)
+    };
+  }
 }
