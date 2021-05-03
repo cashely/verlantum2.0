@@ -47,7 +47,10 @@ module.exports = [
             openid,
             orderNo,
           });
-          console.log(result, typeof result, '----')
+          req.response(200, {
+            orderNo,
+            ...result,
+          });
         });
       })
     }
