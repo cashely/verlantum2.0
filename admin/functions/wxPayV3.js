@@ -84,13 +84,13 @@ module.exports = {
         timeStamp: timestamp,
         signType: 'RSA'
     };
-    console.log('retretret==', ret);
-    var string = raw(ret);
-    var key = mchkey;
-    string = string + '&key=' + key;
-    console.log('string=', string);
+    // console.log('retretret==', ret);
+    // var string = raw(ret);
+    // var key = mchkey;
+    // string = string + '&key=' + key;
+    // console.log('string=', string);
     try {
-      const sign = payment.rsaSign(string, private_key, 'SHA256withRSA');
+      const sign = payment.rsaSign(`${appid}\n${timestamp}\n${noncestr}\n${pkg}`, private_key, 'SHA256withRSA');
       return sign;
     } catch(e) {
       console.log(e, '<-签名报错')

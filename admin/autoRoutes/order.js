@@ -78,7 +78,7 @@ module.exports = [
         mch_id: wxMchId,
         noncestr,
         timestamp,
-        signType: 'HMAC-SHA256',
+        signType: 'RSA',
         sign: finalsign,
       })
     }
