@@ -90,7 +90,7 @@ module.exports = {
     string = string + '&key=' + key;
     console.log('string=', string);
     try {
-      const sign = payment.rsaSign(string, mchkey)
+      const sign = payment.rsaSign(string, key)
       console.log(sign, '---')
       return sign;
     } catch(e) {
