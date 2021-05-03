@@ -44,10 +44,10 @@ module.exports = {
           openid,
         }
       })
-      {
-        status: 200,
-        data: {"prepay_id":"wx03111728688239b722db21a23fb42d0000"}
-      }
+      // {
+      //   status: 200,
+      //   data: {"prepay_id":"wx03111728688239b722db21a23fb42d0000"}
+      // }
       if (result.status === 200) {
         return JSON.parse(result.data);
       }
