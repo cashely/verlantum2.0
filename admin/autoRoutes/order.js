@@ -23,7 +23,7 @@ module.exports = [
     mark: '获取jsApi微信支付信息',
     callback(req, res) {
       const {params, code} = req.query;
-      const orderNo = +Date.now();
+      const orderNo = String(+Date.now());
       // const 
       if (!code) {
         return res.send('缺少微信授权code');
