@@ -3,11 +3,11 @@ const Payment = require('wxpay-v3');
 const path = require('path');
 const fs = require('fs');
 const { wxAppId, wxMchId } = require('../config.global');
-console.log(fs.readFileSync(path.resolve(__dirname, '../1472079802_20200424_cert/apiclient_cert.pem')).toString())
+const private_key = fs.readFileSync(path.resolve(__dirname, '../1472079802_20200424_cert/apiclient_cert.pem')).toString())
 const payment = new Payment({
   appid: wxAppId,
   mchid: wxMchId,
-  private_key: fs.readFileSync(path.resolve(__dirname, '../1472079802_20210503_cert/apiclient_key.pem')).toString(), //或者直接复制证书文件内容
+  private_key, //或者直接复制证书文件内容
   serial_no:'7E9E0047261197C96D82A3FD70E9A2E2B47AD027',
   apiv3_private_key:'773ADDFE99B6749A16D6B9E266F8A20A',
   notify_url: 'https://api.verlantum.cn/auth/wxpaycallback',
@@ -82,7 +82,7 @@ module.exports = {
         package: pkg,
         nonceStr: noncestr,
         timeStamp: timestamp,
-        signType: 'HMAC-SHA256'
+        signType: 'RSA'
     };
     console.log('retretret==', ret);
     var string = raw(ret);
@@ -90,8 +90,7 @@ module.exports = {
     string = string + '&key=' + key;
     console.log('string=', string);
     try {
-      const sign = payment.rsaSign(string, key, 'SHA256withRSA')
-      console.log(sign, '---')
+      const sign = payment.rsaSign(string, private_key)
       return sign;
     } catch(e) {
       console.log(e, '<-签名报错')
