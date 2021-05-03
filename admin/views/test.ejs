@@ -35,7 +35,7 @@
             })
           },
         }).then(res => {
-          if (res.code === '0') {
+          if (res.code === 0) {
             prepay_id = res.data.prepay_id;
           }
         })
@@ -49,7 +49,7 @@
             prepay_id,
           }
         }).then(res => {
-          if (res.code === '0') {
+          if (res.code === 0) {
             console.log(res);
                WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
