@@ -47,10 +47,13 @@ var wxpay = {
         return crypto.createHash('md5').update(string, 'utf8').digest('hex').toUpperCase();
     },
     //签名加密算法,第二次的签名
-    paysignjsapifinal: function (appid,mch_id, package,noncestr,timestamp,mchkey, openid) {
+    paysignjsapifinal: function ({
+        appid, pkg, noncestr,timestamp, mchkey, mch_id
+    }) {
         var ret = {
             appId: appid,
-            package: package,
+            mch_id,
+            package: pkg,
             nonceStr: noncestr,
             timeStamp: timestamp,
             signType: 'MD5'

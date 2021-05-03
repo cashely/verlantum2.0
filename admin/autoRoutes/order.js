@@ -1,6 +1,8 @@
 const models = require('../model.js');
 const getOpenIdAction = require('../functions/getOpenIdAction');
-const { order } = require('../functions/wxPayV3');
+const { order, paysignjsapifinal } = require('../functions/wxPayV3');
+const wxpay = require('../functions/wxpay');
+const { wxMchId, wxAppId } = require('../config.global');
 module.exports = [
   {
     uri: '/sended',
@@ -18,7 +20,7 @@ module.exports = [
     }
   },
   {
-    uri: '/wx/payInfo',
+    uri: '/wx/pay/transactions/jsapi',
     method: 'get',
     mark: '获取jsApi微信支付信息',
     callback(req, res) {
@@ -52,6 +54,31 @@ module.exports = [
             ...result,
           });
         });
+      })
+    }
+  },
+  {
+    uri: '/wx/pay/sign',
+    method: 'get',
+    callback: (req, res) => {
+      const { prepay_id } = req.query;
+      const noncestr = wxpay.createNonceStr();
+      const timestamp = wxpay.createTimeStamp();
+      const finalsign = paysignjsapifinal({
+        appid: wxAppId,
+        mch_id: wxMchId,
+        pkg: `prepay_id=${prepay_id}`,
+        noncestr,
+        timestamp,
+        mchkey: '773ADDFE99B6749A16D6B9E266F8A20A',
+      });
+      req.response(200, {
+        appid: wxAppId,
+        mch_id: wxMchId,
+        noncestr,
+        timestamp,
+        signType: 'HMAC-SHA256',
+        sign: finalsign,
       })
     }
   }

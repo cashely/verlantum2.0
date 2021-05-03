@@ -11,7 +11,23 @@ const payment = new Payment({
   serial_no:'7E9E0047261197C96D82A3FD70E9A2E2B47AD027',
   apiv3_private_key:'773ADDFE99B6749A16D6B9E266F8A20A',
   notify_url: 'https://api.verlantum.cn/auth/wxpaycallback',
-})
+});
+
+function raw(args) {
+  var keys = Object.keys(args);
+  keys = keys.sort()
+  var newArgs = {};
+  keys.forEach(function (key) {
+      newArgs[key] = args[key];
+  });
+  var string = '';
+  for (var k in newArgs) {
+      string += '&' + k + '=' + newArgs[k];
+  }
+  string = string.substr(1);
+  return string;
+}
+
 module.exports = {
   // 获取openId
   getOpenId(code) {
@@ -55,5 +71,24 @@ module.exports = {
     }catch(e) {
       console.log(e, '<---')
     };
-  }
+  },
+  //签名加密算法,第二次的签名
+  paysignjsapifinal: function ({
+    appid, pkg, noncestr,timestamp, mchkey, mch_id
+  }) {
+      var ret = {
+          appId: appid,
+          mch_id,
+          package: pkg,
+          nonceStr: noncestr,
+          timeStamp: timestamp,
+          signType: 'HMAC-SHA256'
+      };
+      console.log('retretret==', ret);
+      var string = raw(ret);
+      var key = mchkey;
+      string = string + '&key=' + key;
+      console.log('string=', string);
+      return payment.rsaSign(string, mchkey);
+  },
 }
