@@ -89,6 +89,12 @@ module.exports = {
     var key = mchkey;
     string = string + '&key=' + key;
     console.log('string=', string);
-    return payment.rsaSign(string, mchkey);
+    try {
+      const sign = payment.rsaSign(string, mchkey)
+      console.log(sign, '---')
+      return sign;
+    } catch(e) {
+      console.log(e, '<-签名报错')
+    }
   },
 }
