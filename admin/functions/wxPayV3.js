@@ -43,9 +43,9 @@ module.exports = {
           openid,
         }
       })
-      console.log(result)
+      console.log(result, '-->')
     }catch(e) {
-      console.log(e)
+      console.log(e, '<---')
     };
   }
 }
