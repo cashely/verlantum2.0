@@ -53,7 +53,7 @@
       function getWxInfo() {
         const { code } = deSearch();
         $.ajax({
-          url: '/',
+          url: '/order/wx/transactions/jsapi',
           data: {
             code,
             params: JSON.stringify({
