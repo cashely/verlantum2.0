@@ -4,7 +4,7 @@ module.exports = [
     method: 'get',
     mark: '腾讯云admin.verlantum.cn证书',
     callback: (req, res) => {
-      res.send('202002170916344ozqi3dlkk6ujihf68692nx5ezmsji3drr81i8x3yzgv70xnnt')
+      res.send('202105021357535mwlef11v3sdv0v0voacod7vrzrp489rdyserado7xhip6qe4v')
     }
   },
   {
@@ -12,7 +12,7 @@ module.exports = [
     method: 'get',
     mark: '腾讯云api.verlantum.cn证书',
     callback: (req, res) => {
-      res.send('202002170913470dzkxg8quoybdofu5qodmerkhya9mnus7hlcisw4d1sevosmq3')
+      res.send('202105021354134viaymcfrr8x5470kl6hxu5n6zg8csozo04qlvro9ubq8jctg7')
     }
   },
   {
