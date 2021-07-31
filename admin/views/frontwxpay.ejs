@@ -37,6 +37,7 @@
           signature: res.signature,// 必填，签名
           jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表
         });
+        alert(JSON.stringify(res))
         wx.ready(function() {
           wx.chooseWXPay({
             timestamp: "<%= timeStamp%>", // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
