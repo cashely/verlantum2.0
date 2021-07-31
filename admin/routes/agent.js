@@ -4,7 +4,6 @@ const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
 const { order, paysignjsapifinal } = require('../functions/wxPayV3');
-console.log(wxpay)
 module.exports = {
   list(req, res) {
     const { page = 1, limit = 20 } = req.query;
@@ -220,10 +219,10 @@ const getOpenIdAction = (code) => {
   })
 }
 
-const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, order}) => {
-  return new Promise( async (resolve) => {
+const generatorWxpay = ({orderNo, paymentAmount, body,openid, res}) => {
+  return new Promise(async (resolve) => {
     const result = await order({
-      description: '',
+      description: body,
       total: wxpay.getmoney(paymentAmount),
       openid,
       orderNo,
