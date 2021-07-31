@@ -11,9 +11,6 @@ export default class PullerModal extends Component {
         tel: '',
         contact: '',
         mark: '',
-        good: '',
-        price: 0,
-        ratio: 0,
         discount: '',
       },
       goods: [],
@@ -90,15 +87,6 @@ export default class PullerModal extends Component {
                 this.state.goods.map(good => <Option value={good._id} key={good._id} >{good.title}</Option>)
               }
             </Select>
-          </Item>
-          <Item label="优惠券号">
-            <Input value={this.state.fields.discount} onChange={(e) => this.changeAction('discount', e)} placeholder="请输入微信卡券批次号" />
-          </Item>
-          <Item label="价格">
-            <Input value={this.state.fields.price} onChange={(e) => {this.changeAction('price', e)}} />
-          </Item>
-          <Item label="分成比例">
-            <Input value={this.state.fields.ratio} onChange={(e) => {this.changeAction('ratio', e)}} />
           </Item>
           <Item label="联系人">
             <Input value={this.state.fields.contact} onChange={(e) => {this.changeAction('contact', e)}} />

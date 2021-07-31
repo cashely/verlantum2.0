@@ -155,29 +155,10 @@ export default class Outer extends Component {
         dataIndex: 'good',
         render: d => d && d.title
       },
-      {
-        title: '优惠券号',
-        dataIndex: 'discount',
-        render: d => d ? d : '无'
-      },
-      {
-        title: '优惠券领取地址',
-        render: row => row.discount ? <Popover content={<QRender src={logo} text={`http://api.verlantum.cn/card/wx?params=${btoa(`good=${row.good._id}&agent=${row._id}`)}`} />} trigger="click">
-                                        <Button type="link">查看</Button>
-                                      </Popover> : '无'
-      },
-      {
-        title: '积分',
-        dataIndex: 'score.$numberDecimal',
-      },
-      {
-        title: '分成比例',
-        dataIndex: 'ratio',
-      },
-      {
-        title: '价格',
-        dataIndex: 'price',
-      },
+      // {
+      //   title: '积分',
+      //   dataIndex: 'score.$numberDecimal',
+      // },
       {
         title: '联系人',
         dataIndex: 'contact',

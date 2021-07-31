@@ -127,6 +127,7 @@ function Routes(props) {
         <Route exact path="/index/users" component={User}>
         </Route>
         <Route exact path="/index/good" component={Good} />
+        <Route exact path="/index/outer" component={Outer} />
         <Route exact path="/index/inner" component={Inner} />
         <Route exact path="/index/pushers" component={Pushers} />
         <Route exact path="/index/pullers" component={Pullers} />

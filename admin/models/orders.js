@@ -30,10 +30,6 @@ const Orders = new mongoose.Schema({
     ref: 'agents',
     default: null
   },
-  agentProfit: { // 代理商占比
-    type: Number,
-    default: 0
-  },
   hasPayed: {
     type: Number,
     default: 0 // 未付款
@@ -52,18 +48,34 @@ const Orders = new mongoose.Schema({
   card: { // 微信优惠券码
     type: String
   },
-  phone: { // 电话
+  // 以下是用户需要填写的信息
+  username: { // 用户名
+    type: String,
+    require: true,
+  },
+  sex: { // 性别
+    type: Number,
+    require: true,
+  },
+  phone: { // 手机号码
     type: String
   },
   address: { // 地址
     type: String
   },
-  count: { // 数量
+  guardian: { // 监护人
+    type: String,
+  },
+  isRequireTicket: {
+    type: Number, // 是否需要发票
+    default: 0,
+  },
+  ticketHead: {
+    type: String, // 发票抬头
+  },
+  count: {
     type: Number,
     default: 1
-  },
-  username: { // 姓名
-    type: String
   },
   sended: { // 是否已发货 0 - 未发货  1 - 已发货
     type: Number,

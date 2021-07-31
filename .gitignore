@@ -11,6 +11,7 @@
 
 # production
 /build
+/mini/node_modules
 
 # misc
 .DS_Store
