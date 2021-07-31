@@ -1,7 +1,9 @@
 const request = require('request');
 const Payment = require('wxpay-v3');
+const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
+const wxpay = require('../functions/wxpay');
 const { wxAppId, wxMchId } = require('../config.global');
 const private_key = fs.readFileSync(path.resolve(__dirname, '../1472079802_20210503_cert/apiclient_key.pem')).toString();
 const payment = new Payment({
@@ -96,4 +98,34 @@ module.exports = {
       console.log(e, '<-签名报错')
     }
   },
+  // 获取微信config签名
+  a(url) {
+    // 请求accessToken
+    // {"access_token":"ACCESS_TOKEN","expires_in":7200}
+    const { access_token, errcode } = request({
+      url: `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${wxAppId}&secret=${wxAppSecret}`,
+    })
+    console.log('获取到的accessToken', access_token, errcode);
+    // 请求jsapiTicket
+    const { ticket } = request({
+      url: `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`,
+    });
+    console.log('获取到的jsapiTicket', ticket);
+    // 签名config信息
+    const noncestr = wxpay.createNonceStr();
+    const timestamp = wxpay.createTimeStamp();
+    const str = raw({
+      noncestr,
+      jsapi_ticket: ticket,
+      timestamp,
+      url,
+    })
+    const signature = crypto.createHash('sha1').update(str).digest('hex').toUpperCase();
+    return {
+      signature,
+      noncestr,
+      timestamp,
+      appId: wxAppId,
+    }
+  }
 }

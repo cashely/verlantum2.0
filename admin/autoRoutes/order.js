@@ -1,6 +1,6 @@
 const models = require('../model.js');
 const getOpenIdAction = require('../functions/getOpenIdAction');
-const { order, paysignjsapifinal } = require('../functions/wxPayV3');
+const { order, paysignjsapifinal, configSign } = require('../functions/wxPayV3');
 const wxpay = require('../functions/wxpay');
 const { wxMchId, wxAppId } = require('../config.global');
 module.exports = [
@@ -17,6 +17,17 @@ module.exports = [
       .catch(err => {
         req.response(500, err)
       })
+    }
+  },
+  // 新版本微信的config信息
+  {
+    uri: '/wx/pay/config',
+    method: 'get',
+    mark: '新版本微信的config信息',
+    callback(req, res) {
+      const { url } = req.query;
+      const result = configSign(url);
+      req.response(200, result);
     }
   },
   {
@@ -41,7 +52,6 @@ module.exports = [
           total,
           openid,
         };
-        console.log('openid:', openid)
         new models.wxorder(orderInfo).save().then(async () => {
           let result = await order({
             description,

@@ -5,6 +5,7 @@ const qs = require('qs');
 const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
+const { paysignjsapifinal } = require('../functions/wxPayV3');
 console.log(wxpay)
 module.exports = {
   list(req, res) {
@@ -222,84 +223,25 @@ const getOpenIdAction = (code) => {
 }
 
 const generatorWxpay = ({orderNo, paymentAmount, body,openid, res, order}) => {
-  return new Promise((resolve) => {
-    // res.send(orderNo)
-    let appid = wxAppId;
-    let mch_id = wxMchId;
-    let nonce_str = wxpay.createNonceStr();
+  return new Promise( async (resolve) => {
+    const result = await order({
+      description: '',
+      total: wxpay.getmoney(paymentAmount),
+      openid,
+      orderNo,
+    })
+    let noncestr = wxpay.createNonceStr();
     let timestamp = wxpay.createTimeStamp();
-    let out_trade_no = String(orderNo);
-    let total_fee = wxpay.getmoney(paymentAmount);
-    // let spbill_create_ip = req.ip.slice(req.connection.remoteAddress.lastIndexOf(':')+1);
-    let spbill_create_ip = '10.101.68.93';
-    let notify_url = 'https://api.verlantum.cn/auth/wxpaycallback';
-    let trade_type = 'JSAPI';
-    let mchkey = '773ADDFE99B6749A16D6B9E266F8A20A';
-    let version = '1.0';
-    let detail
+    const { prepay_id } = result;
+    const finalsign = paysignjsapifinal({
+      appid: wxAppId,
+      mch_id: wxMchId,
+      pkg: `prepay_id=${prepay_id}`,
+      noncestr,
+      timestamp,
+      mchkey: '773ADDFE99B6749A16D6B9E266F8A20A',
+    })
+    res.render('frontwxpay',{'appId':wxAppId, 'prepayId':prepay_id,'nonceStr':noncestr,'timeStamp':timestamp,'package':'Sign=WXPay', signType: 'RSA', 'sign':finalsign});
 
-    if (order.goodNumber) {
-      detail = {
-        goods_detail: [{
-          goods_id: order.goodNumber.number,
-          quantity: order.count,
-          price: wxpay.getmoney(order.price)
-        }]
-      }
-    }
-
-    let sign = wxpay.paysignjsapi(appid,body,mch_id,nonce_str,notify_url,out_trade_no,spbill_create_ip,total_fee,trade_type, mchkey, openid , detail, version);
-
-    console.log('sign==',sign);
-
-    //组装xml数据
-    var formData  = "<xml>";
-    formData  += "<appid>"+appid+"</appid>";  //appid
-    formData  += "<body>"+body+"</body>";
-    formData  += "<mch_id>"+mch_id+"</mch_id>";  //商户号
-    formData  += "<nonce_str>"+nonce_str+"</nonce_str>"; //随机字符串，不长于32位。
-    formData  += "<notify_url>"+notify_url+"</notify_url>";
-    formData  += "<out_trade_no>"+out_trade_no+"</out_trade_no>";
-    formData  += "<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>";
-    formData  += "<total_fee>"+total_fee+"</total_fee>";
-    formData  += "<trade_type>"+trade_type+"</trade_type>";
-    formData  += "<sign>"+sign+"</sign>";
-    formData  += "<openid>"+openid+"</openid>";
-    if (order.goodNumber) {
-      formData += "<detail>" + JSON.stringify(detail) + "</detail>"
-      formData += "<version>1.0</version>"
-    }
-    formData  += "</xml>";
-
-    console.log('formData===',formData);
-
-    var url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
-
-    request({url:url,method:'POST',body: formData},function(err,response,body){
-        if(!err && response.statusCode === 200){
-            xml2js.parseString(body, {explicitArray : false}, function (errors, response) {
-                if (null !== errors) {
-                    console.log(errors)
-                    return;
-                }
-                console.log('长度===', response);
-                var prepay_id = response.xml.prepay_id;
-                console.log('解析后的prepay_id==',prepay_id);
-                //将预支付订单和其他信息一起签名后返回给前端
-                // let finalsign = wxpay.paysignjsapifinal(appid,mch_id,`prepay_id=${prepay_id}`,nonce_str,timestamp, mchkey, openid);
-                let finalsign = wxpay.paysignjsapifinal({
-                  appid,
-                  mch_id,
-                  pkg: `prepay_id=${prepay_id}`,
-                  noncestr: nonce_str,
-                  timestamp,
-                  mchkey,
-                })
-                res.render('frontwxpay',{'appId':appid,'partnerId':mch_id, 'prepayId':prepay_id,'nonceStr':nonce_str,'timeStamp':timestamp,'package':'Sign=WXPay','sign':finalsign});
-                resolve()
-            });
-
-        }
-    });
   })
 }

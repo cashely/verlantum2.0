@@ -7,7 +7,7 @@ module.exports = [
     mark: '创建商品',
     callback: (req, res) => {
       const { title, price, number, discount, url, template, thumb, stock, } = req.body;
-      const good = new models.goods({
+      new models.goods({
         title,
         price,
         number,
@@ -53,8 +53,8 @@ module.exports = [
     mark: '修改商品信息',
     callback: (req, res) => {
       const { id } = req.params;
-      const { title, price, number, discount, url, template } = req.body;
-      const conditions = {title, price, number, discount, template};
+      const { title, price, number, discount, url, template, thumb } = req.body;
+      const conditions = {title, price, number, discount, template, url, thumb };
       models.goods.updateOne({_id: id }, conditions).then(() => {
         req.response(200, 'ok')
       }).catch(err => {
