@@ -24,9 +24,9 @@ module.exports = [
     uri: '/wx/pay/config',
     method: 'get',
     mark: '新版本微信的config信息',
-    callback(req, res) {
+    async callback(req, res) {
       const { url } = req.query;
-      const result = configSign(url);
+      const result = await configSign(url);
       console.log(result, 'result')
       req.response(200, result);
     }

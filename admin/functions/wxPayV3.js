@@ -1,4 +1,5 @@
 const request = require('request');
+const fetch = require('node-fetch');
 const Payment = require('wxpay-v3');
 const crypto = require('crypto');
 const path = require('path');
@@ -99,17 +100,14 @@ module.exports = {
     }
   },
   // 获取微信config签名
-  configSign(url) {
+  async configSign(url) {
     // 请求accessToken
     // {"access_token":"ACCESS_TOKEN","expires_in":7200}
-    const { access_token, errcode } = request({
-      url: `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${wxAppId}&secret=${wxAppSecret}`,
-    })
+    const { access_token, errcode } = await fetch(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${wxAppId}&secret=${wxAppSecret}`)
+    .then(res => res.json())
     console.log('获取到的accessToken', access_token, errcode);
     // 请求jsapiTicket
-    const { ticket } = request({
-      url: `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`,
-    });
+    const { ticket } = await fetch(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`).then(res => res.json());
     console.log('获取到的jsapiTicket', ticket);
     // 签名config信息
     const noncestr = wxpay.createNonceStr();
