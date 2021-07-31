@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
 const wxpay = require('../functions/wxpay');
-const { wxAppId, wxMchId } = require('../config.global');
+const { wxAppId, wxMchId, wxAppSecret } = require('../config.global');
 const private_key = fs.readFileSync(path.resolve(__dirname, '../1472079802_20210503_cert/apiclient_key.pem')).toString();
 const payment = new Payment({
   appid: wxAppId,
