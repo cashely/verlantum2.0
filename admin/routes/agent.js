@@ -1,11 +1,9 @@
 const models = require('../model.js');
 const request = require('request');
-const xml2js = require('xml2js');
-const qs = require('qs');
 const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
-const { paysignjsapifinal } = require('../functions/wxPayV3');
+const { order, paysignjsapifinal } = require('../functions/wxPayV3');
 console.log(wxpay)
 module.exports = {
   list(req, res) {
