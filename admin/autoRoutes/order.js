@@ -27,6 +27,7 @@ module.exports = [
     callback(req, res) {
       const { url } = req.query;
       const result = configSign(url);
+      console.log(result, 'result')
       req.response(200, result);
     }
   },

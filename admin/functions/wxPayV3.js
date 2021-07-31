@@ -99,7 +99,7 @@ module.exports = {
     }
   },
   // 获取微信config签名
-  a(url) {
+  configSign(url) {
     // 请求accessToken
     // {"access_token":"ACCESS_TOKEN","expires_in":7200}
     const { access_token, errcode } = request({
