@@ -104,9 +104,9 @@ export default class InnerModal extends Component {
           <Item label="付款金额">
             <Input value={this.state.fields.payTotal} onChange={(e) => this.changeAction('payTotal', e)} style={{width: 250}} suffix="元" />
           </Item>
-          <Item label="分成比例">
+          {/* <Item label="分成比例">
             <Input value={this.state.fields.agentProfit} onChange={(e) => this.changeAction('agentProfit', e)} style={{width: 250}} suffix="%" />
-          </Item>
+          </Item> */}
           <Item label="付款方式">
             <Select value={this.state.fields.payChannel} onChange={(e) => this.changeAction('payChannel', e)}>
               <Option value={0}>线下</Option>

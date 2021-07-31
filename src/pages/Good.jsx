@@ -94,16 +94,16 @@ export default class Good extends Component {
         dataIndex: 'price',
         render: d => d && d.$numberDecimal
       },
-      {
-        title: '优惠券号',
-        dataIndex: 'discount'
-      },
-      {
-        title: '优惠券领取地址',
-        render: d => d.discount && <Popover content={<QRender src={logo} text={`http://api.verlantum.cn/card/wx?params=${`${btoa(`good=${d._id}`)}`}`} />} trigger="click">
-                                        <Button type="link">查看</Button>
-                                      </Popover>
-      },
+      // {
+      //   title: '优惠券号',
+      //   dataIndex: 'discount'
+      // },
+      // {
+      //   title: '优惠券领取地址',
+      //   render: d => d.discount && <Popover content={<QRender src={logo} text={`http://api.verlantum.cn/card/wx?params=${`${btoa(`good=${d._id}`)}`}`} />} trigger="click">
+      //                                   <Button type="link">查看</Button>
+      //                                 </Popover>
+      // },
       {
         title: '创建时间',
         dataIndex: 'createdAt',

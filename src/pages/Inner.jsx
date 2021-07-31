@@ -221,10 +221,6 @@ export default class Inner extends Component {
         render: d => d.agent ? d.agent.title : '——',
       },
       {
-        title: '分成比例(%)',
-        render: d => d.agent ? d.agent.ratio : '——',
-      },
-      {
         title: '创建时间',
         dataIndex: 'createdAt',
         render: d => m(d).format('YYYY-MM-DD HH:mm:ss')

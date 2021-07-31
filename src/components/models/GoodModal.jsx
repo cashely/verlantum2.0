@@ -75,9 +75,9 @@ export default class GoodModal extends Component {
           <Item label="价格">
             <Input value={this.state.fields.price} onChange={(e) => this.changeAction('price', e)}  addonAfter={<span>元</span>}/>
           </Item>
-          <Item label="优惠券号">
+          {/* <Item label="优惠券号">
             <Input value={this.state.fields.discount} onChange={(e) => this.changeAction('discount', e)} placeholder="请输入微信卡券批次号" />
-          </Item>
+          </Item> */}
           <Item label="模板名称">
             <Input value={this.state.fields.template} onChange={(e) => this.changeAction('template', e)} />
           </Item>
