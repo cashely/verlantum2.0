@@ -3,7 +3,7 @@ const request = require('request');
 const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
-const { order, paysignjsapifinal } = require('../functions/wxPayV3');
+const { order, paysignjsapifinal, decodeResource } = require('../functions/wxPayV3');
 const generatorOrder = require('../functions/generatorOrder');
 module.exports = {
   list(req, res) {
@@ -144,7 +144,10 @@ module.exports = {
     });
   },
   wxpaycallback(req, res) {
-    const {return_code} = req.body.xml;
+    const {return_code} = req.body;
+    console.log(req.body, '微信支付返回的请求主体');
+    const result = decodeResource(req.body);
+    console.log(result, 'wxpay-v3解密的主体信息')
     if (return_code === 'SUCCESS') {
       const {out_trade_no, cash_fee} = req.body.xml;
       return models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1, payChannel: 1,}).then(() => {
