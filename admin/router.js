@@ -55,7 +55,7 @@ module.exports = (app) => {
   .get('/me', routes.user.me)
 
   .post('/agent', authenticationMiddleware(), routes.agent.add)
-  .get('/agents', authenticationMiddleware(), routes.agent.list)
+  .get('/agents', routes.agent.list)
   .get('/agents/total', authenticationMiddleware(), routes.agent.total)
   .delete('/agent/:id', authenticationMiddleware(), routes.agent.delete)
   .get('/agent/:id', authenticationMiddleware(), routes.agent.detail)

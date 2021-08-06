@@ -4,6 +4,7 @@ const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
 const { order, paysignjsapifinal } = require('../functions/wxPayV3');
+const generatorOrder = require('../functions/generatorOrder');
 module.exports = {
   list(req, res) {
     const { page = 1, limit = 20 } = req.query;
@@ -87,13 +88,12 @@ module.exports = {
   },
   qrRedirect(req, res) {
     const {aid, price, ratio, good, address, phone, card, count = 1, username, goodNumber} = req.query;
-    generatorOrderAction({aid, price, ratio, good, address, card, count, phone, username, goodId: goodNumber})
+    generatorOrder({aid, price, ratio, good, address, card, count, phone, username, goodId: goodNumber})
     .then(orderNo => {
       // res.send(orderNo)
       res.render('qredirect', {orderNo});
       // res.redirect('https://openapi.alipay.com/gateway.do?'+ singFn(good, orderNo, price))
     });
-
   },
   alipay(req, res) {
     const { orderNo } = req.query;
@@ -147,17 +147,7 @@ module.exports = {
     const {return_code} = req.body.xml;
     if (return_code === 'SUCCESS') {
       const {out_trade_no, cash_fee} = req.body.xml;
-      models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1, payChannel: 1,}).then(() => {
-        return models.orders.findOne({orderNo: out_trade_no})
-      }).then(order => {
-        if(order.agent) {
-          return models.agents.findOne({_id: order.agent}).then(agent => {
-            return models.agents.updateOne({_id: agent._id}, {$inc: {score: order.paymentAmount * agent.ratio / 100}})
-          })
-          // return models.agents.updateOne({_id: order.agent}, {$inc: {score: order.paymentAmount * order.agentProfit / 100}})
-        }
-        return null
-      }).then(() => {
+      return models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1, payChannel: 1,}).then(() => {
         res.send('ok')
       }).catch(err => {
         console.log(err)
@@ -181,30 +171,6 @@ module.exports = {
     })
   }
 }
-
-const generatorOrderAction = ({aid, price, ratio, good, address, phone, card, count = 1, username, goodId}) => {
-  const orderNo = Date.now();
-  const paymentAmount = count * price;
-  const order = {
-    price,
-    paymentAmount,
-    agentProfit: ratio,
-    good,
-    count,
-    address,
-    phone,
-    card,
-    username,
-    orderNo,
-    goodNumber: goodId,
-  }
-  if (aid) {
-    order.agent = aid
-  }
-  return new models.orders(order).save().then(() => orderNo)
-}
-
-
 
 const getOpenIdAction = (code) => {
   return new Promise((resolve, reject) => {

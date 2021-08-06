@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
 const wxpay = require('../functions/wxpay');
+const models = require('../models');
 const { wxAppId, wxMchId, wxAppSecret } = require('../config.global');
 const private_key = fs.readFileSync(path.resolve(__dirname, '../1472079802_20210503_cert/apiclient_key.pem')).toString();
 const payment = new Payment({
@@ -53,6 +54,8 @@ module.exports = {
     orderNo,
   }) {
     try {
+      const conditions = { openid };
+      await models.orders.updateOne({ orderNo }, conditions); // 回写订单号里面的openid
       let result = await payment.jsapi({
         description,
         out_trade_no: orderNo,

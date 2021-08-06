@@ -3,7 +3,25 @@ const getOpenIdAction = require('../functions/getOpenIdAction');
 const { order, paysignjsapifinal, configSign } = require('../functions/wxPayV3');
 const wxpay = require('../functions/wxpay');
 const { wxMchId, wxAppId } = require('../config.global');
+const generatorOrder = require('../functions/generatorOrder');
 module.exports = [
+  {
+    uri: '/create',
+    method: 'post',
+    mark: '通过接口微信下单',
+    callback: (req, res) => {
+      const {aid, goodId, username, sex, birthday, phone, address, guardian, isRequireTicket, ticketHead, payChannel } = req.body;
+      models.goods.findOne({ _id: goodId }).then(({ price, title }) => {
+        return generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel })
+      })
+      .then(orderNo => {
+        req.response(200, {
+          orderNo,
+          appid: wxAppId,
+        });
+      })
+    }
+  },
   {
     uri: '/sended',
     method: 'put',

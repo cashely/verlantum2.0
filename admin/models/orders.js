@@ -53,9 +53,12 @@ const Orders = new mongoose.Schema({
     type: String,
     require: true,
   },
-  sex: { // 性别
+  sex: { // 性别 1 - 男  2 - 女
     type: Number,
     require: true,
+  },
+  birthday: {
+    type: String, // 出生日期
   },
   phone: { // 手机号码
     type: String
@@ -67,8 +70,8 @@ const Orders = new mongoose.Schema({
     type: String,
   },
   isRequireTicket: {
-    type: Number, // 是否需要发票
-    default: 0,
+    type: Boolean, // 是否需要发票
+    default: false,
   },
   ticketHead: {
     type: String, // 发票抬头
@@ -85,6 +88,9 @@ const Orders = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  openid: { // 用户开放id
+    type: String,
+  }
 }, {
   timestamps: {
     createdAt: 'createdAt',
