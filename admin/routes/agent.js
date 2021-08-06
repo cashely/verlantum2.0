@@ -144,20 +144,41 @@ module.exports = {
     });
   },
   wxpaycallback(req, res) {
-    const {return_code} = req.body;
-    console.log(req.body, '微信支付返回的请求主体');
+    // {
+    //   0|云量后台  |   mchid: '1472079802',
+    //   0|云量后台  |   appid: 'wx9753ba7c20ea36b2',
+    //   0|云量后台  |   out_trade_no: '1628270305123',
+    //   0|云量后台  |   transaction_id: '4200001229202108071954591656',
+    //   0|云量后台  |   trade_type: 'JSAPI',
+    //   0|云量后台  |   trade_state: 'SUCCESS',
+    //   0|云量后台  |   trade_state_desc: '支付成功',
+    //   0|云量后台  |   bank_type: 'OTHERS',
+    //   0|云量后台  |   attach: '',
+    //   0|云量后台  |   success_time: '2021-08-07T01:18:35+08:00',
+    //   0|云量后台  |   payer: { openid: 'ot6_41JDOuSFk0LB1qL0G_wIQ9ZE' },
+    //   0|云量后台  |   amount: { total: 1, payer_total: 1, currency: 'CNY', payer_currency: 'CNY' }
+    //   0|云量后台  | }
+    // console.log(req.body, '微信支付返回的请求主体');
     const result = decodeResource(req.body);
-    console.log(result, 'wxpay-v3解密的主体信息')
-    if (return_code === 'SUCCESS') {
-      const {out_trade_no, cash_fee} = req.body.xml;
-      return models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: cash_fee / 100 * 1, payChannel: 1,}).then(() => {
-        res.send('ok')
+    // console.log(result, 'wxpay-v3解密的主体信息')
+    if (result) {
+      const {out_trade_no, amount: { total }} = result;
+      return models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: total / 100 * 1, payChannel: 1,}).then(() => {
+        res.json({   
+          code: "SUCCESS",
+          message: "成功"
+      })
       }).catch(err => {
-        console.log(err)
-        res.send('failed')
+        res.json({   
+          "code": "FAIL",
+          "message": "失败"
+      })
       })
     }else {
-      res.send('failed');
+      res.json({   
+        "code": "SUCCESS",
+        "message": "成功"
+    });
     }
   },
   take(req, res) {
