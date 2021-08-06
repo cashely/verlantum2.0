@@ -131,12 +131,12 @@ module.exports = {
       const openid = body.openid;
       models.orders.findOne({ orderNo}).populate('goodNumber')
       .then(order => {
-        const { paymentAmount, good, goodNumber } = order;
+        const { paymentAmount, goodNumber: { title } } = order;
         return generatorWxpay({
           orderNo,
           openid,
           paymentAmount,
-          body: good,
+          body: title,
           res,
           order
         })
