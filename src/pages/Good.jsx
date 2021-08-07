@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Popover, Layout, Pagination, Table, Button, Icon, Upload, Popconfirm, message } from 'antd';
+import { Popover, Layout, Pagination, Table, Button, Icon, Popconfirm, message } from 'antd';
+import { Link } from 'react-router-dom';
 import $ from '../ajax';
 import QRender from 'qrender-react';
 import m from 'moment';
@@ -92,7 +93,7 @@ export default class Good extends Component {
                 </div>
               }
               <div style={{ marginLeft: 10 }}>
-                <p>商品编号: {d.number}</p>
+                <p>商品编号: <Link to={`/index/good/check/${d._id}`}>{d.number}</Link></p>
                 <p>商品名称: {d.title}</p>
               </div>
             </div>
@@ -145,10 +146,11 @@ export default class Good extends Component {
         )
       }
     ];
+    const { history } = this.props;
     return (
       <Layout style={{height: '100%', backgroundColor: '#fff', display: 'flex'}}>
         <Header style={{backgroundColor: '#fff', padding: 10, height: 'auto', lineHeight: 1}}>
-          <Button type="primary" onClick={this.openModelAction.bind(this, 'good', null)}><Icon type="plus"/>新增商品</Button>
+          <Button type="primary" onClick={() => history.push('/index/good/create')}><Icon type="plus"/>新增商品</Button>
         </Header>
         <Content style={{overflow: 'auto'}}>
           <Table rowKey="_id" onRow={r => {return {onClick: e => {} }}} columns={columns} dataSource={this.state.goods} size="middle" bordered pagination={false}/>

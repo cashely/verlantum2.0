@@ -6,7 +6,7 @@ module.exports = [
     method: 'post',
     mark: '创建商品',
     callback: (req, res) => {
-      const { title, price, number, discount, url, template, thumb, stock, } = req.body;
+      const { title, price, number, discount, url, template, thumb, stock, html } = req.body;
       new models.goods({
         title,
         price,
@@ -16,6 +16,7 @@ module.exports = [
         template,
         thumb,
         stock,
+        html,
       }).saveGood().then(result => {
         req.response(200, 'ok')
       })
@@ -27,7 +28,7 @@ module.exports = [
     mark: '查询商品列表',
     callback: (req, res) => {
       const conditions = {};
-      models.goods.find(conditions).then(goods => {
+      models.goods.find(conditions).sort({ _id: -1 }).then(goods => {
         req.response(200, goods)
       }).catch(err => {
         req.response(500, err)
@@ -53,8 +54,8 @@ module.exports = [
     mark: '修改商品信息',
     callback: (req, res) => {
       const { id } = req.params;
-      const { title, price, number, discount, url, template, thumb } = req.body;
-      const conditions = {title, price, number, discount, template, url, thumb };
+      const { title, price, number, discount, url, template, thumb, html } = req.body;
+      const conditions = {title, price, number, discount, template, url, thumb, html };
       models.goods.updateOne({_id: id }, conditions).then(() => {
         req.response(200, 'ok')
       }).catch(err => {
@@ -95,17 +96,18 @@ module.exports = [
     callback: (req, res) => {
       const { number } = req.params;
       models.goods.findOne({ number }).then(good => {
-        const { template, price, title, _id, thumb } = good;
+        const { template, price, title, _id, thumb, html } = good;
         return {
           title,
           _id,
           price,
           template,
           thumb,
+          html
         }
 
-      }).then(({price, title, _id, template, thumb }) => {
-        res.render('good/index', { price, title, _id, thumb })
+      }).then(({price, title, _id, template, thumb, html }) => {
+        res.render('good/index', { price, title, _id, thumb, html })
       })
     }
   }

@@ -38,8 +38,10 @@ const Good = new mongoose.Schema({
   stock: { // 库存
     type: Number,
     default: 0,
-  }
-
+  },
+  html: { // 详细介绍
+    type: String
+  },
 }, {
   timestamps: {
     createdAt: 'createdAt',
@@ -50,7 +52,7 @@ const Good = new mongoose.Schema({
 const model = mongoose.model('goods', Good);
 
 model.prototype.saveGood = function () {
-  const { title, number, price, discount, thumb, stock } = this;
+  const { title, number, price, discount, thumb, stock, html } = this;
   return new Promise((resolve, reject) => {
     model.count().then(count => {
       const good = {
@@ -59,6 +61,7 @@ model.prototype.saveGood = function () {
         discount,
         thumb,
         stock,
+        html,
         number: number ? number : `YL-GOOD-${m().format('YYYYMMDD')}-${count+1}`,
       }
       new model(good).save().then(resolve).catch(reject)

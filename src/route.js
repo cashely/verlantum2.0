@@ -15,4 +15,6 @@ export const Arg = loadable(() => import('./pages/Arg'));
 export const Apis = loadable(() => import('./pages/Apis'));
 export const Auth = loadable(() => import('./pages/Auth'));
 export const Activity = loadable(() => import('./pages/Activity'))
+export const GoodCheck = loadable(() => import('./pages/good/Check'))
+export const GoodCreate = loadable(() => import('./pages/good/Create'))
 export default {}
