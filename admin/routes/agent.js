@@ -127,11 +127,11 @@ module.exports = {
     // const {aid, price, ratio, good = '天赋基因检测'} = qs.parse(params);
 
     getOpenIdAction(code).then(body => {
-      console.log(body, typeof body, '----code body');
+      // console.log(body, typeof body, '----code body');
       const openid = body.openid;
       models.orders.findOne({ orderNo}).populate('goodNumber')
       .then(order => {
-        console.log(order, '订单')
+        // console.log(order, '订单')
         const { paymentAmount, goodNumber: { title } } = order;
         return generatorWxpay({
           orderNo,
