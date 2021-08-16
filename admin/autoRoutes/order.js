@@ -10,11 +10,11 @@ module.exports = [
     method: 'get',
     mark: '查询微信个人订单',
     callback: (req, res) => {
-      const openid = req.cookie('openid');
+      const openid = req.cookies.openid;
       if (!openid) {
         res.redirect(`/wxcode/get?uri=https://api.verlantum.cn/wxcode/login?redirect=https://api.verlantum.cn/order/wx/me`);
       }
-      res.render('tickets', { openid: req.cookie('openid') });
+      res.render('tickets', { openid });
     }
   },
   {
