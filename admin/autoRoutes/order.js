@@ -134,6 +134,10 @@ module.exports = [
       // 获取订单id
       const { orderId: _id, type, head, name,  } = req.body;
       try {
+        const hasTicket = await models.tickets.findOne({ orderId: _id });
+        if (hasTicket) {
+          return req.response(200, { code: 1, msg: '此订单已开过发票了' });
+        }
         const { payTotal } = await models.orders.findOne({ _id });
         await new models.tickets({
           type,
