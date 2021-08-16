@@ -15,7 +15,7 @@ module.exports = [
     mark: '获取微信code的登录',
     async callback(req, res) {
       const { code, redirect } = req.query;
-      const openid = getOpenIdAction(code);
+      const openid = await getOpenIdAction(code);
       res.cookie('openid', openid);
       res.redirect(redirect);
     },
