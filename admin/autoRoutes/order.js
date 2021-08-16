@@ -14,7 +14,7 @@ module.exports = [
       if (!openid) {
         res.redirect(`/wxcode/get?uri=https://api.verlantum.cn/wxcode/login?redirect=https://api.verlantum.cn/order/wx/me`);
       } else {
-        const orders = await models.orders.find({ openid })
+        const orders = await models.orders.find({ openid }).populate('goodNumber').sort({ _id: -1 });
         res.render('tickets', { orders });
       }
     }
