@@ -6,6 +6,18 @@ const { wxMchId, wxAppId } = require('../config.global');
 const generatorOrder = require('../functions/generatorOrder');
 module.exports = [
   {
+    uri: '/wx/me',
+    method: 'get',
+    mark: '查询微信个人订单',
+    callback: (req, res) => {
+      const openid = req.cookie('openid');
+      if (!openid) {
+        res.redirect(`/wxcode/get?uri=https://api.verlantum.cn/wxcode/login?redirect=https://api.verlantum.cn/order/wx/me`);
+      }
+      res.render('tickets', { openid: req.cookie('openid') });
+    }
+  },
+  {
     uri: '/create',
     method: 'post',
     mark: '通过接口微信下单',

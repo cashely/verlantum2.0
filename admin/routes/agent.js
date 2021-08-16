@@ -126,9 +126,7 @@ module.exports = {
     // params = Buffer.from(params, 'base64').toString();
     // const {aid, price, ratio, good = '天赋基因检测'} = qs.parse(params);
 
-    getOpenIdAction(code).then(body => {
-      // console.log(body, typeof body, '----code body');
-      const openid = body.openid;
+    getOpenIdAction(code).then(openid => {
       models.orders.findOne({ orderNo}).populate('goodNumber')
       .then(order => {
         // console.log(order, '订单')
@@ -200,8 +198,9 @@ module.exports = {
 const getOpenIdAction = (code) => {
   return new Promise((resolve, reject) => {
     request({url:`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${wxAppId}&secret=${wxAppSecret}&code=${code}&grant_type=authorization_code`,method:'GET'},function(err,response,body){
-      if(!err && response.statusCode == 200){
-          resolve(JSON.parse(body))
+      if(!err && response.statusCode === 200){
+        const response = JSON.parse(body)
+          resolve(response.openid)
       }else {
         console.log(err)
         reject(err)

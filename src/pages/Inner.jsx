@@ -127,10 +127,14 @@ export default class Inner extends Component {
     const columns = [
       {
         title: '序号',
+        fixed: 'left',
+        width: 50,
         render: (t, d, index) => index + 1
       },
       {
         title: '商品名称',
+        fixed: 'left',
+        width: 100,
         render: row => row.goodNumber ? row.goodNumber.title : row.good
       },
       {
@@ -229,6 +233,8 @@ export default class Inner extends Component {
         title: '操作',
         key: 'id',
         align: 'center',
+        fixed: 'right',
+        with: 100,
         render: row => (
           <React.Fragment>
             <Popconfirm title="发货前请仔细核对用户信息" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id)}}>
@@ -266,7 +272,7 @@ export default class Inner extends Component {
           </Form>
         </Header>
         <Content style={{overflow: 'auto'}}>
-          <Table rowKey="_id" onRow={r => {return {onClick: e => {} }}} columns={columns} dataSource={this.state.inners} size="middle" bordered pagination={false}/>
+          <Table rowKey="_id" scroll={{ x: true }} onRow={r => {return {onClick: e => {} }}} columns={columns} dataSource={this.state.inners} size="middle" bordered pagination={false}/>
           {
             this.state.visible.inner && <InnerModal id={this.state.id} visible={this.state.visible.inner} onOk={this.okInnerModalAction.bind(this)} onCancel={this.cancelModelAction.bind(this, 'inner')}/>
           }

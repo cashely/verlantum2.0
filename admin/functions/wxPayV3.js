@@ -129,6 +129,24 @@ module.exports = {
       appId: wxAppId,
     }
   },
+  /**
+   * 
+   * @param {string} code 微信返回授权code
+   * @returns {string} openid 微信个人openid
+   */
+  getOpenIdAction(code) {
+    return new Promise((resolve, reject) => {
+      request({url:`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${wxAppId}&secret=${wxAppSecret}&code=${code}&grant_type=authorization_code`,method:'GET'},function(err,response,body){
+        if(!err && response.statusCode === 200){
+          const response = JSON.parse(body)
+            resolve(response.openid)
+        }else {
+          console.log(err)
+          reject(err)
+        }
+      })
+    })
+  },
   // 解密微信支付返回信息
   decodeResource(response) {
     // "original_type":"refund",
