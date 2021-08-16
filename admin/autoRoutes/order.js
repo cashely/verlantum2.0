@@ -13,8 +13,9 @@ module.exports = [
       const openid = req.cookies.openid;
       if (!openid) {
         res.redirect(`/wxcode/get?uri=https://api.verlantum.cn/wxcode/login?redirect=https://api.verlantum.cn/order/wx/me`);
+      } else {
+        res.render('tickets', { openid });
       }
-      res.render('tickets', { openid });
     }
   },
   {
