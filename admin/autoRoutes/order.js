@@ -128,7 +128,7 @@ module.exports = [
   },
   {
     uri: '/ticket/create',
-    method: 'get',
+    method: 'post',
     mark: '创建发票',
     async callback(req, res) {
       // 获取订单id
