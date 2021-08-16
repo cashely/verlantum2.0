@@ -9,12 +9,13 @@ module.exports = [
     uri: '/wx/me',
     method: 'get',
     mark: '查询微信个人订单',
-    callback: (req, res) => {
+    async callback(req, res) {
       const openid = req.cookies.openid;
       if (!openid) {
         res.redirect(`/wxcode/get?uri=https://api.verlantum.cn/wxcode/login?redirect=https://api.verlantum.cn/order/wx/me`);
       } else {
-        res.render('tickets', { openid });
+        const orders = models.orders.find({ openid })
+        res.render('tickets', { orders });
       }
     }
   },
@@ -123,6 +124,29 @@ module.exports = [
         signType: 'RSA',
         sign: finalsign,
       })
+    }
+  },
+  {
+    uri: '/ticket/create',
+    method: 'get',
+    mark: '创建发票',
+    async callback(req, res) {
+      // 获取订单id
+      const { orderId: _id, type, head, name,  } = req.body;
+      try {
+        const { payTotal } = await models.orders.findOne({ _id });
+        await new models.tickets({
+          type,
+          head,
+          name,
+          amount: payTotal * 100,
+          orderId: _id,
+        }).save();
+        req.response(200, 'ok');
+      }catch(e) {
+        console.log('创建发票信息失败', e);
+        req.response(500, e)
+      }
     }
   }
 ]

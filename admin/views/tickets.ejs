@@ -1,1 +1,9 @@
-<%= openid %>
+<% if (orders) { %>
+  <ul>
+    <% orders.forEach(function(order) { %>
+      <li><%= order.goodNumber.title %> | <%= order.payTotal %></li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  没有订单
+<% } %>
