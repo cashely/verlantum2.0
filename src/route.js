@@ -17,4 +17,5 @@ export const Auth = loadable(() => import('./pages/Auth'));
 export const Activity = loadable(() => import('./pages/Activity'))
 export const GoodCheck = loadable(() => import('./pages/good/Check'))
 export const GoodCreate = loadable(() => import('./pages/good/Create'))
+export const Ticket = loadable(() => import('./pages/Ticket'))
 export default {}

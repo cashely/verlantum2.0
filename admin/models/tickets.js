@@ -40,6 +40,7 @@
    orderId: {
      type: mongoose.Schema.Types.ObjectId,
      ref: 'orders',
+     required: true,
    },
    /**
     * 是否已开
@@ -47,6 +48,13 @@
    isOffer: {
     type: Boolean,
     default: false,
+   },
+   /**
+    * 接收电子发票邮箱
+    */
+   email: {
+    type: String,
+    required: true,
    },
    /**
     * 备注信息

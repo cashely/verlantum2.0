@@ -132,7 +132,7 @@ module.exports = [
     mark: '创建发票',
     async callback(req, res) {
       // 获取订单id
-      const { orderId: _id, type, head, name,  } = req.body;
+      const { orderId: _id, type, head, name, email  } = req.body;
       try {
         const hasTicket = await models.tickets.findOne({ orderId: _id });
         if (hasTicket) {
@@ -143,6 +143,7 @@ module.exports = [
           type,
           head,
           name,
+          email,
           amount: payTotal * 100,
           orderId: _id,
         }).save();
