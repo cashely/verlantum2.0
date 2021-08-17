@@ -43,7 +43,7 @@ export default (props) => {
       render: (d) => {
         return (
           <div style={{ display: 'flex' }}>
-            {d.title}
+            {d.goodNumber.title}
           </div>
         )
       }
