@@ -39,7 +39,7 @@ export default (props) => {
   const columns = [
     {
       title: '商品名称',
-      dataIndex: 'order',
+      dataIndex: 'orderId',
       render: (d) => {
         return (
           <div style={{ display: 'flex' }}>
