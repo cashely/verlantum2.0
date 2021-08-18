@@ -65,11 +65,11 @@
           <% orders.forEach(function(order) { %>
             <a onClick="createTicket('<%= order._id%>')" href="javascript:void(0)" class="weui-media-box weui-media-box_appmsg">
               <div class="weui-media-box__hd">
-                <img src="/uploads/<%= order.goodNumber.thumb%>" />
+                <img style="width: 60px" src="/uploads/<%= order.goodNumber.thumb%>" />
               </div>
               <div class="weui-media-box__bd">
                 <h4 class="weui-media-box__title"><%= order.goodNumber.title %></h4>
-                <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %> 下单时间: <%= order.createAt %></p>
+                <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %> 下单时间: <%= order.createdAt %></p>
               </div>
             </a>
           <% }) %>

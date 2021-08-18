@@ -1,3 +1,4 @@
+const moment = require('moment');
 const models = require('../model.js');
 const getOpenIdAction = require('../functions/getOpenIdAction');
 const { order, paysignjsapifinal, configSign } = require('../functions/wxPayV3');
@@ -15,6 +16,9 @@ module.exports = [
         res.redirect(`/wxcode/get?uri=https://api.verlantum.cn/wxcode/login?redirect=https://api.verlantum.cn/order/wx/me`);
       } else {
         const orders = await models.orders.find({ openid }).populate('goodNumber').sort({ _id: -1 });
+        orders.map(v => {
+          v.createdAt = moment(v.createdAt).format('YYYY-MM-DD HH:mm:ss')
+        })
         res.render('tickets', { orders });
       }
     }
