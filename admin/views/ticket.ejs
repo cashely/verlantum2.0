@@ -93,7 +93,7 @@
             <label class="weui-label">电子邮箱</label>
           </div>
           <div class="weui-cell__bd weui-flex">
-            <input class="weui-input email" />
+            <input class="weui-input email" placeholder="请填写接受电子发票邮箱" />
           </div>
         </div>
       </div>
@@ -134,8 +134,8 @@
         name,
         email,
       }, function(res) {
+        loading.hide();
         if (res.data.code === 0) {
-          loading.hide();
           weui.toast('完成')
           setTimeout(() => {
             window.history.go(-1);
