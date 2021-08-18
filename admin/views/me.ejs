@@ -72,7 +72,7 @@
                 <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %></p>
                 <p class="weui-media-box__desc">下单时间: <%= order.createdAt %></p>
                 <p style="text-align: right;">
-                  <button onclick="linkToTicket()" style="background-color: transparent;" class="weui-btn weui-btn_default">申请发票</button>
+                  <button onclick="linkToTicket('<%= order._id %>')" style="background-color: transparent;" class="weui-btn weui-btn_default">申请发票</button>
                 </p>
               </div>
             </div>
@@ -85,8 +85,8 @@
   </body>
   <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
   <script>
-    function linkToTicket() {
-      location.href = '/ticket/apply/<%= order._id%>'
+    function linkToTicket(id) {
+      location.href = `/ticket/apply/${id}`
     }
   </script>
 </html>
