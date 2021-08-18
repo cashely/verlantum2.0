@@ -108,10 +108,10 @@
       const type = $('.type').val();
       alert(type)
       if (type === 0) {
-        $('.head_block').hide();
+        $('.head_block').css({ display: 'none' });
       }
       if (type === 1) {
-        $('.head_block').show();
+        $('.head_block').css({ display: 'block' });
       }
     })
     function createTicket() {
