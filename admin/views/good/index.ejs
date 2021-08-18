@@ -211,7 +211,7 @@
       console.log(res)
       var str = '<option value="">无</option>';
       for(var i = 0; i < res.data.length; i++) {
-        str += '<option selected='
+        str += '<option'
         if (res.data[i]._id === '<%= agent %>') {
           str += ' selected="selected"'
         }
