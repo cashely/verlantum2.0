@@ -59,29 +59,31 @@
     </style>
   </head>
   <body>
-    <div class="weui-panel weui-panel_access">
-      <% if (orders) { %>
-        <div class="weui-panel__bd">
-          <% orders.forEach(function(order) { %>
-            <div class="weui-media-box weui-media-box_appmsg">
-              <div class="weui-media-box__hd">
-                <img style="width: 60px" src="/uploads/<%= order.goodNumber.thumb%>" />
+    <% if (orders) { %>
+      <% orders.forEach(function(order) { %>
+        <div class="weui-panel weui-panel_access">
+          <div class="weui-panel__bd">
+              <div class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                  <img style="width: 60px" src="/uploads/<%= order.goodNumber.thumb%>" />
+                </div>
+                <div class="weui-media-box__bd">
+                  <h6 class="weui-media-box__title"><%= order.goodNumber.title %></h6>
+                  <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %></p>
+                  <p class="weui-media-box__desc">下单时间: <%= order.createdAt %></p>
+                </div>
               </div>
-              <div class="weui-media-box__bd">
-                <h6 class="weui-media-box__title"><%= order.goodNumber.title %></h6>
-                <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %></p>
-                <p class="weui-media-box__desc">下单时间: <%= order.createdAt %></p>
-                <p style="text-align: right;">
-                  <button onclick="linkToTicket('<%= order._id %>')" style="background-color: transparent;" class="weui-btn weui-btn_default">申请发票</button>
-                </p>
-              </div>
-            </div>
-          <% }) %>
+          </div>
+          <div class="weui-panel__ft">
+            <button onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access" style="text-align: center;">
+              <div class="weui-cell__bd">申请发票</div>
+            </button>
+          </div>
         </div>
+      <% }) %>
       <% } else { %>
         没有订单
       <% } %>
-    </div>
   </body>
   <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
   <script>
