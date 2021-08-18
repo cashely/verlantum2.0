@@ -15,9 +15,9 @@ module.exports = [
       if (!openid) {
         res.redirect(`/wxcode/get?uri=https://api.verlantum.cn/wxcode/login?redirect=https://api.verlantum.cn/order/wx/me`);
       } else {
-        const orders = await models.orders.find({ openid }).populate('goodNumber').sort({ _id: -1 });
-        orders.map(v => {
-          v.createdAt = moment(v.createdAt).format('YYYY-MM-DD HH:mm:ss')
+        let orders = await models.orders.find({ openid }).populate('goodNumber').sort({ _id: -1 });
+        orders = orders.map(v => {
+          return { ...v, createdAt: moment(v.createdAt).format('YYYY-MM-DD HH:mm:ss')}
         })
         res.render('tickets', { orders });
       }
