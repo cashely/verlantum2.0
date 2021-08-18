@@ -68,12 +68,12 @@
                 <img style="width: 60px" src="/uploads/<%= order.goodNumber.thumb%>" />
               </div>
               <div class="weui-media-box__bd">
-                <h4 class="weui-media-box__title"><%= order.goodNumber.title %></h4>
+                <h6 class="weui-media-box__title"><%= order.goodNumber.title %></h6>
                 <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %></p>
                 <p class="weui-media-box__desc">下单时间: <%= order.createdAt %></p>
-                <div class="weui-media-box__info">
+                <p>
                   <a onClick="createTicket('<%= order._id%>')" href="weui-btn weui-btn_mini weui-btn_primary">申请发票</a>
-                </div>
+                </p>
               </div>
             </div>
           <% }) %>
