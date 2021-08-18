@@ -134,6 +134,7 @@
         name,
         email,
       }, function(res) {
+        alert(JSON.stringify(res))
         if (res.code === 0) {
           loading.hide();
           weui.toast('完成')
