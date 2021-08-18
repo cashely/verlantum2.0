@@ -94,6 +94,7 @@ module.exports = [
     method: 'get',
     mark: '获取表单页地址',
     callback: (req, res) => {
+      const agent = req.query;
       const { number } = req.params;
       models.goods.findOne({ number }).then(good => {
         const { template, price, title, _id, thumb, html } = good;
@@ -105,9 +106,8 @@ module.exports = [
           thumb,
           html
         }
-
       }).then(({price, title, _id, template, thumb, html }) => {
-        res.render('good/index', { price, title, _id, thumb, html })
+        res.render('good/index', { price, title, _id, thumb, html, agent })
       })
     }
   }
