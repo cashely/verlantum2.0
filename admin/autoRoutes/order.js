@@ -151,7 +151,7 @@ module.exports = [
           amount: payTotal * 100,
           orderId: _id,
         }).save();
-        req.response(200, 'ok');
+        req.response(200, { code: 0, msg: 'ok' });
       }catch(e) {
         console.log('创建发票信息失败', e);
         req.response(500, e)

@@ -134,15 +134,14 @@
         name,
         email,
       }, function(res) {
-        alert(JSON.stringify(res))
-        if (res.code === 0) {
+        if (res.data.code === 0) {
           loading.hide();
           weui.toast('完成')
           setTimeout(() => {
             window.history.go(-1);
           }, 1500);
         } else {
-          weui.topTips(res.data);
+          weui.topTips(res.data.msg);
         }
       })
     }
