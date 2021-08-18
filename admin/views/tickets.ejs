@@ -72,7 +72,7 @@
                 <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %></p>
                 <p class="weui-media-box__desc">下单时间: <%= order.createdAt %></p>
                 <p>
-                  <a onClick="createTicket('<%= order._id%>')" href="weui-btn weui-btn_mini weui-btn_primary">申请发票</a>
+                  <button onClick="createTicket('<%= order._id%>')" class="weui-btn weui-btn_mini weui-btn_primary">申请发票</button>
                 </p>
               </div>
             </div>
