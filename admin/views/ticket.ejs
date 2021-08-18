@@ -134,11 +134,15 @@
         name,
         email,
       }, function(res) {
-        loading.hide();
-        weui.toast('完成')
-        setTimeout(() => {
-          window.history.go(-1);
-        }, 1500);
+        if (res.code === 0) {
+          loading.hide();
+          weui.toast('完成')
+          setTimeout(() => {
+            window.history.go(-1);
+          }, 1500);
+        } else {
+          weui.topTips(res.data);
+        }
       })
     }
   </script>
