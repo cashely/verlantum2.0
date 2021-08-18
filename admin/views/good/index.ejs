@@ -135,7 +135,7 @@
                       <label for="" class="weui-label">机构信息</label>
                   </div>
                   <div class="weui-cell__bd">
-                      <select value="<%= agent %>" class="weui-select" id="guardians" name="aid">
+                      <select class="weui-select" id="guardians" name="aid">
                       </select>
                   </div>
                 </div>
@@ -211,7 +211,11 @@
       console.log(res)
       var str = '<option value="">无</option>';
       for(var i = 0; i < res.data.length; i++) {
-        str += '<option value='+ res.data[i]._id +'>'+ res.data[i].title +'</option>'
+        str += '<option selected='
+        if (res.data[i]._id === '<%= agent %>') {
+          str += ' selected="selected"'
+        }
+        str += ' value='+ res.data[i]._id +'>'+ res.data[i].title +'</option>'
       }
       $('#guardians').html(str);
     })
