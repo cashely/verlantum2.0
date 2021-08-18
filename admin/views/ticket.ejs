@@ -108,12 +108,18 @@
   <script>
     function createTicket() {
       const loading = weui.loading('申请发票中');
+      const type = $('.type').val();
+      const head = $('.head').val();
+      const name = $('.name').val();
+      const email = $('.email').val();
+      alert(`${type}-${head}-${name}-${email}`)
+      return;
       $.post('/order/ticket/create', {
         orderId: '<%= orderId %>',
-        type: $('.type').val(),
-        head: $('.head').val(),
-        name: $('.name').val(),
-        email: $('.email').val(),
+        type,
+        head,
+        name,
+        email,
       }, function(res) {
         loading.hide();
         weui.toast('完成')

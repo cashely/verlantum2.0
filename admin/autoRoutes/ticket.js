@@ -20,7 +20,7 @@
     uri: '/apply/:orderId',
     method: 'get',
     callback(req, res) {
-      const orderId = req.params;
+      const { orderId } = req.params;
       res.render('ticket', { orderId })
     }
   },
