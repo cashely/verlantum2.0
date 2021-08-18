@@ -19,7 +19,7 @@ module.exports = [
         orders = orders.map(v => {
           return { ...v, createdAt: moment(v.createdAt).format('YYYY-MM-DD HH:mm:ss')}
         })
-        res.render('tickets', { orders });
+        res.render('me', { orders });
       }
     }
   },

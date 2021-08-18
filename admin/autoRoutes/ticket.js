@@ -17,6 +17,14 @@
     }
   },
   {
+    uri: '/apply/:orderId',
+    method: 'get',
+    callback(req, res) {
+      const orderId = req.params;
+      res.render('ticket', { orderId })
+    }
+  },
+  {
     uri: '/list/count',
     method: 'get',
     mark: '统计发票数量',

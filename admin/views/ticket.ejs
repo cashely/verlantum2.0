@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>我的订单-云量检测</title>
+    <title>发票申请-云量检测</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weui/weui@2.4.4/dist/style/weui.min.css">
@@ -59,41 +59,58 @@
     </style>
   </head>
   <body>
-    <div class="weui-panel weui-panel_access">
-      <% if (orders) { %>
-        <div class="weui-panel__bd">
-          <% orders.forEach(function(order) { %>
-            <div class="weui-media-box weui-media-box_appmsg">
-              <div class="weui-media-box__hd">
-                <img style="width: 60px" src="/uploads/<%= order.goodNumber.thumb%>" />
-              </div>
-              <div class="weui-media-box__bd">
-                <h6 class="weui-media-box__title"><%= order.goodNumber.title %></h6>
-                <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %></p>
-                <p class="weui-media-box__desc">下单时间: <%= order.createdAt %></p>
-                <p>
-                  <button onClick="createTicket('<%= order._id%>')" class="weui-btn weui-btn_mini weui-btn_primary">申请发票</button>
-                </p>
-              </div>
+    <div class="weui-form">
+      <div class="weui-form__control-area">
+        <div class="weui-cells weui-cells_form">
+          <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+            <div class="weui-cell__hd">
+              <label class="weui-label">发票类型</label>
             </div>
-          <% }) %>
+            <div class="weui-cell__bd">
+              <select class="weui-select type">
+                <option value=0>个人</option>
+                <option value=1>企业</option>
+              </select>
+            </div>
+          </div>
+          <div class="weui-cell weui-cell_active">
+            <div class="weui-cell__hd">
+              <label class="weui-label name">纳税人</label>
+            </div>
+          </div>
+          <div class="weui-cell weui-cell_active">
+            <div class="weui-cell__hd">
+              <label class="weui-label head">发票抬头</label>
+            </div>
+          </div>
+          <div class="weui-cell weui-cell_active">
+            <div class="weui-cell__hd">
+              <label class="weui-label email">电子邮箱</label>
+            </div>
+          </div>
         </div>
-      <% } else { %>
-        没有订单
-      <% } %>
+      </div>
+      <div class="weui-form__opr-area">
+        <button onclick="createTicket()" class="weui-btn weui-btn_primary">确认申请</button>
+      </div>
     </div>
   </body>
   <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
   <script>
-    function createTicket(orderId) {
+    function createTicket() {
       const loading = weui.loading('申请发票中');
       $.post('/order/ticket/create', {
-        orderId,
-        head: '测试需要申请的发票',
-        name: '测试1号'
+        orderId: '<%= orderId %>',
+        type: $('.type').val(),
+        head: $('.head').val(),
+        name: $('.name').val(),
+        email: $('.email').val(),
       }, function(res) {
         loading.hide();
-        window.history.go(-1);
+        weui.toast('完成')
+        setTimeout(() => {
+          window.history.go(-1);
+        }, 1500);
       })
     }
   </script>
