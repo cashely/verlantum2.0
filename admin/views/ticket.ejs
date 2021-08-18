@@ -106,11 +106,12 @@
   <script>
     $('.type').on('change', function() {
       const type = $('.type').val();
+      alert(type)
       if (type === 0) {
-        $('.head_block').show();
+        $('.head_block').hide();
       }
       if (type === 1) {
-        $('.head_block').hide();
+        $('.head_block').show();
       }
     })
     function createTicket() {
