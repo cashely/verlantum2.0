@@ -105,8 +105,7 @@
   <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
   <script>
     $('.type').on('change', function() {
-      const type = $('.type').val();
-      alert(typeof type)
+      const type = +$('.type').val();
       if (type === 0) {
         $('.head_block').css({ display: 'none' });
       }
