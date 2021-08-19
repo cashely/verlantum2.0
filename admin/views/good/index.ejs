@@ -244,9 +244,7 @@
       const address = $('.address').html() + form.addressDetail.value;
       const aid = form.aid.value;
       const sex = form.sex.value;
-      const isRequireTicket = form.isRequireTicket.checked;
       const guardian = form.guardian.value;
-      const ticketHead = form.ticketHead.value;
       const agree = form.agree.checked;
       if (!agree) {
         weui.topTips('您还没有同意知情同意书');
@@ -281,8 +279,6 @@
         phone,
         address,
         guardian,
-        isRequireTicket,
-        ticketHead,
         aid,
         payChannel: 1, // 微信支付
       }, function(res) {
