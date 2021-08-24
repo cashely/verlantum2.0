@@ -13,7 +13,6 @@
         width: 100%;
       }
         body {
-          background-image: url('/images/tianfu_bg.png');
           background-position: center bottom;
           background-size: 100% auto;
           background-repeat: no-repeat;
@@ -79,10 +78,10 @@
         <form class="weui-form">
           <div class="weui-form_control-area">
             <div class="weui-cells__group weui-cells__group_form">
-              <div class="weui-cells__title">订购人信息</div>
+              <div class="weui-cells__title">订购信息</div>
               <div class="weui-cells weui-cells_form">
                 <div class="weui-cell weui-cell_active">
-                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>真实姓名</label></div>
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>受检人</label></div>
                   <div class="weui-cell__bd">
                       <input id="js_input" name="username" class="weui-input" placeholder=""/>
                   </div>
@@ -209,7 +208,7 @@
     });
     $.get('/agents', { limit: 100 }, function(res) {
       console.log(res)
-      var str = '<option value="">无</option>';
+      var str = '<option value="">个人</option>';
       for(var i = 0; i < res.data.length; i++) {
         str += '<option'
         if (res.data[i]._id === '<%= agent %>') {
