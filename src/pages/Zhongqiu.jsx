@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Layout, Pagination, Table, Tag, Modal, Button, Input, Upload, Popconfirm, message } from 'antd';
+import { Form, Layout, Pagination, Table, Tag, Modal, Button, Input, Icon, Popconfirm, message } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import { useState } from 'react';
@@ -47,6 +47,15 @@ export default function Zhongqiu() {
       }
     })
   }
+
+  const deleteAction = (id) => {
+    $.delete(`/zhongqiu/${id}`).then(res => {
+      if(res.code === 0) {
+        message.success('操作成功');
+        listAction();
+      }
+    })
+  }
   const { Content, Footer, Header } = Layout;
     const columns = [
       {
@@ -72,7 +81,13 @@ export default function Zhongqiu() {
       {
         title: '规格',
         dataIndex: 'spec',
-        key: 'spec'
+        render: d => {
+          switch(d) {
+            case 1: return '6只';
+            case 2: return '8只';
+            default: return '错误';
+          }
+        }
       },
       {
         title: '是否发货',
@@ -86,7 +101,21 @@ export default function Zhongqiu() {
       },
       {
         title: '操作',
-        render: d => !d.isSend && <Button onClick={() => sendAction(d._id)} size="small" type="primary">发货</Button>
+        render: d => (
+          <React.Fragment>
+            {
+              !d.isSend && <Button onClick={() => sendAction(d._id)} size="small" type="primary">发货</Button>
+            }
+            <Popconfirm
+              title="您确定要删除?"
+              onConfirm={() => deleteAction(d._id)}
+              okText="是"
+              cancelText="否"
+            >
+              <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
+            </Popconfirm>
+          </React.Fragment>
+        )
       }
     ];
     return (
@@ -135,7 +164,7 @@ function CardModel(props) {
       onCancel={onClose}
     >
       <Form layout="horizontal" labelCol={{span: 6}} wrapperCol={{span: 18}}>
-        <Item label="变量名称">
+        <Item label="请输入券号">
           <Input value={number} onChange={(e) => setCard(e.currentTarget.value)} />
         </Item>
       </Form>
