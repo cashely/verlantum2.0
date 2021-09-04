@@ -4,7 +4,7 @@ import loadable from '@loadable/component';
 import './index.css';
 // import 'antd/dist/antd.css';
 import App from './App';
-import { Auth, Apis, Arg, Fruits, Pullers, Pushers, Inner, Outer, User, DetailList, Add, Home, Good, Activity, GoodCheck, GoodCreate, Ticket } from './route';
+import { Auth, Apis, Arg, Fruits, Pullers, Pushers, Inner, Outer, User, DetailList, Add, Home, Good, Activity, GoodCheck, GoodCreate, Ticket, Zhongqiu } from './route';
 import $ from './ajax';
 import * as serviceWorker from './serviceWorker';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -87,7 +87,10 @@ function Index(props) {
                   <Link to="/index/ticket"><Icon type="box"/> 开票管理</Link>
                 </Item>
                 <Item key="/index/activity">
-                  <Link to="/index/activity"><Icon type="box"/>活动管理</Link>
+                  <Link to="/index/activity"><Icon type="box"/> 活动管理</Link>
+                </Item>
+                <Item key="/index/zhongqiu">
+                  <Link to="/index/zhongqiu"><Icon type="box"/> 领券管理</Link>
                 </Item>
               </SubMenu>
               <Item key="/index/users">
@@ -142,6 +145,7 @@ function Routes(props) {
         <Route exact path="/index/apis" component={Apis} />
         <Route exact path="/index/auths" component={Auth} />
         <Route exact path="/index/activity" component={Activity} />
+        <Route exact path="/index/zhongqiu" component={Zhongqiu} />
       </Switch>
   )
 }

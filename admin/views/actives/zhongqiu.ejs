@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>中秋领蟹券活动-云量检测</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weui/weui@2.4.4/dist/style/weui.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+    <style media="screen">
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+        body {
+          background-position: center bottom;
+          background-size: 100% auto;
+          background-repeat: no-repeat;
+        }
+        .weui-cells {
+          margin: 0;
+        }
+        b.red, .require {
+          color: red;
+        }
+        b.green{
+          color: #4d8d56;
+        }
+        b.blue {
+          color: #14417e
+        }
+        .tiannfu_form > h2 {
+          font-size: 5vw;
+          line-height: 2;
+          text-align: left;
+        }
+        .tiannfu_form > h4 {
+          font-size: 5vw;
+          line-height: 2;
+          text-align: left;
+          color: red;
+        }
+        .tiannfu_form > h2 > p {
+          font-size: 5vw;
+          font-weight: normal;
+          text-shadow: 0 0 0px #d9d9d9;
+        }
+        .detail {
+          padding: 0 5vw;
+          font-size: 5vw;
+          text-align: justify;
+        }
+        .detail em {
+          font-style: normal;
+          font-weight: bold;
+        }
+        .agree-info {
+          text-align: center;
+          padding: 10vw;
+        }
+        .showAgreeDialog {
+          text-decoration: underline;
+        }
+    </style>
+  </head>
+  <body>
+    <div>
+        <form class="weui-form" style="padding-top: 0;">
+          <div class="weui-form_control-area">
+            <div class="weui-cells__group">
+              <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_active">
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>姓名</label></div>
+                  <div class="weui-cell__bd">
+                      <input id="js_input" name="username" class="weui-input" placeholder=""/>
+                  </div>
+                </div>
+                <div class="weui-cell weui-cell_active">
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>联系方式</label></div>
+                  <div class="weui-cell__bd">
+                      <input id="js_input" class="weui-input" name="phone" placeholder="必填"/>
+                  </div>
+                </div>
+                <div class="weui-cell weui-cell_active weui-cell_access" id="showCityPicker">
+                  <div class="weui-cell__hd"><span class="require">*</span>省/市/区域</div>
+                  <div class="weui-cell__bd address"></div>
+                </div>
+                <div class="weui-cell weui-cell_active">
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>详细地址</label></div>
+                  <div class="weui-cell__bd">
+                      <input id="js_input" class="weui-input" name="addressDetail" placeholder="必填"/>
+                  </div>
+                </div>
+                <div class="weui-cell weui-cell_active">
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>券号</label></div>
+                  <div class="weui-cell__bd">
+                      <input id="js_input" name="card" class="weui-input" placeholder="请输入纸质券号"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weui-form__opr-area" style="margin-top: 10vh;">
+            <button type="button" id="submitOrder" class="weui-btn weui-btn_primary">领蟹券</button>
+          </div>
+        </form>
+    </div>
+  </body>
+  <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="/js/addrData.js"></script>
+  <script>
+    $('#showCityPicker').on('click', function () {
+      weui.picker(window.addrData, {
+        // className: 'city-spicker',
+        container: 'body',
+        defaultValue: [0],
+        depth: 3,
+        onChange: (result) => {
+            
+        },
+        onConfirm: function (result) {
+            $('.address').html(result.map(v => v.label).join(' '))
+        },
+        title: '请选择'
+      });
+    });
+
+    $('#submitOrder').on('click', function() {
+      const form = $('.weui-form')[0];
+      const phone = form.phone.value;
+      const name = form.username.value;
+      const card = form.card.value;
+      const address = $('.address').html() + ' ' + form.addressDetail.value;
+      if (!/^([1][3,4,5,6,7,8,9])\d{9}$/.test(phone)) {
+        weui.topTips('手机号码不合法');
+        return;
+      }
+      if (!name) {
+        weui.topTips('姓名必填');
+        return;
+      }
+      if (!address) {
+        weui.topTips('地址必填')
+        return;
+      }
+      if (!card) {
+        weui.topTips('券号必填')
+        return;
+      }
+      const loading = weui.loading('领取中');
+      $.post('/zhongqiu/request', {
+        name,
+        phone,
+        address,
+        card,
+        spec: '<%= spec %>'
+      }, function(res) {
+        loading.hide();
+        if (res.data.code === 0) {
+          location.href = '/zhongqiu/page/success';
+        } else {
+          weui.topTips(res.data.msg);
+        }
+      })
+    })
+  </script>
+</html>
