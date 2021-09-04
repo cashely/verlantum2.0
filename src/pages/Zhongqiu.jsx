@@ -72,7 +72,13 @@ export default function Zhongqiu() {
       {
         title: '规格',
         dataIndex: 'spec',
-        key: 'spec'
+        render: d => {
+          switch(d) {
+            case 1: return '6只';
+            case 2: return '8只';
+            default: return '错误';
+          }
+        }
       },
       {
         title: '是否发货',
@@ -135,7 +141,7 @@ function CardModel(props) {
       onCancel={onClose}
     >
       <Form layout="horizontal" labelCol={{span: 6}} wrapperCol={{span: 18}}>
-        <Item label="变量名称">
+        <Item label="请输入券号">
           <Input value={number} onChange={(e) => setCard(e.currentTarget.value)} />
         </Item>
       </Form>
