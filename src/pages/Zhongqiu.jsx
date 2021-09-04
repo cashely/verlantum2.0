@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Layout, Pagination, Table, Tag, Modal, Button, Input, Upload, Popconfirm, message } from 'antd';
+import { Form, Layout, Pagination, Table, Tag, Modal, Button, Input, Icon, Popconfirm, message } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import { useState } from 'react';
@@ -42,6 +42,15 @@ export default function Zhongqiu() {
   const sendAction = (id) => {
     $.put(`/zhongqiu/${id}`, { isSend: true }).then(res => {
       if (res.data.code === 0) {
+        message.success('操作成功');
+        listAction();
+      }
+    })
+  }
+
+  const deleteAction = (id) => {
+    $.delete(`/zhongqiu/${id}`).then(res => {
+      if(res.code === 0) {
         message.success('操作成功');
         listAction();
       }
@@ -92,7 +101,21 @@ export default function Zhongqiu() {
       },
       {
         title: '操作',
-        render: d => !d.isSend && <Button onClick={() => sendAction(d._id)} size="small" type="primary">发货</Button>
+        render: d => (
+          <React.Fragment>
+            {
+              !d.isSend && <Button onClick={() => sendAction(d._id)} size="small" type="primary">发货</Button>
+            }
+            <Popconfirm
+              title="您确定要删除?"
+              onConfirm={() => deleteAction(d._id)}
+              okText="是"
+              cancelText="否"
+            >
+              <Button style={{marginLeft: 10}} type="danger" size="small"><Icon type="delete"/></Button>
+            </Popconfirm>
+          </React.Fragment>
+        )
       }
     ];
     return (

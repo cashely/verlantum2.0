@@ -18,6 +18,19 @@ module.exports = [
     }
   },
   {
+    uri: '/:id',
+    method: 'delete',
+    mark: '删除领券信息',
+    callback: (req, res) => {
+      const { id } = req.params;
+      models.zhongqiu.deleteOne({_id: id }).then(() => {
+        req.response(200, 'ok')
+      }).catch(err => {
+        req.response(500, err)
+      })
+    }
+  },
+  {
     uri: '/list',
     method: 'get',
     mark: '查询中秋券领取列表',
