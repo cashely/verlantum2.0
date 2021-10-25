@@ -13,9 +13,9 @@ module.exports = [
     method: 'get',
     mark: '中秋领券页面',
     callback(req, res) {
-      // const { spec = 1 } = req.params;
-      res.render('actives/zhongqiu-before');
-      // res.render('actives/zhongqiu', { spec })
+      const { spec = 1 } = req.params;
+      // res.render('actives/zhongqiu-before');
+      res.render('actives/zhongqiu', { spec })
     }
   },
   {
