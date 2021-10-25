@@ -16,10 +16,12 @@ const authenticationMiddleware = require('./passport/passportMiddleware');
 
 module.exports = (app) => {
   app
-  .get('/', authenticationMiddleware(), (req, res) => {
+  // .get('')
+  .get('/', (req, res) => {
     // console.log(passport.authenticate(), req.logout, req.logOut)
-    console.log(req.response)
-    res.json({test: req.isAuthenticated(), uid: req.user, session: req.session, password: getSha1('root')})
+    // console.log(req.response)
+    res.render('index');
+    // res.json({test: req.isAuthenticated(), uid: req.user, session: req.session, password: getSha1('root')})
   })
   .post('/login', (req, res, next) => {
     // console.log(req.query.acount, req.query.password)
