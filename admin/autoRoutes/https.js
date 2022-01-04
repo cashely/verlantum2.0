@@ -12,7 +12,7 @@ module.exports = [
     method: 'get',
     mark: '腾讯云api.verlantum.cn证书',
     callback: (req, res) => {
-      res.send('202201031348392dffktr5g3765299mhtd70cz9pdrh4vluelbwn15ck0r4d00n5 ')
+      res.send('202201031348392dffktr5g3765299mhtd70cz9pdrh4vluelbwn15ck0r4d00n5')
     }
   },
   {
