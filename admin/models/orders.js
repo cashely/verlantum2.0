@@ -90,6 +90,9 @@ const Orders = new mongoose.Schema({
   },
   openid: { // 用户开放id
     type: String,
+  },
+  reportPath: { // 报告地址
+    type: String,
   }
 }, {
   timestamps: {
