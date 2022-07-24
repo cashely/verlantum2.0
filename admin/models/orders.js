@@ -93,6 +93,9 @@ const Orders = new mongoose.Schema({
   },
   reportPath: { // 报告地址
     type: String,
+  },
+  boxNumber: { // 检验盒编码
+    type: String,
   }
 }, {
   timestamps: {

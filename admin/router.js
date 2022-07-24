@@ -66,6 +66,7 @@ module.exports = (app) => {
 
   .get('/orders',authenticationMiddleware(), routes.order.list)
   .get('/order/:id', routes.order.detail)
+  .put('/order/:id', authenticationMiddleware(), routes.order.update) // 更新订单信息
   .get('/orders/total', routes.order.total)
   .post('/order', routes.order.add)
   .put('/pay/:id', routes.order.pay)

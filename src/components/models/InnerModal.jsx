@@ -12,7 +12,8 @@ export default class InnerModal extends Component {
         payTotal: 0,
         payChannel: 0,
         agent: '',
-        agentProfit: ''
+        agentProfit: '',
+        boxNumber: '',
       },
       agents: [],
     }
@@ -90,6 +91,9 @@ export default class InnerModal extends Component {
         <Form layout="horizontal" labelCol={{span: 4}} wrapperCol={{span: 20}}>
           <Item label="商品名称">
             <Input value={this.state.fields.good} onChange={(e) => this.changeAction('good', e)} style={{width: 250}} />
+          </Item>
+          <Item label="包装编号">
+            <Input value={this.state.fields.boxNumber} onChange={(e) => this.changeAction('boxNumber', e)} style={{width: 250}} />
           </Item>
           <Item label="代理商">
             <Select value={this.state.fields.agent} onChange={(e) => this.changeAction('agent', e)}>

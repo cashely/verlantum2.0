@@ -79,28 +79,13 @@
         <form class="weui-form">
           <div class="weui-form_control-area">
             <div class="weui-cells__group weui-cells__group_form">
-              <div class="weui-cells__title">订购人信息</div>
+              <div class="weui-cells__title">订购信息</div>
               <div class="weui-cells weui-cells_form">
                 <div class="weui-cell weui-cell_active">
-                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>真实姓名</label></div>
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>姓名</label></div>
                   <div class="weui-cell__bd">
                       <input id="js_input" name="username" class="weui-input" placeholder=""/>
                   </div>
-                </div>
-                <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
-                  <div class="weui-cell__hd">
-                      <label for="" class="weui-label"><span class="require">*</span>性别</label>
-                  </div>
-                  <div class="weui-cell__bd">
-                      <select class="weui-select" name="sex">
-                          <option value="1">男</option>
-                          <option value="2">女</option>
-                      </select>
-                  </div>
-                </div>
-                <div class="weui-cell weui-cell_active weui-cell_access" id="showDatePicker">
-                  <div class="weui-cell__hd"><span class="require">*</span>出生日期</div>
-                  <div class="weui-cell__bd birthday"></div>
                 </div>
                 <div class="weui-cell weui-cell_active">
                   <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>手机号码</label></div>
@@ -108,148 +93,22 @@
                       <input id="js_input" class="weui-input" name="phone" placeholder="必填"/>
                   </div>
                 </div>
-                <div class="weui-cell weui-cell_active weui-cell_access" id="showCityPicker">
-                  <div class="weui-cell__hd"><span class="require">*</span>省/市/区域</div>
-                  <div class="weui-cell__bd address"></div>
-                </div>
-                <div class="weui-cell weui-cell_active">
-                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>详细地址</label></div>
-                  <div class="weui-cell__bd">
-                      <input id="js_input" class="weui-input" name="addressDetail" placeholder="必填"/>
-                  </div>
-                </div>
-                <div class="weui-cell weui-cell_active">
-                  <div class="weui-cell__hd"><label class="weui-label">监护人姓名</label></div>
-                  <div class="weui-cell__bd">
-                      <input id="js_input" class="weui-input" name="guardian" placeholder="选填"/>
-                  </div>
-                </div>
               </div>
             </div>
-
-            <div class="weui-cells__group weui-cells__group_form">
-              <div class="weui-cells__title">其他信息</div>
-              <div class="weui-cells weui-cells_form">
-                <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
-                  <div class="weui-cell__hd">
-                      <label for="" class="weui-label">机构信息</label>
-                  </div>
-                  <div class="weui-cell__bd">
-                      <select class="weui-select" id="guardians" name="aid">
-                      </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="agree-info">
-            <label class="weui-cell__hd weui-cells_checkbox" for="s11">
-              <input type="checkbox" class="weui-check" name="agree" id="s11">
-              <i class="weui-icon-checked"></i>
-            </label>
-            <span href="javascript: void(0)" class="showAgreeDialog">同意知情同意书</span>
-          </div>
-          <div class="weui-form__opr-area">
-            <button type="button" id="submitOrder" class="weui-btn weui-btn_primary">提交</button>
           </div>
         </form>
-
-        <!-- 知情同意书弹窗 -->
-        <div class="agreeDialog" style="display: none;">
-          <div class="weui-mask"></div>
-          <div class="weui-dialog">
-              <div class="weui-dialog__hd"><strong class="weui-dialog__title">知情同意书</strong></div>
-              <div class="weui-dialog__bd" style="text-align: justify;">
-                <p>1、隐私保护：您的所有个人信息包括基本信息、基因信息、报告信息将得到妥善保管，未经您本人许可，我们不会向任何第三方泄露任何您的信息。</p>
-                <p>2、可靠一致：由于样本采集是由您自行完成，所以我们只对受检样本和检测结果的一致性负责，样本本身和受检者的一致性是由您来保证的。</p>
-                <p>3、基因检测：基因检测非临床诊断，从基因到后天表现，还受许多因素的影响，所以检测所产生的报 告仅供您对孩子的未来教育作为参考。</p>
-                <p>4、科技发展：生命科学日新月异，世界范围内数以万计的科学家正在不断揭示基因的更多奥秘，请关注我们的研究也将会不断的更新。</p>
-                <p>5、服务撤销：基因检测属于分子层面的医学服务， 为保证您尽快收到报告，您的样本会在第一时间 进入实验室检测环节，同时服务不可撤销。</p>
-              </div>
-              <div class="weui-dialog__ft">
-                  <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_default unAgreeAction">不同意</a>
-                  <a href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary agreeAction">我同意</a>
-              </div>
-          </div>
-        </div>
     </div>
   </body>
   <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="/js/addrData.js"></script>
   <script>
-    $('#showDatePicker').on('click', function () {
-        weui.datePicker({
-            start: 1990,
-            end: new Date().getFullYear(),
-            onChange: function (result) {
-                console.log(result);
-            },
-            onConfirm: function (result) {
-              console.log(result.map(v => v.label).join(''))
-                $('.birthday').html(result.map(v => v.label).join(''))
-            },
-            title: '出生日期'
-        });
-    });
-    $('#showCityPicker').on('click', function () {
-      weui.picker(window.addrData, {
-        // className: 'city-spicker',
-        container: 'body',
-        defaultValue: [0],
-        depth: 3,
-        onChange: (result) => {
-            
-        },
-        onConfirm: function (result) {
-            $('.address').html(result.map(v => v.label).join(' '))
-        },
-        title: '请选择'
-      });
-    });
-    $.get('/agents', { limit: 100 }, function(res) {
-      console.log(res)
-      var str = '<option value="">无</option>';
-      for(var i = 0; i < res.data.length; i++) {
-        str += '<option'
-        if (res.data[i]._id === '<%= agent %>') {
-          str += ' selected="selected"'
-        }
-        str += ' value='+ res.data[i]._id +'>'+ res.data[i].title +'</option>'
-      }
-      $('#guardians').html(str);
-    })
 
-    $('.showAgreeDialog').on('click', function() {
-      $('.agreeDialog').fadeIn(200);
-    })
-
-    $('.agreeAction').on('click', function() {
-      const form = $('.weui-form')[0];
-      form.agree.checked = true;
-      $(this).parents('.agreeDialog').fadeOut(200);
-    })
-
-    $('.unAgreeAction').on('click', function() {
-      const form = $('.weui-form')[0];
-      form.agree.checked = false;
-      $(this).parents('.agreeDialog').fadeOut(200);
-    })
 
     $('#submitOrder').on('click', function() {
       const form = $('.weui-form')[0];
       const phone = form.phone.value;
       const username = form.username.value;
-      const birthday = $('.birthday').html();
-      const address = $('.address').html() + form.addressDetail.value;
-      const aid = form.aid.value;
-      const sex = form.sex.value;
-      const guardian = form.guardian.value;
-      const agree = form.agree.checked;
-      if (!agree) {
-        weui.topTips('您还没有同意知情同意书');
-        return;
-      }
       if (!/^([1][3,4,5,6,7,8,9])\d{9}$/.test(phone)) {
         weui.topTips('手机号码不合法');
         return;
@@ -258,28 +117,11 @@
         weui.topTips('姓名必填');
         return;
       }
-      if (!address) {
-        weui.topTips('地址必填')
-        return;
-      }
-      if (!sex) {
-        weui.topTips('性别必填')
-        return;
-      }
-      if (!birthday) {
-        weui.topTips('出生日期必填')
-        return;
-      }
       const loading = weui.loading('订单创建中');
       $.post('/order/create', {
         goodId: '<%= _id %>',
         username,
-        sex,
-        birthday,
         phone,
-        address,
-        guardian,
-        aid,
         payChannel: 1, // 微信支付
       }, function(res) {
         loading.hide();

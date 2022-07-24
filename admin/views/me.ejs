@@ -78,6 +78,11 @@
             <a href="javascript:void(0);" onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
               <div class="weui-cell__bd">申请发票</div>
             </a>
+            <% if (order.reportPath) { %>
+              <a href="/uplaods/<%= order.reportPath %>" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+                <div class="weui-cell__bd">报告下载</div>
+              </a>
+            <% } %>
           </div>
         </div>
       <% }) %>
