@@ -74,7 +74,7 @@
         </div>
         <div class="weui-cell weui-cell_active">
           <div class="weui-cell__hd">
-            <label class="weui-label">纳税人</label>
+            <label class="weui-label">抬头</label>
           </div>
           <div class="weui-cell__bd weui-flex">
             <input class="weui-input name" />
@@ -82,7 +82,7 @@
         </div>
         <div class="weui-cell weui-cell_active head_block" style="display: none;">
           <div class="weui-cell__hd">
-            <label class="weui-label">发票抬头</label>
+            <label class="weui-label">税号</label>
           </div>
           <div class="weui-cell__bd weui-flex">
             <input class="weui-input head" />
@@ -110,7 +110,7 @@
         $('.head_block').css({ display: 'none' });
       }
       if (type === 1) {
-        $('.head_block').css({ display: 'inheart' });
+        $('.head_block').css({ display: 'flex' });
       }
     })
     function createTicket() {
