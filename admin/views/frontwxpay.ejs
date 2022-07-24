@@ -46,11 +46,11 @@
               // 支付成功后的回调函数
               loading.hide();
               weui.toast('支付成功', 1000);
-              setTimeout(() => {
-                try {
-                  window.close();
-                }catch(e){}
-              }, 1000);
+              // setTimeout(() => {
+              //   try {
+              //     window.close();
+              //   }catch(e){}
+              // }, 1000);
             },
             fail: function() {
               loading.hide();

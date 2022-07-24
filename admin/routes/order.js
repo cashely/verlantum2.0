@@ -56,6 +56,16 @@ module.exports = {
       req.response(500, err);
     })
   },
+  async update(req, res) {
+    const { id } = req.params;
+    const { _id, ...otherInfo } = req.body;
+    try {
+      await models.orders.findByIdAndUpdate(id, otherInfo);
+      req.response(200, 'ok');
+    } catch (err) {
+      req.response(500, err);
+    }
+  },
   pay(req, res) {
     const { id}  = req.params;
     models.orders.findById(id).then(order => {
