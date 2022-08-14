@@ -12,7 +12,7 @@ const payment = new Payment({
   appid: wxAppId,
   mchid: wxMchId,
   private_key, //或者直接复制证书文件内容
-  serial_no:'7E9E0047261197C96D82A3FD70E9A2E2B47AD027',
+  serial_no:'5ADBEDC8B041ACA6E3040AF39673115A68968AF8',
   apiv3_private_key:'773ADDFE99B6749A16D6B9E266F8A20A',
   notify_url: 'https://api.verlantum.cn/auth/wxpaycallback',
 });
