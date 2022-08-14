@@ -16,7 +16,7 @@ module.exports = {
     })
   },
   add(req, res) {
-    const {title, statu, contact, address, tel, price = 0, ratio = 0, good, discount} = req.body;
+    const {title, statu, contact, address, tel, price = 0, ratio = 0, good, discount, num} = req.body;
     const conditions = {
       title,
       statu,
@@ -25,7 +25,8 @@ module.exports = {
       price,
       ratio,
       discount,
-      creater: req.user.uid
+      creater: req.user.uid,
+      num,
     };
     new models.agents(conditions).save().then(() => {
       req.response(200, 'ok');

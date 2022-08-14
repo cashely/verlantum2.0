@@ -147,8 +147,12 @@ export default class Outer extends Component {
     }
     const columns = [
       {
-        title: '代理商名称',
+        title: '机构名称',
         dataIndex: 'title',
+      },
+      {
+        title: '编号',
+        dataIndex: 'num',
       },
       {
         title: '商品',

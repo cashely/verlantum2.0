@@ -12,6 +12,7 @@ export default class PullerModal extends Component {
         contact: '',
         mark: '',
         discount: '',
+        num: '',
       },
       goods: [],
     }
@@ -78,7 +79,7 @@ export default class PullerModal extends Component {
         onCancel={this.props.onCancel}
       >
         <Form layout="horizontal" labelCol={{span: 4}} wrapperCol={{span: 20}}>
-          <Item label="代理商名称">
+          <Item label="机构名称">
             <Input value={this.state.fields.title} onChange={(e) => {this.changeAction('title', e)}} />
           </Item>
           <Item label="代理商品">
@@ -87,6 +88,9 @@ export default class PullerModal extends Component {
                 this.state.goods.map(good => <Option value={good._id} key={good._id} >{good.title}</Option>)
               }
             </Select>
+          </Item>
+          <Item label="编号">
+            <Input value={this.state.fields.num} onChange={(e) => {this.changeAction('num', e)}} />
           </Item>
           <Item label="联系人">
             <Input value={this.state.fields.contact} onChange={(e) => {this.changeAction('contact', e)}} />

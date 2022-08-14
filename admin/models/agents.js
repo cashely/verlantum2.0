@@ -43,7 +43,11 @@ const Agents = new mongoose.Schema({
   },
   mark: {
     type: String
-  }
+  },
+  // 代理商编号
+  num: {
+    type: Number,
+  },
 }, {
   timestamps: {
     createdAt: 'createdAt',
