@@ -120,7 +120,7 @@
       if (!!'<%= agent %>') {
         $.get('/sameAgent/<%= agent %>', function (res) {
           let str = '';
-          for(const i = 0; i <= res.data.length; i++) {
+          for(let i = 0; i <= res.data.length; i++) {
             str += `<option value="${res.data[i]._id}">${res.data[i].contact}</option>`
           }
           $('#sameAgent').html(str);
