@@ -237,7 +237,7 @@ export default class Inner extends Component {
       },
       {
         title: '代理商',
-        render: d => d.agent ? d.agent.title : '——',
+        render: d => d.agent ? d.agent.contact : '——',
       },
       {
         title: '创建时间',
