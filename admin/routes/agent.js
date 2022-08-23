@@ -15,6 +15,14 @@ module.exports = {
       req.response(500, err);
     })
   },
+  // 查找同一个机构的代理商
+  async sameAgent(req, res) {
+    const { id } = req.params;
+    const findCurrentAgent = await models.agents.findById(id);
+    const { title } = findCurrentAgent;
+    const sameTitleAgents = await models.agents.find({ title });
+    req.response(200, sameTitleAgents);
+  },
   add(req, res) {
     const {title, statu, contact, address, tel, price = 0, ratio = 0, good, discount, num} = req.body;
     const conditions = {

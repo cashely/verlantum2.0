@@ -90,6 +90,7 @@ module.exports = (app) => {
   })
 
   .get('/qrcode', routes.agent.qrcode)
+  .get('/sameAgent/:id', routes.agent.sameAgent)
   .get('/qrRedirect', routes.agent.qrRedirect)
   .get('/alipay', routes.agent.alipay)
   .get('/wxpay', routes.agent.wxpay)

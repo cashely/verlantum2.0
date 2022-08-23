@@ -94,6 +94,17 @@
                 </div>
               </div>
             </div>
+            <% if (agent) { %>
+              <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+                <div class="weui-cell__hd">
+                    <label for="" class="weui-label"><span class="require">*</span>编号</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <select class="weui-select" name="agent" id="sameAgent">
+                    </select>
+                </div>
+              </div>
+            <% } %>
           </div>
           <div class="weui-form__opr-area" style="margin-top: 10vw;">
             <button type="button" id="submitOrder" class="weui-btn weui-btn_primary">提交</button>
@@ -105,12 +116,23 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="/js/addrData.js"></script>
   <script>
-
+    $(function() {
+      if (<%= agent %>) {
+        $.get('/sameAgent/<%= agent %>', function (res) {
+          let str = '';
+          for(const i = 0; i <= res.data.length; i++) {
+            str += `<option value="${res.data[i]._id}">${res.data[i].contact}</option>`
+          }
+          $('#sameAgent').html(str);
+        })
+      }
+    })()
 
     $('#submitOrder').on('click', function() {
       const form = $('.weui-form')[0];
       const phone = form.phone.value;
       const username = form.username.value;
+      const aid = form.agent.value;
       if (!/^([1][3,4,5,6,7,8,9])\d{9}$/.test(phone)) {
         weui.topTips('手机号码不合法');
         return;
@@ -125,6 +147,7 @@
         username,
         phone,
         payChannel: 1, // 微信支付
+        aid,
       }, function(res) {
         loading.hide();
         if (res.code === 0) {
