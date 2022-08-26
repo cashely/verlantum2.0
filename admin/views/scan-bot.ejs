@@ -76,7 +76,7 @@
                     <button class="weui-btn_reset weui-btn_icon weui-btn_input-clear" wah-hotarea="click">
                       <i class="weui-icon-clear"></i>
                     </button>
-                    <button id="js_btn_vcode" onclick="scanBot" role="button" class="js_target weui-cell__control weui-btn weui-btn_default weui-vcode-btn">扫一扫</button>
+                    <button id="js_btn_vcode" onclick="scanBot()" role="button" class="js_target weui-cell__control weui-btn weui-btn_default weui-vcode-btn">扫一扫</button>
                   </div>
                 </div>
               </div>
@@ -106,6 +106,7 @@
       })
 
     function scanBot() {
+      console.log(2)
       wx.ready(function() {
         wx.scanQRCode({
           needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
