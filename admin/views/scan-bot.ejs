@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title><%= title%>-云量检测</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weui/weui@2.4.4/dist/style/weui.min.css">
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+    <style media="screen">
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+        body {
+          background-position: center bottom;
+          background-size: 100% auto;
+          background-repeat: no-repeat;
+        }
+        .tiannfu_form {
+          padding: 5vw;
+        }
+        b.red, .require {
+          color: red;
+        }
+        b.green{
+          color: #4d8d56;
+        }
+        b.blue {
+          color: #14417e
+        }
+        .tiannfu_form > h2 {
+          font-size: 5vw;
+          line-height: 2;
+          text-align: left;
+        }
+        .tiannfu_form > h4 {
+          font-size: 5vw;
+          line-height: 2;
+          text-align: left;
+          color: red;
+        }
+        .tiannfu_form > h2 > p {
+          font-size: 5vw;
+          font-weight: normal;
+          text-shadow: 0 0 0px #d9d9d9;
+        }
+        .detail {
+          padding: 0 5vw;
+          font-size: 5vw;
+          text-align: justify;
+        }
+        .detail em {
+          font-style: normal;
+          font-weight: bold;
+        }
+        .agree-info {
+          text-align: center;
+          padding: 10vw;
+        }
+        .showAgreeDialog {
+          text-decoration: underline;
+        }
+    </style>
+  </head>
+  <body>
+    <div>
+        <form class="weui-form">
+          <div class="weui-form_control-area">
+            <div class="weui-cells__group weui-cells__group_form">
+              <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_active weui-cell_vcode weui-cell_wrap">
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>检测盒编号</label></div>
+                  <div class="weui-cell__bd weui-flex">
+                    <input class="weui-input weui-cell__control weui-cell__control_flex" type="text" pattern="[0-9]*" placeholder="输入验证码" maxlength="6">
+                    <button class="weui-btn_reset weui-btn_icon weui-btn_input-clear" wah-hotarea="click">
+                      <i class="weui-icon-clear"></i>
+                    </button>
+                    <button id="js_btn_vcode" role="button" class="js_target weui-cell__control weui-btn weui-btn_default weui-vcode-btn">扫一扫</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weui-form__opr-area" style="margin-top: 10vw;">
+            <button type="button" id="submitOrder" class="weui-btn weui-btn_primary">提交</button>
+          </div>
+        </form>
+    </div>
+  </body>
+  <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="/js/addrData.js"></script>
+  <script>
+
+      $.get(`/order/wx/pay/config?url=${location.href}`, function(res) {
+        wx.config({
+          debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: res.data.appId, // 必填，公众号的唯一标识
+          timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+          nonceStr: res.data.noncestr, // 必填，生成签名的随机串
+          signature: res.data.signature,// 必填，签名
+          jsApiList: ['barCode'] // 必填，需要使用的JS接口列表
+        });
+        wx.scanQRCode({
+          needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ["barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+          success: function (res) {
+            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+            alert(result)
+          }
+        });
+
+
+      })
+
+    $('#submitOrder').on('click', function() {
+      const form = $('.weui-form')[0];
+      const number = form.number.value;
+      const loading = weui.loading('加载中');
+      $.post('/order/create', {
+        number,
+      }, function(res) {
+        loading.hide();
+        if (res.code === 0) {
+          location.href = '/wxcode/get?uri=' + encodeURIComponent(`https://api.verlantum.cn/wxpay?orderNo=${res.data.orderNo}`)
+        }
+      })
+    })
+  </script>
+</html>
