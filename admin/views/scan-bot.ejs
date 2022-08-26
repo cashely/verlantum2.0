@@ -76,7 +76,7 @@
                     <button class="weui-btn_reset weui-btn_icon weui-btn_input-clear" wah-hotarea="click">
                       <i class="weui-icon-clear"></i>
                     </button>
-                    <button id="js_btn_vcode" role="button" class="js_target weui-cell__control weui-btn weui-btn_default weui-vcode-btn">扫一扫</button>
+                    <button id="js_btn_vcode" onclick="scanBot" role="button" class="js_target weui-cell__control weui-btn weui-btn_default weui-vcode-btn">扫一扫</button>
                   </div>
                 </div>
               </div>
@@ -103,6 +103,10 @@
           signature: res.data.signature,// 必填，签名
           jsApiList: ['barCode'] // 必填，需要使用的JS接口列表
         });
+      })
+
+    function scanBot() {
+      wx.ready(function() {
         wx.scanQRCode({
           needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
           scanType: ["barCode"], // 可以指定扫二维码还是一维码，默认二者都有
@@ -111,9 +115,8 @@
             alert(result)
           }
         });
-
-
       })
+    }
 
     $('#submitOrder').on('click', function() {
       const form = $('.weui-form')[0];
