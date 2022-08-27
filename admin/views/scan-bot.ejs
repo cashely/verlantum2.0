@@ -130,7 +130,7 @@
       }
       
       const loading = weui.loading('加载中');
-      $.post(`/check/scan-bot${number}`, {
+      $.post(`/check/scan-bot/${number}`, {
         number,
       }, function(res) {
         loading.hide();
