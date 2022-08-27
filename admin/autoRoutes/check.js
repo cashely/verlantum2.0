@@ -24,9 +24,7 @@ module.exports = [
     method: 'post',
     mark: '录入检测盒',
     callback(req, res) {
-      console.log(3333333)
       const { openid } = req.cookies;
-      console.log(openid)
       if (!openid) {
         res.response(500, '获取授权失败,请刷新页面')
       } else {
@@ -35,7 +33,7 @@ module.exports = [
           openid,
           botNumber
         };
-        new models.customs(conditions).save().then(result => {
+        new models.check(conditions).save().then(result => {
           console.log(result, '-=-=-=');
           req.response(200, 'ok');
         }).catch(err => {

@@ -18,8 +18,7 @@ const Check = new mongoose.Schema({
     type: String,
   },
   mark: {
-    type: String,
-    required: true
+    type: String
   },
   // 姓名
   uname: {
