@@ -119,7 +119,7 @@
     $('#submitOrder').on('click', function() {
       const form = $('.weui-form')[0];
       const phone = form.phone.value;
-      const username = form.uname.value;
+      const uname = form.uname.value;
       const age = form.age.value;
       const passPortNumber = form.passPortNumber.value;
       const birthday = $('.birthday').html();
@@ -128,12 +128,20 @@
         weui.topTips('手机号码不合法');
         return;
       }
-      if (!username) {
+      if (!uname) {
         weui.topTips('姓名必填');
         return;
       }
       if (!sex) {
         weui.topTips('性别必填')
+        return;
+      }
+      if (!age) {
+        weui.topTips('年龄必填')
+        return;
+      }
+      if (!passPortNumber) {
+        weui.topTips('身份证必填')
         return;
       }
       if (!birthday) {
@@ -142,10 +150,12 @@
       }
       const loading = weui.loading('采样信息创建中');
       $.post('/check/scan-form/<%= id%>', {
-        username,
+        uname,
         sex,
         date: birthday,
         phone,
+        passPortNumber,
+        age,
       }, function(res) {
         loading.hide();
         if (res.code === 0) {
