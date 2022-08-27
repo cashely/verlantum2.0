@@ -33,8 +33,9 @@ module.exports = [
           openid,
           botNumber
         };
-        new models.customs(conditions).save().then(() => {
-          req.response(200, 'ok')
+        new models.customs(conditions).save().then(result => {
+          console.log(result, '-=-=-=');
+          req.response(200, 'ok');
         }).catch(err => {
           req.response(500, err)
         })

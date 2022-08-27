@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title><%= title%>-云量检测</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.min.js"></script>
+    <style media="screen">
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+        body {
+          background-image: url('/images/tianfu_bg.png');
+          background-position: center bottom;
+          background-size: 100% auto;
+          background-repeat: no-repeat;
+        }
+        .tiannfu_form {
+          padding: 2vw;
+        }
+        b.red {
+          color: red;
+        }
+        b.green{
+          color: #4d8d56;
+        }
+        b.blue {
+          color: #14417e
+        }
+        .tiannfu_form > h2 {
+          font-size: 7vw;
+          margin-bottom: 7vh;
+          line-height: 1.5;
+          text-align: center;
+          text-shadow: 0 0.5vw 0px #d9d9d9;
+        }
+        .tiannfu_form > h2 > p {
+          font-size: 4vw;
+          font-weight: normal;
+          text-shadow: 0 0 0px #d9d9d9;
+        }
+    </style>
+    <script type="text/javascript">
+      function submitOrder() {
+        const form = $('.tiannfu_form')[0];
+        const phone = form.phone.value;
+        const username = form.username.value;
+        const address = form.address.value;
+        const count = form.count.value;
+        if (!/^([1][3,4,5,6,7,8,9])\d{9}$/.test(phone)) {
+          alert('手机号码不合法')
+          return;
+        }
+        if (!username) {
+          alert('姓名必填')
+          return;
+        }
+        if (!address) {
+          alert('地址必填')
+          return;
+        }
+        if (!/[0-9]/.test(count)) {
+          alert('下单数量必须是大于1的整数')
+          return;
+        }
+        location.href = `/qrRedirect?aid=<%= agent%>&address=${address}&price=<%= price%>&good=<%= title%>&count=${count}&username=${username}&phone=${phone}&goodNumber=<%= _id%>`
+      }
+    </script>
+  </head>
+  <body>
+    <div>
+        <div class="tiannfu_form">
+          <h2>检测信息录入</h2>
+          <div class="weui-form_control-area">
+            <div class="weui-cells__group weui-cells__group_form">
+              <div class="weui-cells weui-cells_form">
+                <div class="weui-cell weui-cell_active">
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>姓名</label></div>
+                  <div class="weui-cell__bd">
+                      <input id="js_input" name="uname" class="weui-input" placeholder=""/>
+                  </div>
+                </div>
+                <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+                  <div class="weui-cell__hd">
+                      <label for="" class="weui-label"><span class="require">*</span>性别</label>
+                  </div>
+                  <div class="weui-cell__bd">
+                      <select class="weui-select" name="sex">
+                          <option value="1">男</option>
+                          <option value="2">女</option>
+                      </select>
+                  </div>
+                </div>
+                <div class="weui-cell weui-cell_active">
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>身份证号</label></div>
+                  <div class="weui-cell__bd">
+                      <input id="js_input" name="passPortNumber" class="weui-input" placeholder=""/>
+                  </div>
+                </div>
+                <div class="weui-cell weui-cell_active weui-cell_access" id="showDatePicker">
+                  <div class="weui-cell__hd"><span class="require">*</span>采样日期</div>
+                  <div class="weui-cell__bd birthday"></div>
+                </div>
+                <div class="weui-cell weui-cell_active">
+                  <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>手机号码</label></div>
+                  <div class="weui-cell__bd">
+                      <input id="js_input" class="weui-input" name="phone" placeholder="必填"/>
+                  </div>
+                </div>
+              </div>
+              <div class="weui-form__opr-area">
+                <button type="button" id="submitOrder" class="weui-btn weui-btn_primary">提交</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </body>
+  <script>
+    $('#showDatePicker').on('click', function () {
+        weui.datePicker({
+            start: 1990,
+            end: new Date().getFullYear(),
+            onChange: function (result) {
+                console.log(result);
+            },
+            onConfirm: function (result) {
+              console.log(result.map(v => v.label).join(''))
+                $('.birthday').html(result.map(v => v.label).join(''))
+            },
+            title: '采样日期'
+        });
+    });
+
+    $('#submitOrder').on('click', function() {
+      const form = $('.weui-form')[0];
+      const phone = form.phone.value;
+      const username = form.uname.value;
+      const age = form.age.value;
+      const passPortNumber = form.passPortNumber.value;
+      const birthday = $('.birthday').html();
+      const sex = form.sex.value;
+      if (!/^([1][3,4,5,6,7,8,9])\d{9}$/.test(phone)) {
+        weui.topTips('手机号码不合法');
+        return;
+      }
+      if (!username) {
+        weui.topTips('姓名必填');
+        return;
+      }
+      if (!sex) {
+        weui.topTips('性别必填')
+        return;
+      }
+      if (!birthday) {
+        weui.topTips('采样日期必填')
+        return;
+      }
+      const loading = weui.loading('采样信息创建中');
+      $.post('/order/create', {
+        goodId: '<%= _id %>',
+        username,
+        sex,
+        birthday,
+        phone,
+        address,
+        guardian,
+        aid,
+        payChannel: 1, // 微信支付
+      }, function(res) {
+        loading.hide();
+        if (res.code === 0) {
+          location.href = '/wxcode/get?uri=' + encodeURIComponent(`https://api.verlantum.cn/wxpay?orderNo=${res.data.orderNo}`)
+        }
+      })
+    })
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</html>
