@@ -6,7 +6,7 @@ const mongoose = require('../db.config');
 
 const Check = new mongoose.Schema({
   // 检测编号
-  boxNumber: {
+  botNumber: {
     type: String,
     required: true
   },
