@@ -23,7 +23,7 @@ module.exports = [
     uri: '/scan-bot/:botNumber',
     method: 'post',
     mark: '录入检测盒',
-    async callback(req, res) {
+    callback(req, res) {
       const { openid } = req.cookies;
       console.log(openid)
       if (!openid) {
