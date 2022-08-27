@@ -20,6 +20,52 @@ module.exports = [
     }
   },
   {
+    uri: '/scan-form/:id',
+    method: 'get',
+    mark: '检测信息填写页面',
+    callback(req, res) {
+      const { id } = req.params;
+      res.render('scan-form', { id });
+    }
+  },
+  {
+    uri: '/scan-success',
+    method: 'get',
+    mark: '检测信息填写成功页面',
+    callback(req, res) {
+      res.render('scan-success');
+    }
+  },
+  {
+    uri: '/scan-form/:id',
+    method: 'post',
+    mark: '提交检测信息页面',
+    async callback(req, res) {
+      const { id } = req.params;
+      const {
+        uname,
+        age,
+        passPortNumber,
+        date,
+        phone,
+      } = req.body;
+      const conditions = {
+        uname,
+        age,
+        passPortNumber,
+        date,
+        phone,
+      };
+      try {
+        await models.check.findByIdAndUpdate(id, conditions);
+        req.response(200, 'ok');
+      } catch (err) {
+        req.response(500, err);
+      }
+
+    }
+  },
+  {
     uri: '/scan-bot/:botNumber',
     method: 'post',
     mark: '录入检测盒',
@@ -34,8 +80,8 @@ module.exports = [
           botNumber
         };
         new models.check(conditions).save().then(result => {
-          console.log(result, '-=-=-=');
-          req.response(200, 'ok');
+          const { _id } = result;
+          req.response(200, _id);
         }).catch(err => {
           console.log(err)
           req.response(500, err)

@@ -135,8 +135,7 @@
       }, function(res) {
         loading.hide();
         if (res.code === 0) {
-          // location.href = `/scan-form/${res.data}`
-          alert(JSON.stringify(res))
+          location.href = `/scan-form/${res.data}`
         } else {
           weui.topTips(res.data.message);
         }

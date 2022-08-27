@@ -159,20 +159,15 @@
         return;
       }
       const loading = weui.loading('采样信息创建中');
-      $.post('/order/create', {
-        goodId: '<%= _id %>',
+      $.post('/chekc/scan-form/<%= id%>', {
         username,
         sex,
-        birthday,
+        date: birthday,
         phone,
-        address,
-        guardian,
-        aid,
-        payChannel: 1, // 微信支付
       }, function(res) {
         loading.hide();
         if (res.code === 0) {
-          location.href = '/wxcode/get?uri=' + encodeURIComponent(`https://api.verlantum.cn/wxpay?orderNo=${res.data.orderNo}`)
+          location.href= '/check/scan-success'
         }
       })
     })
