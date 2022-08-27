@@ -25,6 +25,7 @@ module.exports = [
     mark: '录入检测盒',
     async callback(req, res) {
       const { openid } = req.cookies;
+      console.log(openid)
       if (!openid) {
         res.response(500, '获取授权失败,请刷新页面')
       } else {
