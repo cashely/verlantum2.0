@@ -42,32 +42,6 @@
           text-shadow: 0 0 0px #d9d9d9;
         }
     </style>
-    <script type="text/javascript">
-      function submitOrder() {
-        const form = $('.tiannfu_form')[0];
-        const phone = form.phone.value;
-        const username = form.username.value;
-        const address = form.address.value;
-        const count = form.count.value;
-        if (!/^([1][3,4,5,6,7,8,9])\d{9}$/.test(phone)) {
-          alert('手机号码不合法')
-          return;
-        }
-        if (!username) {
-          alert('姓名必填')
-          return;
-        }
-        if (!address) {
-          alert('地址必填')
-          return;
-        }
-        if (!/[0-9]/.test(count)) {
-          alert('下单数量必须是大于1的整数')
-          return;
-        }
-        location.href = `/qrRedirect?aid=<%= agent%>&address=${address}&price=<%= price%>&good=<%= title%>&count=${count}&username=${username}&phone=${phone}&goodNumber=<%= _id%>`
-      }
-    </script>
   </head>
   <body>
     <div>
