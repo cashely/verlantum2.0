@@ -24,6 +24,7 @@ module.exports = [
     method: 'post',
     mark: '录入检测盒',
     callback(req, res) {
+      console.log(3333333)
       const { openid } = req.cookies;
       console.log(openid)
       if (!openid) {
