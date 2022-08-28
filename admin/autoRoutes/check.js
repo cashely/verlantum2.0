@@ -37,6 +37,33 @@ module.exports = [
     }
   },
   {
+    uri: '/scan',
+    method: 'get',
+    mark: '检测信息列表页面',
+    async callback(req, res) {
+      const { limit, page } = req.query;
+      const list = await models.check.find().limit(+limit).skip(limit * (page - 1)).sort({ _id: -1 });
+      req.response(200, list);
+    }
+  },
+  {
+    uri: '',
+    method: 'get',
+    mark: '',
+    callback(req, res) {
+      const q = req.query;
+      let conditions = {};
+      if(q._k) {
+        conditions.acount = new RegExp(q._k);
+      }
+      models.check.countDocuments(conditions).then(count => {
+        req.response(200, count);
+      }).catch(error => {
+        req.response(500, error)
+      })
+    }
+  },
+  {
     uri: '/scan-form/:id',
     method: 'post',
     mark: '提交检测信息页面',
