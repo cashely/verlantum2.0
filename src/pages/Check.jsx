@@ -179,9 +179,6 @@ export default class Inner extends Component {
       <Layout style={{height: '100%', backgroundColor: '#fff', display: 'flex'}}>
         <Header style={{backgroundColor: '#fff', padding: 10, height: 'auto', lineHeight: 1}}>
           <Form layout="inline">
-            <Form.Item>
-                <Button type="primary" onClick={this.openModelAction.bind(this, 'inner', null)}><Icon type="download"/>新增订单</Button>
-            </Form.Item>
             <Form.Item label="时间">
               <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />
             </Form.Item>
@@ -191,7 +188,7 @@ export default class Inner extends Component {
           </Form>
         </Header>
         <Content style={{overflow: 'auto'}}>
-          <Table rowKey="_id" scroll={{ x: true }} onRow={r => {return {onClick: e => {} }}} columns={columns} dataSource={this.state.inners} size="middle" bordered pagination={false}/>
+          <Table rowKey="_id" scroll={{ x: true }} onRow={r => {return {onClick: e => {} }}} columns={columns} dataSource={this.state.checks} size="middle" bordered pagination={false}/>
           {
             this.state.visible.reportPath && <ReportModal id={this.state.id} visible={this.state.visible.reportPath} onOk={this.okReportModalAction.bind(this)} onCancel={this.cancelModelAction.bind(this, 'reportPath')} />
           }
