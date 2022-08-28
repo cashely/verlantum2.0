@@ -47,7 +47,7 @@ module.exports = [
     }
   },
   {
-    uri: '',
+    uri: 'total',
     method: 'get',
     mark: '',
     callback(req, res) {
