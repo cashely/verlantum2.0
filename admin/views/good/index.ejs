@@ -103,18 +103,18 @@
                   </div>
                 </div>
               </div>
+              <% if (agent) { %>
+                <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
+                  <div class="weui-cell__hd">
+                      <label for="" class="weui-label"><span class="require">*</span>编号</label>
+                  </div>
+                  <div class="weui-cell__bd">
+                      <select class="weui-select" name="agent" id="sameAgent">
+                      </select>
+                  </div>
+                </div>
+              <% } %>
             </div>
-            <% if (agent) { %>
-              <div class="weui-cell weui-cell_active weui-cell_select weui-cell_select-after">
-                <div class="weui-cell__hd">
-                    <label for="" class="weui-label"><span class="require">*</span>编号</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <select class="weui-select" name="agent" id="sameAgent">
-                    </select>
-                </div>
-              </div>
-            <% } %>
           </div>
           <div class="weui-form__opr-area" style="margin-top: 10vw;">
             <button type="button" id="submitOrder" class="weui-btn weui-btn_primary">提交</button>

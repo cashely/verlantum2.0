@@ -4,7 +4,6 @@ import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
 import InnerModal from '../components/models/InnerModal';
-import ReportModal from '../components/models/ReportModal';
 
 export default class Inner extends Component {
   constructor(props) {
@@ -17,7 +16,6 @@ export default class Inner extends Component {
       id: null,
       visible: {
         inner: false,
-        reportPath: false,
       },
       conditions: {
         date: []
@@ -65,11 +63,6 @@ export default class Inner extends Component {
 
   okInnerModalAction() {
     this.cancelModelAction('inner');
-    this.listAction();
-  }
-
-  okReportModalAction() {
-    this.cancelModelAction('reportPath');
     this.listAction();
   }
 
@@ -232,10 +225,6 @@ export default class Inner extends Component {
         }
       },
       {
-        title: '报告',
-        render: d => d.reportPath ? <a href={`http://localhost:5010/uploads/${d.reportPath}`} rel="noopener noreferrer" target='_blank'>查看</a> : '暂未上传',
-      },
-      {
         title: '代理商',
         render: d => d.agent ? d.agent.contact : '——',
       },
@@ -258,7 +247,6 @@ export default class Inner extends Component {
             {
                 row.hasPayed === 0 && <Button type="primary" style={{marginLeft: 10}} onClick={this.payAction.bind(this, row._id)} size="small" title="手动付款" ><Icon type="money-collect"/></Button>
             }
-            <Button style={{marginLeft: 10}} type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('reportPath', row._id)}} size="small"><Icon type="file"/>上传报告</Button>
             <Button style={{marginLeft: 10}} type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('inner',row._id)}} size="small"><Icon type="edit"/></Button>
             <Popconfirm
               title="您确定要删除?"
@@ -291,9 +279,6 @@ export default class Inner extends Component {
           <Table rowKey="_id" scroll={{ x: true }} onRow={r => {return {onClick: e => {} }}} columns={columns} dataSource={this.state.inners} size="middle" bordered pagination={false}/>
           {
             this.state.visible.inner && <InnerModal id={this.state.id} visible={this.state.visible.inner} onOk={this.okInnerModalAction.bind(this)} onCancel={this.cancelModelAction.bind(this, 'inner')} />
-          }
-          {
-            this.state.visible.reportPath && <ReportModal id={this.state.id} visible={this.state.visible.reportPath} onOk={this.okReportModalAction.bind(this)} onCancel={this.cancelModelAction.bind(this, 'reportPath')} />
           }
         </Content>
         <Footer style={{padding: 5, backgroundColor: '#fff'}}>
