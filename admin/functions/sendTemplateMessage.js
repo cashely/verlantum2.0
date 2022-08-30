@@ -10,7 +10,8 @@ module.exports = async (openid, messageDate) => {
     request({
       url: `${uri}${access_token}`,
       method: 'post',
-      formData: { touser: openid, ...messageDate }
+      body: JSON.stringify({ touser: openid, ...messageDate }),
+      headers: { 'Content-Type': 'application/json' },
     }, (err, response, body) => {
       if (!err && response.statusCode == 200) {
         return '模版消息发送成功'
