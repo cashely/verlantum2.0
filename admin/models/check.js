@@ -14,7 +14,7 @@ const Check = new mongoose.Schema({
     type: String,
   },
   // 用户id
-  openId: {
+  openid: {
     type: String,
   },
   mark: {
@@ -26,7 +26,7 @@ const Check = new mongoose.Schema({
   },
   // 性别
   sex: {
-    type: String,
+    type: Number,
   },
   // 年龄
   age: {

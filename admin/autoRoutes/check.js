@@ -73,15 +73,17 @@ module.exports = [
         uname,
         age,
         passPortNumber,
-        date,
+        checkDate,
         phone,
+        sex,
       } = req.body;
       const conditions = {
         uname,
         age,
         passPortNumber,
-        date,
+        checkDate,
         phone,
+        sex,
       };
       try {
         await models.check.findByIdAndUpdate(id, conditions);
@@ -115,5 +117,19 @@ module.exports = [
         })
       }
     }
+  }, {
+    uri: '/update/:id',
+    method: 'put',
+    mark: '更新检测信息',
+    async callback(req, res) {
+      const { id } = req.params;
+      const { _id, ...otherInfo } = req.body;
+      try {
+        await models.orders.findByIdAndUpdate(id, otherInfo);
+        req.response(200, 'ok');
+      } catch (err) {
+        req.response(500, err);
+      }
+    },
   }
 ]

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Input, Button, Icon, Modal, Select, message, Radio, Upload} from 'antd';
+import {Form, Button, Icon, Modal, message, Upload} from 'antd';
 import $ from '../../ajax';
 import _ from 'lodash';
 export default class ReportModal extends Component {
@@ -20,8 +20,7 @@ export default class ReportModal extends Component {
   }
   okAction() {
     if(this.props.id) {
-      console.log({ reportPath: this.state.fields.path })
-      $.put(`/order/${this.props.id}`, { reportPath: this.state.fields.path }).then(res => {
+      $.put(`/check/update/${this.props.id}`, { reportPath: this.state.fields.path }).then(res => {
         if(res.code === 0) {
           message.success('操作成功');
           this.props.onOk();

@@ -15,7 +15,6 @@ export default class Inner extends Component {
       limit: 20,
       id: null,
       visible: {
-        inner: false,
         reportPath: false,
       },
       conditions: {
@@ -131,6 +130,7 @@ export default class Inner extends Component {
       {
         title: '性别',
         dataIndex: 'sex',
+        render: d => d === 1 ? '男' : '女'
       },
       {
         title: '年龄',
@@ -138,7 +138,7 @@ export default class Inner extends Component {
       },
       {
         title: '采集日期',
-        dataIndex: 'date',
+        dataIndex: 'checkDate',
         render: d => m(d).format('YYYY-MM-DD HH:mm:ss')
       },
       {
