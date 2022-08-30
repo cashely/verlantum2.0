@@ -109,8 +109,8 @@
                 console.log(result);
             },
             onConfirm: function (result) {
-              console.log(result.map(v => v.label).join(''))
-                $('.birthday').html(result.map(v => v.label).join(''))
+              console.log(result.map(v => v.value).join('/'))
+                $('.birthday').html(result.map(v => v.value).join('/'))
             },
             title: '采样日期'
         });
