@@ -139,7 +139,7 @@ export default class Inner extends Component {
       {
         title: '采集日期',
         dataIndex: 'checkDate',
-        render: d => m(d).format('YYYY-MM-DD HH:mm:ss')
+        render: d => m(d).format('YYYY-MM-DD')
       },
       {
         title: '联系方式',
@@ -152,7 +152,7 @@ export default class Inner extends Component {
       {
         title: '创建时间',
         dataIndex: 'createdAt',
-        render: d => m(d).format('YYYY-MM-DD HH:mm:ss')
+        render: d => m(d).format('YYYY-MM-DD')
       },
       {
         title: '操作',

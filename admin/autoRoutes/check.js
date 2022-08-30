@@ -5,6 +5,7 @@ const { order, paysignjsapifinal, configSign } = require('../functions/wxPayV3')
 const wxpay = require('../functions/wxpay');
 const { wxMchId, wxAppId } = require('../config.global');
 const generatorOrder = require('../functions/generatorOrder');
+const sendTemplateMessage = require('../functions/sendTemplateMessage');
 module.exports = [
   {
     uri: '/scan-bot',
@@ -133,7 +134,31 @@ module.exports = [
       const { id } = req.params;
       const { _id, ...otherInfo } = req.body;
       try {
-        await models.check.findByIdAndUpdate(id, otherInfo);
+        const checkRecord = await models.check.findByIdAndUpdate(id, otherInfo);
+        const { openid, reportPath, botNumber, uname } = checkRecord;
+        // 如果更新的字段里面包含报告，需要发送通知
+        if (otherInfo.reportPath) {
+          const messageData = {
+            template_id: 'l2p5BPpW5SKE2n-Junt3QL82i1_4C_nt6HPpVKs9bkY',
+            url: `https://api.verlantum.cn/uploads/${reportPath}`,
+            data: {
+              first: {
+                value: '尊敬的用户，您的检测报告已生成',
+              },
+              keyword1: {
+                value: botNumber
+              },
+              keyword2: {
+                value: uname,
+              },
+              remark: {
+                value: '点击详情打开报告',
+              }
+            }
+          };
+          const msg = await sendTemplateMessage(openid, messageData);
+          console.log(msg);
+        }
         req.response(200, 'ok');
       } catch (err) {
         req.response(500, err);
