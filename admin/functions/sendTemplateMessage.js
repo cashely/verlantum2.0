@@ -10,7 +10,7 @@ module.exports = async (openid, messageDate) => {
     request({
       url: `${uri}${access_token}`,
       method: 'post',
-      body: { touser: openid, ...messageDate }
+      formData: { touser: openid, ...messageDate }
     }, (err, response, body) => {
       if (!err && response.statusCode == 200) {
         return '模版消息发送成功'
