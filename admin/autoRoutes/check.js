@@ -125,7 +125,7 @@ module.exports = [
       const { id } = req.params;
       const { _id, ...otherInfo } = req.body;
       try {
-        await models.orders.findByIdAndUpdate(id, otherInfo);
+        await models.check.findByIdAndUpdate(id, otherInfo);
         req.response(200, 'ok');
       } catch (err) {
         req.response(500, err);
