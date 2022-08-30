@@ -152,7 +152,7 @@
       $.post('/check/scan-form/<%= id%>', {
         uname,
         sex,
-        checkDate: birthday,
+        checkDate: +new Date(birthday),
         phone,
         passPortNumber,
         age,
