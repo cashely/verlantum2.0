@@ -89,6 +89,7 @@ module.exports = [
         await models.check.findByIdAndUpdate(id, conditions);
         req.response(200, 'ok');
       } catch (err) {
+        console.log(err);
         req.response(500, err);
       }
 
