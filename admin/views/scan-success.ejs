@@ -6,23 +6,32 @@
     <script src="https://cdn.bootcss.com/jquery/1.8.0/jquery.min.js"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weui/weui@2.4.4/dist/style/weui.min.css">
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/payment.css">
     <style>
-      .payment {
-        font-size: 4vw;
+      .success {
+        padding-top: 10vw;
+        font-size: 3.5vw;
+        line-height: 3;
+      }
+      .success h3 {
+        font-size: 5vw;
+      }
+      .success .icon-box__desc {
+        color: #888;
       }
     </style>
   </head>
   <body>
-    <div class="alipay payment">
-        <img src="/images/wechat.png" alt="">
-        <div class="phone">
-            <p>成功绑定</p>
-        </div>
-        <div class="official_account">
-            <p>成功绑定取样以后，可通过操作指南-样本回寄操作寄送</p>
+    <div class="success">
+      <div class="icon-box">
+        <i role="img" title="成功" aria-describedby="tip_1" class="weui-icon-success weui-icon_msg"></i>
+        <div class="icon-box__ctn" aria-hidden="true">
+            <h3 class="icon-box__title">成功绑定</h3>
+            <p class="icon-box__desc" id="tip_1">成功绑定取样以后，可通过操作指南-样本回寄操作寄送</p>
         </div>
     </div>
-    <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+    </div>
+    
   </body>
 </html>

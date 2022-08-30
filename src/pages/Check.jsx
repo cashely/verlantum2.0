@@ -56,7 +56,7 @@ export default class Inner extends Component {
   }
 
   deleteAction(id) {
-    $.delete(`/check/scan/${id}`).then(res => {
+    $.delete(`/check/delete/${id}`).then(res => {
       if(res.code === 0) {
         message.success('操作成功');
         this.listAction();
@@ -147,7 +147,7 @@ export default class Inner extends Component {
       },
       {
         title: '报告',
-        render: d => d.reportPath ? <a href={`http://localhost:5010/uploads/${d.reportPath}`} rel="noopener noreferrer" target='_blank'>查看</a> : '暂未上传',
+        render: d => d.reportPath ? <a href={`https://api.verlantum.cn/uploads/${d.reportPath}`} rel="noopener noreferrer" target='_blank'>查看</a> : '暂未上传',
       },
       {
         title: '创建时间',
@@ -159,7 +159,6 @@ export default class Inner extends Component {
         key: 'id',
         align: 'center',
         fixed: 'right',
-        with: 100,
         render: row => (
           <React.Fragment>
             <Button style={{marginLeft: 10}} type="primary" onClick={(e) => {e.stopPropagation(); this.openModelAction('reportPath', row._id)}} size="small"><Icon type="file"/>上传报告</Button>

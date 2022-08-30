@@ -98,12 +98,19 @@ module.exports = [
     uri: '/scan-bot/:botNumber',
     method: 'post',
     mark: '录入检测盒',
-    callback(req, res) {
+    async callback(req, res) {
       const { openid } = req.cookies;
       if (!openid) {
         res.response(500, '获取授权失败,请刷新页面')
       } else {
         const { botNumber } = req.params;
+        const hasBotNumber = await models.check.findOne({ botNumber });
+        if (hasBotNumber) {
+          req.response(200, {
+            message: '采集管已使用',
+          }, 1);
+          return;
+        }
         const conditions = {
           openid,
           botNumber
@@ -130,6 +137,18 @@ module.exports = [
       } catch (err) {
         req.response(500, err);
       }
+    },
+  }, {
+    uri: '/delete/:id',
+    method: 'delete',
+    mark: '删除单条记录',
+    async callback(req, res) {
+      const {id} = req.params;
+      models.check.deleteOne({_id: id}).then(() => {
+        req.response(200, 'ok');
+      }).catch(err => {
+        req.response(500, err);
+      })
     },
   }
 ]
