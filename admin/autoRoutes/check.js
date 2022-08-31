@@ -56,6 +56,23 @@ module.exports = [
     }
   },
   {
+    uri: '/scan-me',
+    method: 'get',
+    mark: '检测报告下载列表',
+    async callback(req, res) {
+      const openid = req.cookies.openid;
+      if (!openid) {
+        res.redirect(`/wxcode/get?uri=https://api.verlantum.cn/wxcode/login?redirect=https://api.verlantum.cn/check/scan-me`);
+      } else {
+        let checks = await models.check.find({ openid }).sort({ _id: -1 }).lean();
+        checks = checks.map(v => {
+          return { ...v, checkDate: moment(v.checkDate).format('YYYY-MM-DD HH:mm:ss')}
+        })
+        res.render('scan-me', { checks });
+      }
+    }
+  },
+  {
     uri: 'total',
     method: 'get',
     mark: '',
