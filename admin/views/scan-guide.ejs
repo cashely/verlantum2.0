@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>云量科技</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <script src="https://cdn.bootcss.com/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/weui/weui@2.4.4/dist/style/weui.min.css">
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/payment.css">
+    <style>
+      .success {
+        padding-top: 10vw;
+        padding-left: 10vw;
+        padding-right: 10vw;
+        padding-bottom: 10vw;
+        font-size: 3.5vw;
+        color: #888;
+        text-align: left;
+      }
+      .success .weui-btn {
+        margin-top: 10vw;
+      }
+      .success h3 {
+        text-align: center;
+        font-size: 7vw;
+        color: #57bd6a;
+      }
+      .success h5 {
+        margin-top: 6vw;
+        margin-bottom: 3vw;
+        font-weight: 800;
+        font-size: 4vw;
+        color: #57bd6a;
+      }
+      .success img, .success video {
+        width: 100%;
+        display: block;
+      }
+      .success .icon-box__desc {
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="success">
+      <h3 class="icon-box__title">样本采集引导</h3>
+      <h5>用前须知</h5>
+      <ul>
+        <li>1、为保证粪便样本合格可用，请确保样本类型为成型大便，且避免混入小便或其他液体;</li>
+        <li>2、以下情况请勿收集样本：粪便带血如痔疮出血、腹泻、女性经期出血等，以免导致无效结果;</li>
+        <li>3、请勿将采集管内的样本保存液接触眼睛、皮肤或口腔，如不慎接触请立即用清水冲洗,若不慎误服请立即催吐并就医;</li>
+        <li>4、请您采集完毕后，将拧紧管盖的采集管装入样品袋，尽快寄回。</li>
+      </ul>
+      <h5>确认采集套件包含的内容</h5>
+      <img src="/images/caiji01.png" />
+      <h5>采集操作视频</h5>
+      <video controls>
+        <source src="/images/new_vip_video.mp4" />
+      </video>
+      <a href="/check/scan-bot" class="weui-btn weui-btn_primary">去绑定套件</a>
+    </div>
+    
+  </body>
+</html>

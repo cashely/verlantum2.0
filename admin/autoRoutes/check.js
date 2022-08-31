@@ -38,6 +38,14 @@ module.exports = [
     }
   },
   {
+    uri: '/scan-guide',
+    method: 'get',
+    mark: '检测引导页面',
+    callback(req, res) {
+      res.render('scan-guide');
+    }
+  },
+  {
     uri: '/scan',
     method: 'get',
     mark: '检测信息列表页面',
