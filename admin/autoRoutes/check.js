@@ -66,7 +66,7 @@ module.exports = [
       } else {
         let checks = await models.check.find({ openid }).sort({ _id: -1 }).lean();
         checks = checks.map(v => {
-          return { ...v, checkDate: moment(v.checkDate).format('YYYY-MM-DD HH:mm:ss')}
+          return { ...v, checkDate: moment(v.checkDate).format('YYYY-MM-DD')}
         })
         res.render('scan-me', { checks });
       }
