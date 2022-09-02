@@ -64,6 +64,15 @@
         <div class="weui-panel weui-panel_access">
           <div class="weui-panel__bd">
               <div class="weui-media-box weui-media-box_appmsg">
+                <div class="weui-media-box__hd">
+                  <div style="width: 60px; height: 60px; display: inline-block; line-height: 60px;">
+                    <% if (order.reportPath) { %>
+                      <span style="color: #4d8d56;">已完成</span>
+                    <% } else { %>
+                      <span style="color: #888;">检测中</span>  
+                    <% } %>
+                  </div>
+                </div>
                 <div class="weui-media-box__bd">
                   <p class="weui-media-box__desc">检测编号: <%= order.botNumber %></p>
                   <p class="weui-media-box__desc">采样时间: <%= order.checkDate %></p>
