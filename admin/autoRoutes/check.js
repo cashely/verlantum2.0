@@ -163,6 +163,7 @@ module.exports = [
         const { openid, reportPath, botNumber, uname } = checkRecord;
         // 如果更新的字段里面包含报告，需要发送通知
         if (otherInfo.reportPath) {
+          console.log(reportPath, '查询的用户报告地址')
           const messageData = {
             template_id: 'l2p5BPpW5SKE2n-Junt3QL82i1_4C_nt6HPpVKs9bkY',
             url: `https://api.verlantum.cn/uploads/${reportPath}`,
