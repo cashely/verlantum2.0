@@ -159,7 +159,8 @@ module.exports = [
       const { id } = req.params;
       const { _id, ...otherInfo } = req.body;
       try {
-        const checkRecord = await models.check.findByIdAndUpdate(id, otherInfo);
+        await models.check.findByIdAndUpdate(id, otherInfo);
+        const checkRecord = await models.check.findById(id);
         const { openid, reportPath, botNumber, uname } = checkRecord;
         // 如果更新的字段里面包含报告，需要发送通知
         if (otherInfo.reportPath) {
