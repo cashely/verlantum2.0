@@ -99,7 +99,13 @@
                 <div class="weui-cell weui-cell_active">
                   <div class="weui-cell__hd"><label class="weui-label"><span class="require">*</span>详细地址</label></div>
                   <div class="weui-cell__bd">
-                      <input id="js_input" class="weui-input" name="addressDetail" placeholder="必填"/>
+                      <input id="js_input" class="weui-input" name="addressDetail" placeholder="采样盒寄送地址"/>
+                  </div>
+                </div>
+                <div class="weui-cell weui-cell_active">
+                  <div class="weui-cell__hd"><label class="weui-label">数量</label></div>
+                  <div class="weui-cell__bd">
+                      <input id="js_input" type="number" value="1" class="weui-input" name="count" />
                   </div>
                 </div>
               </div>
@@ -159,6 +165,7 @@
       const phone = form.phone.value;
       const username = form.username.value;
       const address = $('.address').html() + form.addressDetail.value;
+      const count = form.count.value;
       let aid;
       if (!!'<%= agent %>') {
         aid = form.agent.value;
