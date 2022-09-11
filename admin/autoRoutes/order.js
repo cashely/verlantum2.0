@@ -28,9 +28,9 @@ module.exports = [
     method: 'post',
     mark: '通过接口微信下单',
     callback: (req, res) => {
-      const {aid, goodId, username, sex, birthday, phone, address, guardian, isRequireTicket, ticketHead, payChannel } = req.body;
+      const {aid, goodId, username, sex, birthday, phone, address, guardian, isRequireTicket, ticketHead, payChannel, count } = req.body;
       models.goods.findOne({ _id: goodId }).then(({ price, title }) => {
-        return generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel })
+        return generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel, count })
       })
       .then(orderNo => {
         req.response(200, {
