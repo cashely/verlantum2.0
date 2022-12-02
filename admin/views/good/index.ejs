@@ -143,24 +143,32 @@
         timestamp: res.data.timestamp, // 必填，生成签名的时间戳
         nonceStr: res.data.noncestr, // 必填，生成签名的随机串
         signature: res.data.signature,// 必填，签名
-        jsApiList: ['updateAppMessageShareData'] // 必填，需要使用的JS接口列表
+        jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'] // 必填，需要使用的JS接口列表
       });
       wx.ready(function() {
         wx.updateAppMessageShareData({ 
-        title: '<%= title%>', // 分享标题
-        desc: 'Flowflex艾康新型冠状病毒抗原核酸检测试剂盒自测快速快筛试剂检测盒家用公司用 【艾科检测试剂盒25人份 现货速发】', // 分享描述
-        link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
-        imgUrl: '/uploads/<%= thumb %>', // 分享图标
-        success: function () {
-          // 设置成功
-          console.log('success')
-        }
-      })
+          title: '<%= title%>', // 分享标题
+          desc: 'Flowflex艾康新型冠状病毒抗原核酸检测试剂盒自测快速快筛试剂检测盒家用公司用 【艾科检测试剂盒25人份 现货速发】', // 分享描述
+          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+          imgUrl: '/uploads/<%= thumb %>', // 分享图标
+          success: function () {
+            // 设置成功
+            console.log('success')
+          }
+        })
+
+        wx.updateTimelineShareData({ 
+          title: '<%= title%>', // 分享标题
+          desc: 'Flowflex艾康新型冠状病毒抗原核酸检测试剂盒自测快速快筛试剂检测盒家用公司用 【艾科检测试剂盒25人份 现货速发】', // 分享描述
+          link: location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号 JS 安全域名一致
+          imgUrl: '/uploads/<%= thumb %>', // 分享图标
+          success: function () {
+            // 设置成功
+            console.log('success')
+          }
+        })
 
       });
-      wx.err(function(erros) {
-        alert(JSON.stringify(errors))
-      })
     })
 
     $(function() {
