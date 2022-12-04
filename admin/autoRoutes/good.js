@@ -97,7 +97,7 @@ module.exports = [
       const { agent } = req.query;
       const { number } = req.params;
       models.goods.findOne({ number }).then(good => {
-        const { template, price, title, _id, thumb, html } = good;
+        const { template = 'index', price, title, _id, thumb, html } = good;
         return {
           title,
           _id,
