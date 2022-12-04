@@ -134,8 +134,8 @@ module.exports = {
   wxpay(req, res) {
     let {params, code} = req.query;
     console.log(params)
-    params = Buffer.from(params, 'base64').toString();
-    const { orderNo, to } = qs.parse(params);
+    // params = Buffer.from(params, 'base64').toString();
+    const { orderNo, to } = JSON.parse(params);
     console.log(orderNo, to, 'jhjhjhjhj');
     return;
     getOpenIdAction(code).then(openid => {
