@@ -225,8 +225,7 @@
       }, function(res) {
         loading.hide();
         const params = {
-          orderNo: res.data.orderNo,
-          to: 'xxx'
+          orderNo: res.data.orderNo
         };
         if (res.code === 0) {
           location.href = '/wxcode/get?uri=' + encodeURIComponent(`https://api.verlantum.cn/wxpay?params=${JSON.stringify(params)}`)
