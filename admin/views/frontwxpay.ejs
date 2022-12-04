@@ -45,7 +45,11 @@
               weui.toast('支付成功', 1000);
               setTimeout(() => {
                 try {
-                  location.href = '/wxcode/about';
+                  if (!!'<%= to %>') {
+                    location.href = '<%= to %>';
+                  } else {
+                    location.href = '/wxcode/about';
+                  }
                 }catch(e){}
               }, 1000);
             },

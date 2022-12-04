@@ -46,6 +46,14 @@ module.exports = [
     }
   },
   {
+    uri: '/xinguan-guide',
+    method: 'get',
+    mark: '新冠指南页面',
+    callback(req, res) {
+      res.render('xinguan-guide');
+    }
+  },
+  {
     uri: '/scan',
     method: 'get',
     mark: '检测信息列表页面',

@@ -136,8 +136,7 @@ module.exports = {
     console.log(params)
     // params = Buffer.from(params, 'base64').toString();
     const { orderNo, to } = JSON.parse(params);
-    console.log(orderNo, to, 'jhjhjhjhj');
-    return;
+    // console.log(orderNo, to, 'jhjhjhjhj');
     getOpenIdAction(code).then(openid => {
       models.orders.findOne({ orderNo}).populate('goodNumber')
       .then(order => {
@@ -222,7 +221,7 @@ const getOpenIdAction = (code) => {
   })
 }
 
-const generatorWxpay = ({orderNo, paymentAmount, body,openid, res}) => {
+const generatorWxpay = ({ orderNo, paymentAmount, body,openid, res, to }) => {
   return new Promise(async (resolve) => {
     const result = await order({
       description: body,
@@ -241,7 +240,7 @@ const generatorWxpay = ({orderNo, paymentAmount, body,openid, res}) => {
       timestamp,
       mchkey: '773ADDFE99B6749A16D6B9E266F8A20A',
     })
-    res.render('frontwxpay',{'appId':wxAppId, 'prepayId':prepay_id,'nonceStr':noncestr,'timeStamp':timestamp,'package':'Sign=WXPay', signType: 'RSA', 'sign':finalsign});
+    res.render('frontwxpay',{'appId':wxAppId, 'prepayId':prepay_id,'nonceStr':noncestr,'timeStamp':timestamp,'package':'Sign=WXPay', signType: 'RSA', 'sign':finalsign, to });
 
   })
 }

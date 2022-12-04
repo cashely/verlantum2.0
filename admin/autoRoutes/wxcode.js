@@ -27,5 +27,13 @@ module.exports = [
     async callback(req, res) {
       res.render('yunliang');
     }
+  },
+  {
+    uri: '/xinguan-about',
+    method: 'get',
+    mark: '支付成功以后关注公众号',
+    async callback(req, res) {
+      res.render('xinguan-about');
+    }
   }
 ]
