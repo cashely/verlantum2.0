@@ -1,5 +1,6 @@
 const models = require('../model.js');
 const request = require('request');
+const qs = require('qs');
 const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
@@ -131,10 +132,12 @@ module.exports = {
 
   },
   wxpay(req, res) {
-    let {orderNo, code} = req.query;
-    // params = Buffer.from(params, 'base64').toString();
-    // const {aid, price, ratio, good = '天赋基因检测'} = qs.parse(params);
-
+    let {params, code} = req.query;
+    console.log(params)
+    params = Buffer.from(params, 'base64').toString();
+    const { orderNo, to } = qs.parse(params);
+    console.log(orderNo, to, 'jhjhjhjhj');
+    return;
     getOpenIdAction(code).then(openid => {
       models.orders.findOne({ orderNo}).populate('goodNumber')
       .then(order => {
@@ -146,7 +149,8 @@ module.exports = {
           paymentAmount,
           body: title,
           res,
-          order
+          order,
+          to
         })
       })
     });

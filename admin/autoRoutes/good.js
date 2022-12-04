@@ -107,7 +107,7 @@ module.exports = [
           html
         }
       }).then(({price, title, _id, template, thumb, html }) => {
-        res.render('good/index', { price, title, _id, thumb, html, agent })
+        res.render(`good/${template}`, { price, title, _id, thumb, html, agent })
       })
     }
   }

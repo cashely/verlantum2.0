@@ -213,7 +213,6 @@
         return;
       }
       const loading = weui.loading('订单创建中');
-      
       $.post('/order/create', {
         goodId: '<%= _id %>',
         username,
@@ -224,12 +223,8 @@
         aid,
       }, function(res) {
         loading.hide();
-        const params = {
-          orderNo: res.data.orderNo,
-          to: 'xxx'
-        };
         if (res.code === 0) {
-          location.href = '/wxcode/get?uri=' + encodeURIComponent(`https://api.verlantum.cn/wxpay?params=${JSON.stringify(params)}`)
+          location.href = '/wxcode/get?uri=' + encodeURIComponent(`https://api.verlantum.cn/wxpay?orderNo=${res.data.orderNo}`)
         }
       })
     })
