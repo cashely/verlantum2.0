@@ -1,6 +1,6 @@
 const models = require('../model.js');
 module.exports = ({aid, price, ratio, good, address, phone, sex, birthday, guardian, isRequireTicket, ticketHead, card, count = 1, username, goodId, payChannel}) => {
-  const orderNo = Date.now();
+  const orderNo = String(Date.now());
   const paymentAmount = count * price;
   const order = {
     price,
