@@ -4,6 +4,7 @@
 /node_modules
 /admin/node_modules
 /admin/public/uploads
+/admin/downloads
 /.pnp
 .pnp.js
 
