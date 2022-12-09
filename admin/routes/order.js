@@ -176,7 +176,7 @@ module.exports = {
         order.phone,
         order.address,
         order.sended === 1 ? '是' : '否',
-        order.agent?.concat,
+        order.agent && order.agent.concat,
         moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss'),
       ])))
       excel(data, downloadPath);
