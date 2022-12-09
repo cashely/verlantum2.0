@@ -115,10 +115,10 @@ module.exports = {
         conditions.createdAt = { $gte: formatDate[0], $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
       }
     }
-    if (sended === 1 || sended === 0) {
+    if (+sended === 1 || +sended === 0) {
       conditions.sended = sended;
     }
-    if (hasPayed === 1 || hasPayed === 0) {
+    if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
     }
     if(q._k) {
@@ -154,10 +154,10 @@ module.exports = {
         conditions.createdAt = { $gte: formatDate[0], $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
       }
     }
-    if (sended === 1 || sended === 0) {
+    if (+sended === 1 || +sended === 0) {
       conditions.sended = sended;
     }
-    if (hasPayed === 1 || hasPayed === 0) {
+    if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
     }
     models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).then(orders => {
