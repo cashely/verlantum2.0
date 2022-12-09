@@ -74,7 +74,7 @@
     <% if (orders) { %>
       <% orders.forEach(function(order) { %>
         <div class="weui-panel weui-panel_access">
-            <% if (order.sended === 1) %>
+            <% if (order.sended === 1) { %>
               <span class="tip">已发货</span>
             <% } else if (order.hasPayed === 1) %>
               <span class="tip">已付款</span>
