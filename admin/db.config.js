@@ -5,7 +5,7 @@ mongoose.set('useFindAndModify', false);
 //     useNewUrlParser: true
 // })
 
-mongoose.connect('mongodb://127.0.0.1:27017/verlantum_dev', {
+mongoose.connect('mongodb://127.0.0.1:27017/verlantum', {
     useNewUrlParser: true
 })
 
