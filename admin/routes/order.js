@@ -160,6 +160,7 @@ module.exports = {
     if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
     }
+    console.log(conditions, 'conditions');
     models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).then(orders => {
       // req.response(200, orders)
 
