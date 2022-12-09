@@ -11,9 +11,9 @@ module.exports = {
     });
     let conditions = {};
     if(formatDate[0]) {
-      conditions.createdAt = { $gte: new Date(formatDate[0])}
+      conditions.createdAt = { $gte: new Date(formatDate[0].format('YYYY-MM-DD 00:00:00'))}
       if(formatDate[1]) {
-        conditions.createdAt = { $gte: formatDate[0], $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
+        conditions.createdAt = { $gte: new Date(formatDate[0].format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
       }
     }
     if (+sended === 1 || +sended === 0) {
@@ -110,9 +110,9 @@ module.exports = {
     let conditions = {};
 
     if(formatDate[0]) {
-      conditions.createdAt = { $gte: new Date(formatDate[0])}
+      conditions.createdAt = { $gte: new Date(formatDate[0].format('YYYY-MM-DD 00:00:00'))}
       if(formatDate[1]) {
-        conditions.createdAt = { $gte: formatDate[0], $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
+        conditions.createdAt = { $gte: new Date(formatDate[0].format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
       }
     }
     if (+sended === 1 || +sended === 0) {
@@ -149,9 +149,9 @@ module.exports = {
     let conditions = {};
 
     if(formatDate[0]) {
-      conditions.createdAt = { $gte: new Date(formatDate[0])}
+      conditions.createdAt = { $gte: new Date(formatDate[0].format('YYYY-MM-DD 00:00:00'))}
       if(formatDate[1]) {
-        conditions.createdAt = { $gte: formatDate[0], $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
+        conditions.createdAt = { $gte: new Date(formatDate[0].format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
       }
     }
     if (+sended === 1 || +sended === 0) {
