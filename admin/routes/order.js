@@ -165,7 +165,7 @@ module.exports = {
       // req.response(200, orders)
 
       const data = [['商品名称', '订单号', '包装编号', '数量', '单价', '总计', '已付金额（元）', '付款方式（元）', '是否付款', '用户姓名', '联系方式', '联系地址', '是否发货', '代理商', '下单时间']].concat(orders.map(order => ([
-        order.good, order.orderNo,
+        order.goodNumber && order.goodNumber.title, order.orderNo,
         order.boxNumber,
         order.count,
         order.price,
