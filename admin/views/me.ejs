@@ -56,12 +56,30 @@
       .showAgreeDialog {
         text-decoration: underline;
       }
+      .weui-panel_access {
+        position: relative;
+      }
+      .weui-panel_access span.tip {
+        position: absolute;
+        right: 1vw;
+        top: 1vw;
+        font-size: 3vw;
+        background-color: #4d8d56;
+        color: #fff;
+        padding: 1vw;
+      }
     </style>
   </head>
   <body>
     <% if (orders) { %>
       <% orders.forEach(function(order) { %>
         <div class="weui-panel weui-panel_access">
+            <% if (order.sended === 1) %>
+              <span class="tip">已发货</span>
+            <% } else if (order.hasPayed === 1) %>
+              <span class="tip">已付款</span>
+            <% } %>
+          </span>
           <div class="weui-panel__bd">
               <div class="weui-media-box weui-media-box_appmsg">
                 <div class="weui-media-box__hd">

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Layout, Pagination, message, Table, Tag, Progress, Button, Icon, Popconfirm, Form } from 'antd';
+import { DatePicker, Layout, Pagination, message, Table, Tag, Select, Button, Icon, Popconfirm, Form } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -18,10 +18,20 @@ export default class Inner extends Component {
         inner: false,
       },
       conditions: {
-        date: []
-      }
+        date: [],
+        sended: 2,
+        hasPayed: 2
+      },
+      selectedRowKeys: [],
     }
   }
+
+  onSelectChange(selectedRowKeys) {
+    this.setState({
+      selectedRowKeys,
+    })
+  }
+
   cancelModelAction(modelName) {
     const visible = _.cloneDeep(this.state.visible);
     visible[modelName] = false;
@@ -33,6 +43,7 @@ export default class Inner extends Component {
 
   conditionsChangeAction(e, field, type) {
     let value;
+    console.log(e)
     switch(type) {
       default: value = e;
     }
@@ -109,10 +120,31 @@ export default class Inner extends Component {
   }
 
   sendedAction(id) {
-    $.put('/order/sended', { id }).then(res => {
+    $.put(`/order/${id}`, { sended: 1 }).then(res => {
       if (res.code === 0) {
         message.success('操作成功');
         this.searchAction();
+      } else {
+        message.error('操作失败');
+      }
+    })
+  }
+  exportExcel() {
+    const query = Object.entries(this.state.conditions).map(([key, value]) => {
+      return `${key}=${JSON.stringify(value)}`
+    })
+    window.open(`http://localhost:5010/excel/order?${query.join('&')}`)
+  }
+
+  // 批量发货
+  sendedAllAction(id) {
+    $.put(`/order/sended/all`, { ids: this.state.selectedRowKeys }).then(res => {
+      if (res.code === 0) {
+        message.success('操作成功');
+        this.searchAction();
+        this.setState({
+          selectedRowKeys: [],
+        })
       } else {
         message.error('操作失败');
       }
@@ -241,9 +273,13 @@ export default class Inner extends Component {
         with: 100,
         render: row => (
           <React.Fragment>
-            <Popconfirm title="发货前请仔细核对用户信息" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id)}}>
-              <Button type="primary" size="small">发货</Button>
-            </Popconfirm>
+            {
+              row.sended !== 1 && (
+                <Popconfirm title="发货前请仔细核对用户信息" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id)}}>
+                  <Button type="primary" size="small">发货</Button>
+                </Popconfirm>
+              )
+            }
             {
                 row.hasPayed === 0 && <Button type="primary" style={{marginLeft: 10}} onClick={this.payAction.bind(this, row._id)} size="small" title="手动付款" ><Icon type="money-collect"/></Button>
             }
@@ -267,8 +303,62 @@ export default class Inner extends Component {
             <Form.Item>
                 <Button type="primary" onClick={this.openModelAction.bind(this, 'inner', null)}><Icon type="download"/>新增订单</Button>
             </Form.Item>
+            <Form.Item>
+                <Button type="primary" onClick={this.exportExcel.bind(this)}>导出Excel</Button>
+            </Form.Item>
+            <Form.Item>
+                <Button type="primary" disabled={!this.state.selectedRowKeys.length} onClick={this.sendedAllAction.bind(this, 'inner', null)}>批量发货</Button>
+            </Form.Item>
             <Form.Item label="时间">
               <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />
+            </Form.Item>
+            <Form.Item label="发货状态">
+              <Select
+                value={this.state.conditions.sended}
+                style={{ width: 100 }}
+                onChange={e => this.conditionsChangeAction(e, 'sended')}
+              >
+                {
+                  [
+                    {
+                      value: 2,
+                      label: '全部'
+                    },
+                    {
+                      value: 0,
+                      label: '未发货',
+                    },
+                    {
+                      value: 1,
+                      label: '已发货'
+                    },
+                  ].map(v => (<Select.Option value={v.value}>{v.label}</Select.Option>))
+                }
+              </Select>
+            </Form.Item>
+            <Form.Item label="付款状态">
+              <Select
+                value={this.state.conditions.hasPayed}
+                style={{ width: 100 }}
+                onChange={e => this.conditionsChangeAction(e, 'hasPayed')}
+              >
+                {
+                  [
+                    {
+                      value: 2,
+                      label: '全部'
+                    },
+                    {
+                      value: 0,
+                      label: '未付款',
+                    },
+                    {
+                      value: 1,
+                      label: '已付款'
+                    },
+                  ].map(v => (<Select.Option value={v.value}>{v.label}</Select.Option>))
+                }
+              </Select>
             </Form.Item>
             <Form.Item>
               <Button type="primary" onClick={this.searchAction.bind(this)}>搜索</Button>
@@ -276,7 +366,20 @@ export default class Inner extends Component {
           </Form>
         </Header>
         <Content style={{overflow: 'auto'}}>
-          <Table rowKey="_id" scroll={{ x: true }} onRow={r => {return {onClick: e => {} }}} columns={columns} dataSource={this.state.inners} size="middle" bordered pagination={false}/>
+          <Table
+            rowKey="_id"
+            scroll={{ x: true }}
+            onRow={r => {return {onClick: e => {} }}}
+            columns={columns}
+            dataSource={this.state.inners}
+            size="middle"
+            bordered
+            pagination={false}
+            rowSelection={{
+              selectedRowKeys: this.state.selectedRowKeys,
+              onChange: this.onSelectChange.bind(this)
+            }}
+          />
           {
             this.state.visible.inner && <InnerModal id={this.state.id} visible={this.state.visible.inner} onOk={this.okInnerModalAction.bind(this)} onCancel={this.cancelModelAction.bind(this, 'inner')} />
           }

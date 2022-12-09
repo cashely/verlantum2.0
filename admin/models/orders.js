@@ -90,6 +90,9 @@ const Orders = new mongoose.Schema({
   },
   openid: { // 用户开放id
     type: String,
+  },
+  transactionId: { // 第三方支付交易号
+    type: String,
   }
 }, {
   timestamps: {

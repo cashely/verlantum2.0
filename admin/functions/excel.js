@@ -10,6 +10,6 @@ function make_book(data) {
 
 module.exports = (data, file) => {
   var wb = make_book(data);
-  XLSX.writeFile(wb, file)
+  XLSX.writeFile(wb, file);
   return file;
 }

@@ -4,6 +4,7 @@ const qs = require('qs');
 const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
+const sendTemplateMessage = require('../functions/sendTemplateMessage');
 const { order, paysignjsapifinal, decodeResource } = require('../functions/wxPayV3');
 const generatorOrder = require('../functions/generatorOrder');
 module.exports = {
@@ -154,7 +155,7 @@ module.exports = {
       })
     });
   },
-  wxpaycallback(req, res) {
+  async wxpaycallback(req, res) {
     // {
     //   0|云量后台  |   mchid: '1472079802',
     //   0|云量后台  |   appid: 'wx9753ba7c20ea36b2',
@@ -174,7 +175,29 @@ module.exports = {
     // console.log(result, 'wxpay-v3解密的主体信息')
     if (result) {
       const {out_trade_no, amount: { total }} = result;
-      return models.orders.updateOne({orderNo: out_trade_no}, {hasPayed: 1, payTotal: total / 100 * 1, payChannel: 1,}).then(() => {
+      return models.orders.findOneAndUpdate({ orderNo: out_trade_no }, {hasPayed: 1, payTotal: total / 100 * 1, payChannel: 1,}).then(async () => {
+        // 发送订单消息
+        // const orderInfo = await models.orders.find({ orderNo: out_trade_no }).populate('goodNumber');
+        // const { paymentAmount, address, goodNumber: { } } = orderInfo;
+        // const messageData = {
+        //   template_id: 'l2p5BPpW5SKE2n-Junt3QL82i1_4C_nt6HPpVKs9bkY',
+        //   url: `https://api.verlantum.cn/uploads/${reportPath}`,
+        //   data: {
+        //     first: {
+        //       value: '尊敬的用户，您的检测报告已生成',
+        //     },
+        //     keyword1: {
+        //       value: botNumber
+        //     },
+        //     keyword2: {
+        //       value: uname,
+        //     },
+        //     remark: {
+        //       value: '点击详情打开报告',
+        //     }
+        //   }
+        // };
+        // const msg = await sendTemplateMessage(openid, messageData);
         res.json({   
           code: "SUCCESS",
           message: "成功"

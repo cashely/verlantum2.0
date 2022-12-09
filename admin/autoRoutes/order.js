@@ -41,16 +41,17 @@ module.exports = [
     }
   },
   {
-    uri: '/sended',
+    uri: '/sended/all',
     method: 'put',
-    mark: '发货',
+    mark: '批量发货',
     callback: (req, res) => {
-      const { id } = req.body;
-      models.orders.updateOne({_id: id}, {sended: 1})
+      const { ids } = req.body;
+      models.orders.updateMany({ _id: { $in: ids } }, { sended: 1 })
       .then(() => {
         req.response(200, 'ok')
       })
       .catch(err => {
+        console.log(err, '---')
         req.response(500, err)
       })
     }
