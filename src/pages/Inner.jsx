@@ -133,7 +133,7 @@ export default class Inner extends Component {
     const query = Object.entries(this.state.conditions).map(([key, value]) => {
       return `${key}=${JSON.stringify(value)}`
     })
-    window.open(`http://localhost:5010/excel/order?${query.join('&')}`)
+    window.open(`//api.verlantum.cn/excel/order?${query.join('&')}`)
   }
 
   // 批量发货
