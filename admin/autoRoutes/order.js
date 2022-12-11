@@ -36,7 +36,7 @@ module.exports = [
         }, 1);
         return;
       }
-      const orderNo = generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel, count });
+      const orderNo = await generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel, count });
       // try {
       //   await models.goods.updateOne({ _id: goodId }, { stock: stock - 1 });
       req.response(200, {
