@@ -77,6 +77,27 @@
       .weui-panel__ft > a {
         flex: 1;
       }
+      .weui-panel__ft > a:before {
+        height: 0;
+      }
+      .weui-panel__ft:before {
+        content: " ";
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        height: 1px;
+        border-top: 1px solid rgba(0,0,0,.1);
+        border-top: 1px solid var(--weui-FG-3);
+        color: rgba(0,0,0,.1);
+        color: var(--weui-FG-3);
+        -webkit-transform-origin: 0 0;
+        transform-origin: 0 0;
+        -webkit-transform: scaleY(.5);
+        transform: scaleY(.5);
+        left: 16px;
+        z-index: 2;
+      }
     </style>
   </head>
   <body>
