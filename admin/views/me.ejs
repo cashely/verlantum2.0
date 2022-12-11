@@ -129,7 +129,7 @@
         if (res.code === 0) {
           weui.topTips('申请成功，请耐心等待客服确认');
         } else {
-          weui.topTips('退款失败，请联系客服');
+          weui.topTips(res.data.msg || '退款失败，请联系客服');
         }
       })
     }
