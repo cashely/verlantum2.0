@@ -24,7 +24,16 @@ module.exports = [
     mark: '申请退款',
     async callback(req, res) {
       const { orderId } = req.body;
-      const orderInfo = await models.orders.findOneAndUpdate({ _id: orderId }, { refund: 1 });
+
+      const orderInfo = await models.orders.findOne({ _id: orderId });
+
+      if (orderInfo.refund === 1) {
+        res.response(200, {
+          msg: '已申请退款，请耐心等待',
+        });
+        return;
+      }
+      await models.orders.updateOne({ _id: orderId }, { refund: 1 });
       const { goodNumber } = orderInfo;
       try {
         await new models.refunds({
