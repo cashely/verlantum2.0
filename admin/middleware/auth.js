@@ -1,7 +1,7 @@
 const models = require('../model')
 module.exports = (req, res, next) => {
   const { path, method, user } =req;
-  if (method === 'GET' || path === '/login' || path === '/logout' || (path === '/order' && method === 'POST') || (/(\/auth)|(\/form)|(\/order)|(\/zhongqiu)|(\/check)/.test(path) && method === 'POST')) {
+  if (method === 'GET' || path === '/login' || path === '/logout' || (path === '/order' && method === 'POST') || (/(\/auth)|(\/form)|(\/order)|(\/zhongqiu)|(\/check)|(\/refund)/.test(path) && method === 'POST')) {
     next()
   } else {
     if(!user) {

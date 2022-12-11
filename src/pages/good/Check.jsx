@@ -7,6 +7,7 @@ export default props => {
   const [good, setGood]= useState({
     title: '',
     price: 0,
+    stock: 0,
     discount: '',
     number: '',
     url: '',

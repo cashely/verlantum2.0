@@ -9,6 +9,7 @@ export default class GoodModal extends Component {
       fields: {
         title: '',
         price: 0,
+        stock: 0,
         discount: '',
         number: '',
         url: '',
@@ -98,6 +99,9 @@ export default class GoodModal extends Component {
           </Item>
           <Item label="价格">
             <Input value={this.state.fields.price} onChange={(e) => this.changeAction('price', e)}  addonAfter={<span>元</span>}/>
+          </Item>
+          <Item label="库存">
+            <Input value={this.state.fields.stock} onChange={(e) => this.changeAction('stock', e)} />
           </Item>
           <Item label="缩略图">
             <Upload

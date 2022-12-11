@@ -20,4 +20,5 @@ export const GoodCreate = loadable(() => import('./pages/good/Create'))
 export const Ticket = loadable(() => import('./pages/Ticket'))
 export const Zhongqiu = loadable(() => import('./pages/Zhongqiu'))
 export const Check = loadable(() => import('./pages/Check'))
+export const Refund = loadable(() => import('./pages/Refund'))
 export default {}

@@ -93,6 +93,10 @@ const Orders = new mongoose.Schema({
   },
   transactionId: { // 第三方支付交易号
     type: String,
+  },
+  refund: { // 是否有退款申请 0 - 没有 1 - 有
+    type: Number,
+    default: 0,
   }
 }, {
   timestamps: {

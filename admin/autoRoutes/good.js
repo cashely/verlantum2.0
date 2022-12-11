@@ -54,8 +54,8 @@ module.exports = [
     mark: '修改商品信息',
     callback: (req, res) => {
       const { id } = req.params;
-      const { title, price, number, discount, url, template, thumb, html } = req.body;
-      const conditions = {title, price, number, discount, template, url, thumb, html };
+      const { title, price, stock, number, discount, url, template, thumb, html } = req.body;
+      const conditions = {title, stock, price, number, discount, template, url, thumb, html };
       models.goods.updateOne({_id: id }, conditions).then(() => {
         req.response(200, 'ok')
       }).catch(err => {
@@ -97,17 +97,18 @@ module.exports = [
       const { agent } = req.query;
       const { number } = req.params;
       models.goods.findOne({ number }).then(good => {
-        const { template = 'index', price, title, _id, thumb, html } = good;
+        const { template = 'index', price, title, _id, thumb, html, stock } = good;
         return {
           title,
           _id,
           price,
           template,
           thumb,
-          html
+          html,
+          stock,
         }
-      }).then(({price, title, _id, template, thumb, html }) => {
-        res.render(`good/${template ? template : 'index'}`, { price, title, _id, thumb, html, agent })
+      }).then(({price, title, _id, template, thumb, html, stock }) => {
+        res.render(`good/${template ? template : 'index'}`, { price, title, _id, thumb, html, agent, stock })
       })
     }
   }

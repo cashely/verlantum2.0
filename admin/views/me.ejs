@@ -77,7 +77,9 @@
     <% if (orders) { %>
       <% orders.forEach(function(order) { %>
         <div class="weui-panel weui-panel_access">
-            <% if (order.sended === 1) { %>
+            <% if (order.refund === 1) { %>
+              <span class="tip">退款</span>
+            <% } else if (order.sended === 1) { %>
               <span class="tip">已发货</span>
             <% } else if (order.hasPayed === 1) { %>
               <span class="tip">已付款</span>
@@ -96,6 +98,11 @@
               </div>
           </div>
           <div class="weui-panel__ft">
+            <% if (order.refund !== 1) { %>
+              <a href="javascript:void(0);" onclick="onRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+                <div class="weui-cell__bd">申请退款</div>
+              </a>
+            <% } %>
             <a href="javascript:void(0);" onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
               <div class="weui-cell__bd">申请发票</div>
             </a>
@@ -115,6 +122,16 @@
   <script>
     function linkToTicket(id) {
       location.href = `/ticket/apply/${id}`
+    }
+
+    function onRefund(id) {
+      $.post('/refund/create', { orderId: id }, (res) => {
+        if (res.code === 0) {
+          weui.topTips('申请成功，请耐心等待客服确认');
+        } else {
+          weui.topTips('退款失败，请联系客服');
+        }
+      })
     }
   </script>
 </html>

@@ -27,17 +27,25 @@ module.exports = [
     uri: '/create',
     method: 'post',
     mark: '通过接口微信下单',
-    callback: (req, res) => {
-      const {aid, goodId, username, sex, birthday, phone, address, guardian, isRequireTicket, ticketHead, payChannel, count } = req.body;
-      models.goods.findOne({ _id: goodId }).then(({ price, title }) => {
-        return generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel, count })
-      })
-      .then(orderNo => {
+    async callback(req, res) {
+      const { aid, goodId, username, sex, birthday, phone, address, guardian, isRequireTicket, ticketHead, payChannel, count } = req.body;
+      const { price, title, stock } = await models.goods.findOne({ _id: goodId });
+      if (stock < count) {
         req.response(200, {
-          orderNo,
-          appid: wxAppId,
-        });
-      })
+          msg: '下单失败,库存不够',
+        }, 1);
+        return;
+      }
+      const orderNo = generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel, count });
+      // try {
+      //   await models.goods.updateOne({ _id: goodId }, { stock: stock - 1 });
+      req.response(200, {
+        orderNo,
+        appid: wxAppId,
+      });
+      // } catch (e) {
+      //   console.log(e, '扣库存失败');
+      // }
     }
   },
   {

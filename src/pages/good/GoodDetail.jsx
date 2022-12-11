@@ -86,6 +86,9 @@ export default props => {
         <Item label="价格">
           <Input value={good.price} onChange={(e) => setGood('price', e)}  addonAfter={<span>元</span>}/>
         </Item>
+        <Item label="库存">
+          <Input value={good.stock} onChange={(e) => setGood('stock', e)} />
+        </Item>
         <Item label="缩略图">
           <Upload
             name="file"

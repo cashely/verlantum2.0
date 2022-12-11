@@ -174,8 +174,24 @@ module.exports = {
     const result = decodeResource(req.body);
     // console.log(result, 'wxpay-v3解密的主体信息')
     if (result) {
-      const {out_trade_no, amount: { total }} = result;
-      return models.orders.findOneAndUpdate({ orderNo: out_trade_no }, {hasPayed: 1, payTotal: total / 100 * 1, payChannel: 1,}).then(async () => {
+      const {out_trade_no, transaction_id, amount: { total }} = result;
+      return models.orders.findOneAndUpdate({ orderNo: out_trade_no }, {hasPayed: 1, payTotal: total / 100 * 1, payChannel: 1, transactionId: transaction_id}).then(async ({ count, goodNumber }) => {
+        try {
+          // 扣减库存
+          const { stock } = await models.goods.findOne({ _id: goodNumber });
+          await models.goods.findOneAndUpdate({ _id: goodNumber }, { stock: stock - count });
+          res.json({   
+            code: "SUCCESS",
+            message: "成功"
+          });
+        } catch (err) {
+          console.log(err, '付款成功但扣减库存失败');
+          res.json({   
+            "code": "FAIL",
+            "message": "失败"
+          });
+          return;
+        }
         // 发送订单消息
         // const orderInfo = await models.orders.find({ orderNo: out_trade_no }).populate('goodNumber');
         // const { paymentAmount, address, goodNumber: { } } = orderInfo;
@@ -198,15 +214,11 @@ module.exports = {
         //   }
         // };
         // const msg = await sendTemplateMessage(openid, messageData);
-        res.json({   
-          code: "SUCCESS",
-          message: "成功"
-      })
       }).catch(err => {
         res.json({   
           "code": "FAIL",
           "message": "失败"
-      })
+        })
       })
     }else {
       res.json({   

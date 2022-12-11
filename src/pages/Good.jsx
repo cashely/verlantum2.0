@@ -105,6 +105,10 @@ export default class Good extends Component {
         dataIndex: 'price',
         render: d => d && d.$numberDecimal
       },
+      {
+        title: '库存',
+        dataIndex: 'stock',
+      },
       // {
       //   title: '优惠券号',
       //   dataIndex: 'discount'
