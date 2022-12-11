@@ -28,13 +28,13 @@ module.exports = [
       const orderInfo = await models.orders.findOne({ _id: orderId });
 
       if (orderInfo.refund === 1) {
-        res.response(200, {
+        req.response(200, {
           msg: '已申请退款，请耐心等待',
         }, 1);
         return;
       }
       if (!orderInfo.transactionId) {
-        res.response(200, {
+        req.response(200, {
           msg: '2022年12月11日前的订单不支持退款',
         }, 1);
         return;
