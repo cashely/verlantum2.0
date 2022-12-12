@@ -75,7 +75,7 @@
         display: flex;
         position: relative;
       }
-      .weui-panel__ft > a {
+      .weui-panel__ft > a, .weui-panel__ft > span {
         flex: 1;
       }
       .weui-panel__ft > a:before {
@@ -128,7 +128,7 @@
           </div>
           <div class="weui-panel__ft">
             <% if (order.refund !== 1) { %>
-              <span href="javascript:void(0);" onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+              <span onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                 <div class="weui-cell__bd">申请退款</div>
               </span>
             <% } %>
