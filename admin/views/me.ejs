@@ -128,7 +128,7 @@
           </div>
           <div class="weui-panel__ft">
             <% if (order.refund !== 1) { %>
-              <a href="javascript:void(0);" id="showIOSDialog1" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+              <a href="javascript:void(0);" id="showIOSDialog1" onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                 <div class="weui-cell__bd">申请退款</div>
               </a>
             <% } %>
@@ -154,7 +154,7 @@
               <div class="weui-dialog__bd">您是否确定要退款吗?</div>
               <div class="weui-dialog__ft">
                   <a role="button" href="javascript:" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
-                  <a role="button" href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" onclick="onRefund('<%= order._id %>')">确定</a>
+                  <a role="button" href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" onclick="onRefund()">确定</a>
               </div>
           </div>
         </div>
@@ -165,9 +165,11 @@
     function linkToTicket(id) {
       location.href = `/ticket/apply/${id}`
     }
+    
+    var orderId = null;
 
-    function onRefund(id) {
-      $.post('/refund/create', { orderId: id }, (res) => {
+    function onRefund() {
+      $.post('/refund/create', { orderId }, (res) => {
         if (res.code === 0) {
           weui.topTips('申请成功，请耐心等待客服确认');
         } else {
@@ -176,12 +178,14 @@
       })
     }
     var $iosDialog1 = $('#iosDialog1');
-    $('#showIOSDialog1').on('click', function(){
-        $iosDialog1.fadeIn(200);
-        $iosDialog1.attr('aria-hidden','false');
-        $iosDialog1.attr('tabindex','0');
-        $iosDialog1.trigger('focus');
-    });
+
+    function beforeRefund(id) {
+      orderId = id;
+      $iosDialog1.fadeIn(200);
+      $iosDialog1.attr('aria-hidden','false');
+      $iosDialog1.attr('tabindex','0');
+      $iosDialog1.trigger('focus');
+    }
 
     $('#dialogs').on('click', '.weui-dialog__btn', function(){
         $(this).parents('.js_dialog').fadeOut(200);
