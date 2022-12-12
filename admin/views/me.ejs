@@ -128,7 +128,7 @@
           </div>
           <div class="weui-panel__ft">
             <% if (order.refund !== 1) { %>
-              <a href="javascript:void(0);" onclick="onRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+              <a href="javascript:void(0);" id="showIOSDialog1" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                 <div class="weui-cell__bd">申请退款</div>
               </a>
             <% } %>
@@ -146,6 +146,19 @@
       <% } else { %>
         没有订单
       <% } %>
+      <div id="dialogs">
+        <div class="js_dialog" role="dialog"  aria-hidden="true" aria-modal="true" aria-labelledby="js_title1" id="iosDialog1" style="display: none;">
+          <div class="weui-mask"></div>
+          <div class="weui-dialog">
+              <div class="weui-dialog__hd"><strong class="weui-dialog__title" id="js_title1">温馨提示</strong></div>
+              <div class="weui-dialog__bd">您是否确定要退款吗?</div>
+              <div class="weui-dialog__ft">
+                  <a role="button" href="javascript:" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
+                  <a role="button" href="javascript:" class="weui-dialog__btn weui-dialog__btn_primary" onclick="onRefund('<%= order._id %>')">确定</a>
+              </div>
+          </div>
+        </div>
+      </div>
   </body>
   <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
   <script>
@@ -162,5 +175,18 @@
         }
       })
     }
+    var $iosDialog1 = $('#iosDialog1');
+    $('#showIOSDialog1').on('click', function(){
+        $iosDialog1.fadeIn(200);
+        $iosDialog1.attr('aria-hidden','false');
+        $iosDialog1.attr('tabindex','0');
+        $iosDialog1.trigger('focus');
+    });
+
+    $('#dialogs').on('click', '.weui-dialog__btn', function(){
+        $(this).parents('.js_dialog').fadeOut(200);
+        $(this).parents('.js_dialog').attr('aria-hidden','true');
+        $(this).parents('.js_dialog').removeAttr('tabindex');
+    });
   </script>
 </html>
