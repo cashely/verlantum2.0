@@ -128,9 +128,9 @@
           </div>
           <div class="weui-panel__ft">
             <% if (order.refund !== 1) { %>
-              <a href="javascript:void(0);" onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+              <span href="javascript:void(0);" onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                 <div class="weui-cell__bd">申请退款</div>
-              </a>
+              </span>
             <% } %>
             <a href="javascript:void(0);" onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
               <div class="weui-cell__bd">申请发票</div>
@@ -153,8 +153,8 @@
               <div class="weui-dialog__hd"><strong class="weui-dialog__title" id="js_title1">温馨提示</strong></div>
               <div class="weui-dialog__bd">您是否确定要退款吗?</div>
               <div class="weui-dialog__ft">
-                  <a role="button" href="javascript:void(0);" class="weui-dialog__btn weui-dialog__btn_default">取消</a>
-                  <a role="button" href="javascript:void(0);" class="weui-dialog__btn weui-dialog__btn_primary" onclick="onRefund()">确定</a>
+                  <span role="button" href="javascript:void(0);" class="weui-dialog__btn weui-dialog__btn_default">取消</span>
+                  <span role="button" href="javascript:void(0);" class="weui-dialog__btn weui-dialog__btn_primary" onclick="onRefund()">确定</span>
               </div>
           </div>
         </div>
