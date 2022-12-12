@@ -77,6 +77,11 @@ export default class Refund extends Component {
         render: d => d._id
       },
       {
+        title: '交易号',
+        dataIndex: 'orderId',
+        render: d => d.orderNo
+      },
+      {
         title: '联系人',
         dataIndex: 'orderId',
         render: d => d.username
