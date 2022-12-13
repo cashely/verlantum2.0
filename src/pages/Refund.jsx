@@ -72,14 +72,15 @@ export default class Refund extends Component {
         render: d => d.title,
       },
       {
-        title: '订单编号',
+        title: '订单信息',
         dataIndex: 'orderId',
-        render: d => d._id
-      },
-      {
-        title: '交易号',
-        dataIndex: 'orderId',
-        render: d => d.orderNo
+        render: d => (
+          <>
+            <p><span>订单编号:</span>{d._id}</p>
+            <p><span>交易号:</span>{d.orderNo}</p>
+            <p><span>订单时间:</span>{m(d.createdAt).format('YYYY-MM-DD HH:mm')}</p>
+          </>
+        )
       },
       {
         title: '联系人',
