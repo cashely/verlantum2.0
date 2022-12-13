@@ -8,8 +8,18 @@ module.exports = [
     method: 'get',
     mark: '退款申请列表',
     callback: (req, res) => {
-      const { page = 1, pageSize = 20 } = req.query;
-      models.refunds.find().sort({ _id: -1 }).limit(+pageSize).skip((page - 1) * pageSize)
+      const { page = 1, pageSize = 20, date = [] } = req.query;
+      let formatDate = date.map(item => {
+        return moment(JSON.parse(item)).format();
+      });
+      let conditions = {};
+      if(formatDate[0]) {
+        conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00'))}
+        if(formatDate[1]) {
+          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
+        }
+      }
+      models.refunds.find(conditions).sort({ _id: -1 }).limit(+pageSize).skip((page - 1) * pageSize)
       .populate('orderId')
       .populate('goodNumber')
       .then(refunds => {
@@ -79,7 +89,18 @@ module.exports = [
     method: 'get',
     mark: '退款申请Total',
     callback: (req, res) => {
-      models.refunds.countDocuments()
+      const { date = [] } = req.query;
+      let formatDate = date.map(item => {
+        return moment(JSON.parse(item)).format();
+      });
+      let conditions = {};
+      if(formatDate[0]) {
+        conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00'))}
+        if(formatDate[1]) {
+          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
+        }
+      }
+      models.refunds.countDocuments(conditions)
       .then(refundCount => {
         req.response(200, refundCount)
       })
