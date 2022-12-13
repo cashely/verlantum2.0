@@ -56,6 +56,7 @@ module.exports = {
     try {
       const conditions = { openid };
       await models.orders.updateOne({ orderNo }, conditions); // 回写订单号里面的openid
+      console.log(description, orderNo, total, openid, '------------------<');
       let result = await payment.jsapi({
         description,
         out_trade_no: orderNo,
