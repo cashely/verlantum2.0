@@ -11,12 +11,22 @@
     method: 'get',
     mark: '查询发票列表',
     callback: (req, res) => {
-      const { page = 1, pageSize = 20, ...conditions } = req.query;
-      models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({ _id: -1 }).skip((page - 1) * pageSize).limit(+pageSize).then(tickets => {
-        req.response(200, tickets)
-      }).catch(err => {
-        req.response(500, err)
-      })
+     const { page = 1, pageSize = 20, date = [] } = req.query;
+     let formatDate = date.map(item => {
+       return moment(JSON.parse(item)).format();
+     });
+     let conditions = {};
+     if(formatDate[0]) {
+       conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00'))}
+       if(formatDate[1]) {
+         conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
+       }
+     }
+     models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({ _id: -1 }).skip((page - 1) * pageSize).limit(+pageSize).then(tickets => {
+       req.response(200, tickets)
+     }).catch(err => {
+       req.response(500, err)
+     })
     }
   },
   {
@@ -32,7 +42,17 @@
     method: 'get',
     mark: '统计发票数量',
     callback: (req, res) => {
-      const conditions = { ...req.query };
+      const { date = [] } = req.query;
+      let formatDate = date.map(item => {
+        return moment(JSON.parse(item)).format();
+      });
+      let conditions = {};
+      if(formatDate[0]) {
+        conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00'))}
+        if(formatDate[1]) {
+          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
+        }
+      }
       models.tickets.count(conditions).then(count => {
         req.response(200, count)
       }).catch(err => {
