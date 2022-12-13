@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover, Layout, Pagination, Table, Button, message } from 'antd';
+import { Popover, Layout, Pagination, Table, Button, Form, DatePicker, message } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -9,21 +9,31 @@ export default (props) => {
   const [tickets, setTickets] = useState([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1);
+  const [conditions, setConditions] = useState({ date: [] });
   const pageSize = 20;
   useEffect(() => {
     listAction();
     countAction();
   }, [])
+  
+  const conditionsChangeAction = (e, field, type) => {
+    let value;
+    console.log(e)
+    switch(type) {
+      default: value = e;
+    }
+    setConditions(Object.assign({}, conditions, {[field]: value});
+  }
 
   const listAction = (page) => {
-    $.get('/ticket/list', { page, pageSize }).then(res => {
+    $.get('/ticket/list', { page, pageSize, ...conditions }).then(res => {
       if(res.code === 0) {
         setTickets(res.data)
       }
     })
   }
   const countAction = () => {
-    $.get('/ticket/list/count').then(res => {
+    $.get('/ticket/list/count', conditions).then(res => {
       if(res.code === 0) {
         setCount(res.data)
       }
@@ -46,6 +56,22 @@ export default (props) => {
       return page;
     });
   }
+  
+  const searchAction = () => {
+    setPage(() => {
+      listAction(1);
+      countAction();
+      return 1;
+    });
+  }
+  
+  const exportExcel = () => {
+    const query = Object.entries(conditions).map(([key, value]) => {
+      return `${key}=${JSON.stringify(value)}`
+    })
+    window.open(`//api.verlantum.cn/ticket/excel/ticket?${query.join('&')}`)
+  }
+  
   const columns = [
     {
       title: '商品名称',
@@ -117,6 +143,17 @@ export default (props) => {
   return (
     <Layout style={{height: '100%', backgroundColor: '#fff', display: 'flex'}}>
       <Header style={{backgroundColor: '#fff', padding: 10, height: 'auto', lineHeight: 1}}>
+        <Form layout="inline">
+          <Form.Item>
+              <Button type="primary" onClick={this.exportExcel.bind(this)}>导出Excel</Button>
+          </Form.Item>
+          <Form.Item label="时间">
+            <DatePicker.RangePicker format="YYYY-MM-DD" value={conditions.date} onChange={e => conditionsChangeAction(e, 'date', 'DATE')} />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" onClick={this.searchAction.bind(this)}>搜索</Button>
+          </Form.Item>
+        </Form>
       </Header>
       <Content style={{overflow: 'auto'}}>
         <Table rowKey="_id" columns={columns} dataSource={tickets} size="middle" bordered pagination={false}/>
