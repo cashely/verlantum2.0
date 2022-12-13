@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover, Layout, Pagination, Table, Button, Form, Icon, DatePicker, Popconfirm, message } from 'antd';
+import { Popover, Layout, Pagination, Table, Button, Form, Icon, DatePicker, Popconfirm, message, Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import $ from '../ajax';
 import m from 'moment';
@@ -34,16 +34,46 @@ export default class Refund extends Component {
     });
   }
 
-  refundAction(id) {
-    $.put(`/refund/${id}`, { success: 1 }).then(res => {
-      if (res.code === 0) {
-        message.success('操作成功');
-        this.listAction();
-        this.countAction();
-      } else {
-        message.error(res.data);
-      }
-    })
+  refundAction(id, info, orderInfo) {
+    const { hasPayed, sended, refund } = orderInfo;
+    if (hasPayed !== 1) {
+      message.error('此单未支付，不支持受理跟退款');
+      return
+    }
+    
+    if ([1,2,3].includes(refund)) {
+      message.error('此单有退款流程，不支持受理跟退款');
+      return;
+    }
+    
+    const action = (callback = () => {}) => {
+      $.put(`/refund/${id}`, info).then(res => {
+        if (res.code === 0) {
+          message.success('操作成功');
+          this.listAction();
+          this.countAction();
+        } else {
+          message.error(res.data);
+        }
+        callback();
+      })
+    }
+    
+    if (sended === 1) {
+      const text = (() => {
+        switch (true) {
+          case info.success === 1 : return '退款';
+          case info.isGet === 1 : return '受理';
+          default: return '错误操作';
+        }
+      })()
+      Modal.confirm({
+        content: <>`此单已发货，是否确认${text}`</>,
+        onOk: action
+      });
+      return;
+    }
+    action();
   }
 
   listAction() {
@@ -138,14 +168,26 @@ export default class Refund extends Component {
         render: row => (
           <React.Fragment>
             {
-              !row.success && (
+              !row.isGet && (
                 <Popconfirm
                   title="您确定要退款?"
-                  onConfirm={this.refundAction.bind(this, row._id)}
+                  onConfirm={this.refundAction.bind(this, row._id, { success: 1 }, row.orderId)}
                   okText="是"
                   cancelText="否"
                 >
-                  <Button type="primary" size="small">处理</Button>
+                  <Button type="primary" size="small">退款</Button>
+                </Popconfirm>
+              )
+            }
+            {
+              !row.success && (
+                <Popconfirm
+                  title="您确定要受理?"
+                  onConfirm={this.refundAction.bind(this, row._id, { isGet: 1 }, row.orderId)}
+                  okText="是"
+                  cancelText="否"
+                >
+                  <Button type="primary" size="small">受理</Button>
                 </Popconfirm>
               )
             }
