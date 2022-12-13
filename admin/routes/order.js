@@ -132,16 +132,9 @@ module.exports = {
   },
   excel(req, res) {
     let { date = [], sended, hasPayed } = req.query;
-    console.log(req.query)
     if (typeof date === 'string') {
       date = JSON.parse(date);
     }
-    const { filename } = req.params;
-    let downloadPath = path.resolve(__dirname, '..', 'downloads');
-    if(!fs.existsSync(downloadPath)) {
-      fs.mkdirSync(downloadPath);
-    }
-    downloadPath = path.resolve(downloadPath, `${filename}-${moment().format('YYYY-MM-DD-hh-mm')}.xls`);
 
     let formatDate = date.map(item => {
       return moment(item).format();
@@ -160,7 +153,7 @@ module.exports = {
     if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
     }
-    console.log(conditions, 'conditions');
+    
     models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).then(orders => {
       // req.response(200, orders)
 
@@ -180,7 +173,7 @@ module.exports = {
         order.agent && order.agent.concat,
         moment(order.createdAt).format('YYYY-MM-DD HH:mm:ss'),
       ])))
-      excel(data, downloadPath);
+      const downloadPath = excel(data, req);
       res.download(downloadPath);
     }).catch(err => {
       req.response(500, err);
