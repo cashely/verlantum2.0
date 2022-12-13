@@ -293,7 +293,7 @@ const generatorWxpay = ({ orderNo, paymentAmount, body,openid, res, to }) => {
       timestamp,
       mchkey: '773ADDFE99B6749A16D6B9E266F8A20A',
     })
-    res.render('frontwxpay',{'appId':wxAppId, 'prepayId':prepay_id,'nonceStr':noncestr,'timeStamp':timestamp,'package':'Sign=WXPay', signType: 'RSA', 'sign':finalsign, to });
+    res.render('frontwxpay',{'appId':wxAppId, 'prepayId':prepay_id,'nonceStr':noncestr,'timeStamp':timestamp,'package':'Sign=WXPay', signType: 'RSA', 'sign':finalsign, to, err: '' });
 
   })
 }
