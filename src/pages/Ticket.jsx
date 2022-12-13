@@ -58,8 +58,9 @@ export default (props) => {
       dataIndex: 'orderId',
       render: d => (
         <>
-          <p><span>交易号:</span>{d.orderId.orderNo}</p>
-          <p><span>订单时间:</span>{moment(d.orderId.createdAt).format('YYYY-MM-DD HH:mm')}</p>
+          <p><span>订单编号:</span>{d._id}</p>
+          <p><span>交易号:</span>{d.orderNo}</p>
+          <p><span>订单时间:</span>{m(d.createdAt).format('YYYY-MM-DD HH:mm')}</p>
         </>
       )
     },
