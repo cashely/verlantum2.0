@@ -73,11 +73,21 @@ module.exports = [
     method: 'put',
     mark: '修改退款信息',
     callback: (req, res) => {
-      const { id } = req.params;
+      const { id, success, isGet } = req.params;
       const conditions = req.body;
-      models.refunds.updateOne({ _id: id }, conditions)
-      .then(() => {
-        req.response(200, '退款成功')
+      models.refunds.findOneAndUpdate({ _id: id }, conditions)
+      .then(async (refundInfo) => {
+        // 如果操作退款成功, 更新订单退款信息
+        if (+success === 1) {
+          const { orderId } = refundInfo;
+          await models.orders.updateOne({ _id: orderId }, { refund: 3 });
+        }
+        
+        if (+isGet === 1) {
+          const {} = refundInfo;
+          await models.orders.updateOne({ _id: orderId }, { refund: 2 });
+        }
+        req.response(200, '修改成功')
       })
       .catch(err => {
         req.response(500, err)
