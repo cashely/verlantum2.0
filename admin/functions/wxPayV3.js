@@ -155,5 +155,21 @@ module.exports = {
     // "associated_data":"refund",
     // "nonce":"AqfRSFm7h9Sa"
     return payment.decodeResource(response.resource)
+  },
+  // 退款
+  async refundAction({
+    transactionId,
+    outRefundNo,
+    amount
+  }) {
+    return await payment.refund({
+      out_refund_no: String(outRefundNo),
+      transaction_id: transactionId,
+      amount: {
+        currency:'CNY',
+        refund: amount * 100,
+        total: amount * 100,
+      }
+    })
   }
 }

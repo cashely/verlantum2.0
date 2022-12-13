@@ -1,6 +1,7 @@
 const models = require('../model.js');
 const moment = require('moment');
 const excel = require('../functions/excel');
+const { refundAction } = require('../functions/wxPayV3');
 
 module.exports = [
   {
@@ -80,8 +81,18 @@ module.exports = [
       .then(async (refundInfo) => {
         // 如果操作退款成功, 更新订单退款信息
         if (+success === 1) {
-          const { orderId, goodNumber } = refundInfo;
+          const { orderId, goodNumber, payTotal, transactionId, orderNo } = refundInfo;
           const orderInfo = await models.orders.findOneAndUpdate({ _id: orderId }, { refund: 3 });
+          
+          // 调用微信的退单流程
+          const result = await refundAction({
+            transactionId,
+            outRefundNo: orderNo,
+            amount: payTotal,
+          });
+
+          console.log(result, '<----微信退款信息');
+          
           // 需要同步更新库存
           const goodInfo = await models.goods.findOne({ _id: goodNumber });
           await models.goods.updateOne({ _id: goodNumber }, { $set: { stock: goodInfo.stock + orderInfo.count } });

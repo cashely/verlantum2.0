@@ -1,4 +1,5 @@
 const moment = require('moment');
+const _ = require('lodash');
 const models = require('../model.js');
 const getOpenIdAction = require('../functions/getOpenIdAction');
 const { order, paysignjsapifinal, configSign } = require('../functions/wxPayV3');
@@ -30,6 +31,22 @@ module.exports = [
     async callback(req, res) {
       const { aid, goodId, username, sex, birthday, phone, address, guardian, isRequireTicket, ticketHead, payChannel, count } = req.body;
       const { price, title, stock } = await models.goods.findOne({ _id: goodId });
+
+      if (!_.isInteger(+count) || +count <= 0) {
+        req.response(200, {
+          msg: '下单失败,下单数量必须是正整数',
+        }, 1);
+        return;
+      }
+
+      // 下单临时限制每天2盒
+      if (count > 2) {
+        req.response(200, {
+          msg: '下单失败,每单最多能下2盒',
+        }, 1);
+        return;
+      }
+      // const 
       if (stock < count) {
         req.response(200, {
           msg: '下单失败,库存不够',
@@ -37,7 +54,6 @@ module.exports = [
         return;
       }
       const orderNo = await generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel, count });
-      console.log(orderNo, '订单号');
       // try {
       //   await models.goods.updateOne({ _id: goodId }, { stock: stock - 1 });
       req.response(200, {

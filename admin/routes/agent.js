@@ -1,6 +1,7 @@
 const models = require('../model.js');
 const request = require('request');
 const qs = require('qs');
+const moment = require('moment');
 const singFn = require('../functions/signHelper');
 const {wxAppId, wxAppSecret, wxMchId} = require('../config.global');
 const wxpay = require('../functions/wxpay');
@@ -263,7 +264,24 @@ const generatorWxpay = ({ orderNo, paymentAmount, body,openid, res, to }) => {
       total: wxpay.getmoney(paymentAmount),
       openid,
       orderNo,
-    })
+    });
+    // 统计用户当天下单的数量是否已经超过2个
+    const today = moment(Date.now()).format('YYYY-MM-DD 00:00:00');
+    const todayEnd = moment(Date.now()).format('YYYY-MM-DD 23:59:59');
+    const userTodayOrders = await models.orders.find({
+      openid,
+      createdAt: {
+        $gte: new Date(today),
+        $lte: new Date(todayEnd),
+      },
+    });
+    const userTodayGoodNumber = userTodayOrders.map(v => v.count);
+
+    if (userTodayGoodNumber > 2) {
+      res.render('frontwxpay',{ err: '下单的数量是否已经超过' });
+      return;
+    }
+
     let noncestr = wxpay.createNonceStr();
     let timestamp = wxpay.createTimeStamp();
     const { prepay_id } = result;

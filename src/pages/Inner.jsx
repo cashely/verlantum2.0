@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker, Layout, Pagination, message, Table, Tag, Select, Button, Icon, Popconfirm, Form } from 'antd';
+import { DatePicker, Layout, Pagination, message, Table, Tag, Select, Button, Icon, Popconfirm, Form, Input } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -20,7 +20,8 @@ export default class Inner extends Component {
       conditions: {
         date: [],
         sended: 2,
-        hasPayed: 2
+        hasPayed: 2,
+        openid: '',
       },
       selectedRowKeys: [],
     }
@@ -336,7 +337,7 @@ export default class Inner extends Component {
                 <Button type="primary" disabled={!this.state.selectedRowKeys.length} onClick={this.sendedAllAction.bind(this, 'inner', null)}>批量发货</Button>
             </Form.Item>
             <Form.Item label="时间">
-              <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />
+              <Input value={this.state.conditions.openid} onChange={e => this.conditionsChangeAction(e)} />
             </Form.Item>
             <Form.Item label="发货状态">
               <Select
@@ -385,6 +386,9 @@ export default class Inner extends Component {
                   ].map(v => (<Select.Option value={v.value}>{v.label}</Select.Option>))
                 }
               </Select>
+            </Form.Item>
+            <Form.Item label="时间">
+              <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />
             </Form.Item>
             <Form.Item>
               <Button type="primary" onClick={this.searchAction.bind(this)}>搜索</Button>

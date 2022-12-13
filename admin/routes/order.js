@@ -5,7 +5,7 @@ const fs = require('fs');
 const excel = require('../functions/excel');
 module.exports = {
   list(req, res) {
-    const { page = 1, limit = 20, date = [], sended, hasPayed } = req.query;
+    const { page = 1, limit = 20, date = [], sended, hasPayed, openid } = req.query;
     let formatDate = date.map(item => {
       return moment(JSON.parse(item)).format();
     });
@@ -21,6 +21,9 @@ module.exports = {
     }
     if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
+    }
+    if (openid) {
+      conditions.openid = openid;
     }
     console.log(conditions, typeof sended, hasPayed, '---')
     models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).skip((+page - 1) * limit).limit(+limit).then(orders => {
@@ -103,7 +106,7 @@ module.exports = {
     })
   },
   total(req, res) {
-    const { q = {}, date = [], sended, hasPayed } = req.query;
+    const { q = {}, date = [], sended, hasPayed, openid } = req.query;
     let formatDate = date.map(item => {
       return moment(JSON.parse(item)).format();
     });
@@ -121,6 +124,11 @@ module.exports = {
     if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
     }
+
+    if (openid) {
+      conditions.openid = openid;
+    }
+
     if(q._k) {
       conditions.acount = new RegExp(q._k);
     }
