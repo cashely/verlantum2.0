@@ -54,6 +54,16 @@ export default (props) => {
       render: d => d / 100
     },
     {
+      title: '订单信息',
+      dataIndex: 'orderId',
+      render: d => (
+        <>
+          <p><span>交易号:</span>{d.orderId.orderNo}</p>
+          <p><span>订单时间:</span>{moment(d.orderId.createdAt).format('YYYY-MM-DD HH:mm')}</p>
+        </>
+      )
+    },
+    {
       title: '类型',
       dataIndex: 'type',
       render: d => d === 0 ? '个人' : '机构',
