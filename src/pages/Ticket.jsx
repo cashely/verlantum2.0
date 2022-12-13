@@ -16,7 +16,7 @@ export default (props) => {
   }, [])
 
   const listAction = (page) => {
-    $.get('/ticket/list' { page, pageSize }).then(res => {
+    $.get('/ticket/list', { page, pageSize }).then(res => {
       if(res.code === 0) {
         setTickets(res.data)
       }
