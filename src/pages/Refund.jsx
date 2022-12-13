@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover, Layout, Pagination, Table, Button, Icon, Popconfirm, message } from 'antd';
+import { Popover, Layout, Pagination, Table, Button, Form, Icon, Popconfirm, message } from 'antd';
 import { Link } from 'react-router-dom';
 import $ from '../ajax';
 import m from 'moment';
@@ -16,8 +16,22 @@ export default class Refund extends Component {
       pageSize: 20,
       visible: {
         good: false
-      }
+      },
+      conditions: {
+        date: [],
+      },
     }
+  }
+  
+  conditionsChangeAction(e, field, type) {
+    let value;
+    console.log(e)
+    switch(type) {
+      default: value = e;
+    }
+    this.setState({
+      conditions: Object.assign({}, this.state.conditions, {[field]: value})
+    });
   }
 
   refundAction(id) {
@@ -34,8 +48,9 @@ export default class Refund extends Component {
 
   listAction() {
     const { page, pageSize } = this.state;
-    $.get('/refund/list', { page, pageSize }).then(res => {
+    $.get('/refund/list', { page, pageSize, ...this.state.conditions }).then(res => {
       if(res.code === 0) {
+        this.countAction();
         this.setState({
           refunds: res.data,
         })
@@ -44,7 +59,7 @@ export default class Refund extends Component {
   }
 
   countAction() {
-    $.get('/refund/count').then(res => {
+    $.get('/refund/count', this.state.conditions).then(res => {
       if(res.code === 0) {
         this.setState({
           total: res.data
@@ -58,10 +73,22 @@ export default class Refund extends Component {
       page
     }, this.listAction);
   }
+  
+  exportExcel() {
+    const query = Object.entries(this.state.conditions).map(([key, value]) => {
+      return `${key}=${JSON.stringify(value)}`
+    })
+    window.open(`//api.verlantum.cn/refund/excel/refund?${query.join('&')}`)
+  }
+  
+  searchAction() {
+    this.setState({
+      page: 1
+    }, this.listAction);
+  }
 
   componentWillMount() {
     this.listAction();
-    this.countAction();
   }
   render() {
     const {Content, Footer, Header} = Layout;
@@ -130,6 +157,17 @@ export default class Refund extends Component {
     return (
       <Layout style={{height: '100%', backgroundColor: '#fff', display: 'flex'}}>
         <Header style={{backgroundColor: '#fff', padding: 10, height: 'auto', lineHeight: 1}}>
+          <Form layout="inline">
+            <Form.Item>
+                <Button type="primary" onClick={this.exportExcel.bind(this)}>导出Excel</Button>
+            </Form.Item>
+            <Form.Item label="时间">
+              <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" onClick={this.searchAction.bind(this)}>搜索</Button>
+            </Form.Item>
+          </Form>
           {/* <Button type="primary" onClick={() => history.push('/index/good/create')}><Icon type="plus"/>新增商品</Button> */}
         </Header>
         <Content style={{overflow: 'auto'}}>
