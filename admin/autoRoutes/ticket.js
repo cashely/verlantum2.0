@@ -8,8 +8,8 @@
     method: 'get',
     mark: '查询发票列表',
     callback: (req, res) => {
-      const conditions = { ...req.query };
-      models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({ _id: -1 }).then(tickets => {
+      const { page = 1, pageSize = 20, ...conditions } = req.query;
+      models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({ _id: -1 }).skip((page - 1) * pageSize).limit(+pageSize).then(tickets => {
         req.response(200, tickets)
       }).catch(err => {
         req.response(500, err)
