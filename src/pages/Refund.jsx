@@ -41,8 +41,8 @@ export default class Refund extends Component {
       return
     }
     
-    if ([1,2,3].includes(refund)) {
-      message.error('此单有退款流程，不支持受理跟退款');
+    if ([3].includes(refund)) {
+      message.error('此单已退款，不支持退款');
       return;
     }
     
@@ -68,7 +68,7 @@ export default class Refund extends Component {
         }
       })()
       Modal.confirm({
-        content: <>`此单已发货，是否确认${text}`</>,
+        content: <>{`此单已发货，是否确认${text}`}</>,
         onOk: action
       });
       return;
@@ -152,8 +152,13 @@ export default class Refund extends Component {
         render: d => d.phone
       },
       {
-        title: '是否处理',
+        title: '是否退款',
         dataIndex: 'success',
+        render: d => d === 1 ? '是' : '否',
+      },
+      {
+        title: '是否受理',
+        dataIndex: 'isGet',
         render: d => d === 1 ? '是' : '否',
       },
       {
@@ -168,7 +173,7 @@ export default class Refund extends Component {
         render: row => (
           <React.Fragment>
             {
-              !row.isGet && (
+              !row.success && (
                 <Popconfirm
                   title="您确定要退款?"
                   onConfirm={this.refundAction.bind(this, row._id, { success: 1 }, row.orderId)}
@@ -180,7 +185,7 @@ export default class Refund extends Component {
               )
             }
             {
-              !row.success && (
+              !row.isGet && (
                 <Popconfirm
                   title="您确定要受理?"
                   onConfirm={this.refundAction.bind(this, row._id, { isGet: 1 }, row.orderId)}

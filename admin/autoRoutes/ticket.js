@@ -80,7 +80,7 @@
     uri: '/excel/:filename',
     method: 'get',
     mark: '导出开票列表',
-    excel(req, res) {
+    callback(req, res) {
      let { date = [] } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
@@ -100,20 +100,20 @@
 
      models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({_id: -1}).then(tickets => {
 
-       const data = [['商品名称', '开票金额', '订单编号', '交易号', '订单时间', '发货状态', '付款状态', '开票类型', '开票人', '开票抬头', '电子邮箱', '是否已开票', '申请时间']].concat(orders.map(order => ([
-         tickets.orderId && tickets.orderId.goodNumber.title,
-         tickets.amount / 100,
-         tickets.orderId._id,
-         tickets.orderId.orderNo,
-         tickets.orderId.createdAt && moment(tickets.orderId.createdAt),
-         tickets.orderId.sended === 1 ? '已发货' : '未发货',
-         tickets.orderId.hasPayed === 1 ? '已付款' : '未付款',
-         tickets.type === 0 ? '个人' : '机构',
-         tickets.name,
-         tickets.head,
-         tickets.email,
-         tickets.isOffer ? '是' : '否',
-         moment(tickets.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+       const data = [['商品名称', '开票金额', '订单编号', '交易号', '订单时间', '发货状态', '付款状态', '开票类型', '开票人', '开票抬头', '电子邮箱', '是否已开票', '申请时间']].concat(tickets.map(ticket => ([
+         ticket.orderId && ticket.orderId.goodNumber.title,
+         ticket.amount / 100,
+         ticket.orderId._id.toString(),
+         ticket.orderId.orderNo,
+         ticket.orderId.createdAt && moment(ticket.orderId.createdAt).format('YYYY-MM-DD HH:mm'),
+         ticket.orderId.sended === 1 ? '已发货' : '未发货',
+         ticket.orderId.hasPayed === 1 ? '已付款' : '未付款',
+         ticket.type === 0 ? '个人' : '机构',
+         ticket.name,
+         ticket.head,
+         ticket.email,
+         ticket.isOffer ? '是' : '否',
+         moment(ticket.createdAt).format('YYYY-MM-DD HH:mm:ss'),
        ])))
        const downloadPath = excel(data, req);
        res.download(downloadPath);

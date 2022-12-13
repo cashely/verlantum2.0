@@ -200,13 +200,15 @@ export default class Inner extends Component {
           let s = '';
           switch (d) {
             case 0:
-            s = '线下';break;
+            s = '线下';
             break;
             case 1 :
-            s = '微信';break;
+            s = '微信';
+            break;
             case 2 :
             s = '支付宝';
             break;
+            default : ;
           }
           return s;
         }
@@ -223,6 +225,30 @@ export default class Inner extends Component {
             case 1 :
             s = <Tag color="green">已付款</Tag>;
             break;
+            default : ;
+          }
+          return s;
+        }
+      },
+      {
+        title: '退款情况',
+        dataIndex: 'refund',
+        render: d => {
+          let s = '';
+          switch(d) {
+            case 0:
+            s = <>无</>;
+            break;
+            case 1 :
+            s = <Tag color="red">已申请</Tag>;
+            break;
+            case 2 :
+            s = <Tag color="red">已受理</Tag>;
+            break;
+            case 3 :
+            s = <Tag color="red">已退款</Tag>;
+            break;
+          default: s = '';
           }
           return s;
         }

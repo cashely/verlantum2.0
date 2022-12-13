@@ -88,7 +88,7 @@ module.exports = [
         }
         
         if (+isGet === 1) {
-          const {} = refundInfo;
+          const { orderId } = refundInfo;
           await models.orders.updateOne({ _id: orderId }, { refund: 2 });
         }
         req.response(200, '修改成功')
@@ -127,7 +127,7 @@ module.exports = [
     uri: '/excel/:filename',
     method: 'get',
     mark: '导出开票列表',
-    excel(req, res) {
+    callback(req, res) {
      let { date = [] } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
@@ -145,24 +145,26 @@ module.exports = [
        }
      }
 
-     models.refunds.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({_id: -1}).then(tickets => {
+     models.refunds.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({_id: -1}).then(refunds => {
 
-       const data = [['商品名称', '订单编号', '交易号', '订单时间', '发货状态', '付款状态', '联系人', '联系方式', '是否处理成功', '申请时间']].concat(orders.map(order => ([
-         tickets.orderId && tickets.orderId.goodNumber.title,
-         tickets.orderId._id,
-         tickets.orderId.orderNo,
-         tickets.orderId.createdAt && moment(tickets.orderId.createdAt),
-         tickets.orderId.sended === 1 ? '已发货' : '未发货',
-         tickets.orderId.hasPayed === 1 ? '已付款' : '未付款',
-         tickets.orderId.username,
-         tickets.orderId.phone,
-         tickets.success === 1 ? '是' : '否',
-         moment(tickets.createdAt).format('YYYY-MM-DD HH:mm:ss'),
+       const data = [['商品名称', '订单编号', '交易号', '订单时间', '发货状态', '付款状态', '联系人', '联系方式', '是否处理成功', '申请时间']].concat(refunds.map(refund => ([
+         refund.orderId && refund.orderId.goodNumber.title,
+         refund.orderId._id.toString(),
+         refund.orderId.orderNo,
+         refund.orderId.createdAt && moment(refund.orderId.createdAt).format('YYYY-MM-DD HH:mm'),
+         refund.orderId.sended === 1 ? '已发货' : '未发货',
+         refund.orderId.hasPayed === 1 ? '已付款' : '未付款',
+         refund.orderId.username,
+         refund.orderId.phone,
+         refund.success === 1 ? '是' : '否',
+         moment(refund.createdAt).format('YYYY-MM-DD HH:mm:ss'),
        ])))
        const downloadPath = excel(data, req);
        res.download(downloadPath);
      }).catch(err => {
+      console.log(err)
        req.response(500, err);
      })
    },
+  },
 ]

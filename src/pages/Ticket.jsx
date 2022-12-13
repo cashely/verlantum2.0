@@ -22,7 +22,7 @@ export default (props) => {
     switch(type) {
       default: value = e;
     }
-    setConditions(Object.assign({}, conditions, {[field]: value});
+    setConditions(Object.assign({}, conditions, {[field]: value}));
   }
 
   const listAction = (page) => {
@@ -145,13 +145,13 @@ export default (props) => {
       <Header style={{backgroundColor: '#fff', padding: 10, height: 'auto', lineHeight: 1}}>
         <Form layout="inline">
           <Form.Item>
-              <Button type="primary" onClick={this.exportExcel.bind(this)}>导出Excel</Button>
+              <Button type="primary" onClick={exportExcel}>导出Excel</Button>
           </Form.Item>
           <Form.Item label="时间">
             <DatePicker.RangePicker format="YYYY-MM-DD" value={conditions.date} onChange={e => conditionsChangeAction(e, 'date', 'DATE')} />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" onClick={this.searchAction.bind(this)}>搜索</Button>
+            <Button type="primary" onClick={searchAction}>搜索</Button>
           </Form.Item>
         </Form>
       </Header>
