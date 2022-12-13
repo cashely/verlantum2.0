@@ -81,9 +81,9 @@ module.exports = [
       .then(async (refundInfo) => {
         // 如果操作退款成功, 更新订单退款信息
         if (+success === 1) {
-          const { orderId, goodNumber, payTotal, transactionId, orderNo } = refundInfo;
+          const { orderId } = refundInfo;
           const orderInfo = await models.orders.findOneAndUpdate({ _id: orderId }, { refund: 3 });
-          
+          const { goodNumber, payTotal, transactionId, orderNo } = orderInfo;
           // 调用微信的退单流程
           const result = await refundAction({
             transactionId,
