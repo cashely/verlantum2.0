@@ -79,6 +79,8 @@ export default class Refund extends Component {
             <p><span>订单编号:</span>{d._id}</p>
             <p><span>交易号:</span>{d.orderNo}</p>
             <p><span>订单时间:</span>{m(d.createdAt).format('YYYY-MM-DD HH:mm')}</p>
+            <p><span>发货状态:</span>{d.sended === 1 ? '已发货' : '未发货'}</p>
+            <p><span>付款状态:</span>{d.hasPayed === 1 ? '已付款' : '未付款'}</p>
           </>
         )
       },
