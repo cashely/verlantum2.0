@@ -337,7 +337,7 @@ export default class Inner extends Component {
                 <Button type="primary" disabled={!this.state.selectedRowKeys.length} onClick={this.sendedAllAction.bind(this, 'inner', null)}>批量发货</Button>
             </Form.Item>
             <Form.Item label="微信ID">
-              <Input value={this.state.conditions.openid} onChange={e => this.conditionsChangeAction(e, 'openid')} />
+              <Input value={this.state.conditions.openid} onChange={e => this.conditionsChangeAction(e.currentTarget.value, 'openid')} />
             </Form.Item>
             <Form.Item label="发货状态">
               <Select
