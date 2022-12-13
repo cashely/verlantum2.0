@@ -17,15 +17,11 @@
     <div class="alipay payment">
         <img src="/images/wechat.png" alt="">
         <div class="phone">
-            <p style="color: #333;">支付中，请勿关闭页面<%= err %></p>
+            <p style="color: #333;">支付中，请勿关闭页面</p>
         </div>
     </div>
     <script src="https://res.wx.qq.com/open/libs/weuijs/1.2.1/weui.min.js"></script>
     <script>
-      if (!!<%= err %>) {
-        alert(<%= err %>);
-        return;
-      }
       const loading = weui.loading('支付中');
       $.get(`/order/wx/pay/config?url=${location.href}`, function(res) {
         wx.config({
