@@ -8,13 +8,15 @@ import { useEffect, useState } from 'react';
 export default (props) => {
   const [tickets, setTickets] = useState([]);
   const [count, setCount] = useState(0);
+  const [page, setPage] = useState(1);
+  const pageSize = 20;
   useEffect(() => {
     listAction();
     countAction();
   }, [])
 
-  const listAction = () => {
-    $.get('/ticket/list').then(res => {
+  const listAction = (page) => {
+    $.get('/ticket/list' { page, pageSize }).then(res => {
       if(res.code === 0) {
         setTickets(res.data)
       }
@@ -32,9 +34,17 @@ export default (props) => {
     $.put(`/ticket/${id}`, { isOffer: true }).then(res => {
       if (res.code === 0) {
         message.success('操作成功');
-        listAction();
+        listAction(page);
       }
     })
+  }
+  
+  const pageChangeAction = (page, pageSize) => {
+    setPage(() => {
+      listAction(page);
+      countAction();
+      return page;
+    });
   }
   const columns = [
     {
@@ -109,7 +119,7 @@ export default (props) => {
         <Table rowKey="_id" columns={columns} dataSource={tickets} size="middle" bordered pagination={false}/>
       </Content>
       <Footer style={{padding: 5, backgroundColor: '#fff'}}>
-        <Pagination defaultCurrent={1} total={count}/>
+        <Pagination defaultCurrent={1} total={count} pageSize={pageSize} current={page} onChange={pageChangeAction} />
       </Footer>
     </Layout>
   )
