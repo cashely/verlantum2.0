@@ -107,7 +107,11 @@
       <% orders.forEach(function(order) { %>
         <div class="weui-panel weui-panel_access">
             <% if (order.refund === 1) { %>
-              <span class="tip">退款</span>
+              <span class="tip">退款中</span>
+            <% } else if (order.refund === 2) { %>
+              <span class="tip">退款受理</span>
+            <% } else if (order.refund === 3) { %>
+              <span class="tip">已退款</span>
             <% } else if (order.sended === 1) { %>
               <span class="tip">已发货</span>
             <% } else if (order.hasPayed === 1) { %>
@@ -127,7 +131,7 @@
               </div>
           </div>
           <div class="weui-panel__ft">
-            <% if (order.refund !== 1) { %>
+            <% if (![1,2,3].includes(order.refund)) { %>
               <span onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                 <div class="weui-cell__bd">申请退款</div>
               </span>
