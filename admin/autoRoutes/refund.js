@@ -79,8 +79,11 @@ module.exports = [
       .then(async (refundInfo) => {
         // 如果操作退款成功, 更新订单退款信息
         if (+success === 1) {
-          const { orderId } = refundInfo;
-          await models.orders.updateOne({ _id: orderId }, { refund: 3 });
+          const { orderId, goodNumber } = refundInfo;
+          const orderInfo = await models.orders.findOneAndUpdate({ _id: orderId }, { refund: 3 });
+          // 需要同步更新库存
+          const goodInfo = await models.goods.findOne({ _id: goodNumber });
+          await models.goods.updateOne({ _id: goodNumber }, { $set: { stock: goodInfo.stock + orderInfo.count } });
         }
         
         if (+isGet === 1) {
