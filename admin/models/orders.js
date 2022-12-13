@@ -98,6 +98,10 @@ const Orders = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  ticket: { // 是否已开票 0 - 未开票 1 - 已开票
+    type: Number,
+    default: 0
+  },
 }, {
   timestamps: {
     createdAt: 'createdAt',
