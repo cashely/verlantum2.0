@@ -123,7 +123,7 @@ export default class Inner extends Component {
     $.put(`/order/${id}`, { sended: 1 }).then(res => {
       if (res.code === 0) {
         message.success('操作成功');
-        this.searchAction();
+        this.listAction();
       } else {
         message.error('操作失败');
       }
