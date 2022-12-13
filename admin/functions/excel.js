@@ -11,7 +11,7 @@ function make_book(data) {
 
 module.exports = (data, req) => {
 
-	const { filename, } = req.query;
+	const { filename } = req.params;
 
   let downloadPath = path.resolve(__dirname, '..', 'downloads');
 
