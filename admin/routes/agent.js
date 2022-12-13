@@ -277,6 +277,8 @@ const generatorWxpay = ({ orderNo, paymentAmount, body,openid, res, to }) => {
     });
     const userTodayGoodNumber = userTodayOrders.map(v => v.count);
 
+    console.log(userTodayGoodNumber, '<<<<<<<<<<<<<<今天的下单数量')
+
     if (userTodayGoodNumber > 2) {
       res.render('frontwxpay',{ err: '下单的数量是否已经超过' });
       return;
