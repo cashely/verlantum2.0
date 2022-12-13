@@ -9,6 +9,10 @@ const Refunds = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'goods',
   },
+  isGet: { // 是否受理 0 - 未受理 1 - 已受理
+    type: Number,
+    default: 0,
+  },
   success: { // 是否退款成功 0 - 未成功 1 - 已成功
     type: Number,
     default: 0,
