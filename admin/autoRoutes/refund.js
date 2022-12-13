@@ -73,7 +73,8 @@ module.exports = [
     method: 'put',
     mark: '修改退款信息',
     callback: (req, res) => {
-      const { id, success, isGet } = req.params;
+      const { id } = req.params;
+      const { success, isGet } = req.body;
       const conditions = req.body;
       models.refunds.findOneAndUpdate({ _id: id }, conditions)
       .then(async (refundInfo) => {
