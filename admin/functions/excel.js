@@ -1,5 +1,6 @@
 const XLSX = require('xlsx');
 const fs = require('fs');
+const moment = require('moment');
 
 function make_book(data) {
 	var ws = XLSX.utils.aoa_to_sheet(data);
@@ -8,8 +9,23 @@ function make_book(data) {
 	return wb;
 }
 
-module.exports = (data, file) => {
+module.exports = (data, req) => {
+
+	const { filename, } = req.query;
+
+  let downloadPath = path.resolve(__dirname, '..', 'downloads');
+
+	if(!fs.existsSync(downloadPath)) {
+
+		fs.mkdirSync(downloadPath);
+
+	}
+
+	downloadPath = path.resolve(downloadPath, `${filename}-${moment().format('YYYY-MM-DD-hh-mm')}.xls`);
+	
   var wb = make_book(data);
-  XLSX.writeFile(wb, file);
-  return file;
+
+  XLSX.writeFile(wb, downloadPath);
+
+  return downloadPath;
 }
