@@ -81,7 +81,16 @@
             <img width="100%" src="/uploads/<%= thumb %>" />
           </div>
           <h2><%= title %></h2>
-         <h4>￥<%= price %> <!-- <span>库存: <%= stock %> 件</span> --></h4>
+         <h4>￥<%= price %>
+          <span>库存: 
+            <% if (stock <= 0 ) { %>
+              0
+            <% } else { %>
+              <%= stock %>
+            <% } %>
+            件
+          </span>
+         </h4>
         </form>
         <div class="detail">
           <%- html %>
