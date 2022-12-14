@@ -73,40 +73,52 @@ module.exports = [
     uri: '/:id',
     method: 'put',
     mark: '修改退款信息',
-    callback: (req, res) => {
+    callback: async (req, res) => {
       const { id } = req.params;
       const { success, isGet } = req.body;
       const conditions = req.body;
-      models.refunds.findOneAndUpdate({ _id: id }, conditions).populate('orderId')
-      .then(async (refundInfo) => {
-        // 如果操作退款成功, 更新订单退款信息
-        if (+success === 1) {
-          const { orderId } = refundInfo;
-          const orderInfo = await models.orders.findOneAndUpdate({ _id: orderId }, { refund: 3 });
-          const { goodNumber, payTotal, transactionId, orderNo } = orderInfo;
-          // 调用微信的退单流程
-          const result = await refundAction({
-            transactionId,
-            outRefundNo: orderNo,
-            amount: payTotal,
-          });
 
-          console.log(result, '<----微信退款信息');
-          
-          // 需要同步更新库存
-          const goodInfo = await models.goods.findOne({ _id: goodNumber });
-          await models.goods.updateOne({ _id: goodNumber }, { $set: { stock: goodInfo.stock + orderInfo.count } });
+      const refundInfo = await models.refunds.findOne({ _id: id }).populate('orderId');
+
+      // 如果操作退款成功, 更新订单退款信息
+      if (+success === 1) {
+        const { orderId } = refundInfo;
+        const orderInfo = await models.orders.findOneAndUpdate({ _id: orderId }, { refund: 3 });
+        const { goodNumber, payTotal, transactionId, orderNo } = orderInfo;
+        // 调用微信的退单流程
+        const result = await refundAction({
+          transactionId,
+          outRefundNo: orderNo,
+          amount: payTotal,
+        });
+
+        console.log(result, '<----微信退款信息');
+
+        if (result.status !== 200) {
+          return res.response(200, { msg: '微信退款失败' }, 1);
+        }
+
+        const wxrefundData = JSON.parse(result.data);
+
+        if (wxrefundData.status !== 'PROCESSING') {
+          return res.response(200, { msg: wxrefundData.status }, 1);
         }
         
+        // 需要同步更新库存
+        const goodInfo = await models.goods.findOne({ _id: goodNumber });
+        await models.goods.updateOne({ _id: goodNumber }, { $set: { stock: goodInfo.stock + orderInfo.count } });
+      }
+      
+      try {
+        const refundInfo = await models.refunds.findOneAndUpdate({ _id: id }, conditions).populate('orderId');
         if (+isGet === 1) {
           const { orderId } = refundInfo;
           await models.orders.updateOne({ _id: orderId }, { refund: 2 });
         }
         req.response(200, '修改成功')
-      })
-      .catch(err => {
-        req.response(500, err)
-      })
+      } catch (err) {
+        req.response(500, err);
+      }
     }
   },
   {

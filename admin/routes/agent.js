@@ -176,6 +176,16 @@ module.exports = {
     // console.log(result, 'wxpay-v3解密的主体信息')
     if (result) {
       const {out_trade_no, transaction_id, amount: { total }} = result;
+
+      const orderInfo = await models.orders.findOne({ orderNo: out_trade_no });
+
+      if (orderInfo.hasPayed === 1) {
+        res.json({   
+          code: "SUCCESS",
+          message: "已经付款过的单子了!",
+        });
+        return;
+      }
       return models.orders.findOneAndUpdate({ orderNo: out_trade_no }, {hasPayed: 1, payTotal: total / 100 * 1, payChannel: 1, transactionId: transaction_id}).then(async ({ count, goodNumber }) => {
         try {
           // 扣减库存
