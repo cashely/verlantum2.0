@@ -173,6 +173,7 @@ module.exports = [
      if (typeof date === 'string') {
        date = JSON.parse(date);
      }
+		 orderId = JSON.parser(orderId);
 
      let formatDate = date.map(item => {
        return moment(item).format();
