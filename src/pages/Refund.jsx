@@ -62,6 +62,11 @@ export default class Refund extends Component {
       })
     }
     
+    if (info.success === 1 && refund !== 2) {
+      message.error('此单未受理，不支持直接退款');
+      return;
+    }
+    
     if (sended === 1) {
       const text = (() => {
         switch (true) {
