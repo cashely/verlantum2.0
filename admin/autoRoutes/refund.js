@@ -32,8 +32,9 @@ module.exports = [
 
       if (orderNo) {
         const orderInfo = await models.orders.find({ orderNo });
-        conditions.orderId = orderInfo._id;
+        conditions.orderId = orderInfo._id.toString();
       }
+      console.log(conditions, '---')
       models.refunds.find(conditions).sort({ _id: -1 }).limit(+pageSize).skip((page - 1) * pageSize)
       .populate('orderId')
       .populate('goodNumber')
@@ -162,7 +163,7 @@ module.exports = [
 			}
       if (orderNo) {
         const orderInfo = await models.orders.find({ orderNo });
-        conditions.orderId = orderInfo._id;
+        conditions.orderId = orderInfo._id.toString();
       }
       models.refunds.countDocuments(conditions)
       .then(refundCount => {
@@ -210,7 +211,7 @@ module.exports = [
 
      if (orderNo) {
       const orderInfo = await models.orders.find({ orderNo });
-      conditions.orderId = orderInfo._id;
+      conditions.orderId = orderInfo._id.toString();
     }
 
      models.refunds.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({_id: -1}).then(refunds => {
