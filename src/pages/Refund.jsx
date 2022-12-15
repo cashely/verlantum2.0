@@ -19,6 +19,9 @@ export default class Refund extends Component {
       },
       conditions: {
         date: [],
+        orderId: '',
+        isGet: 2,
+        success: 2,
       },
     }
   }
@@ -210,6 +213,54 @@ export default class Refund extends Component {
             </Form.Item>
             <Form.Item label="时间">
               <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />
+            </Form.Item>
+            <Form.Item label="受理状态">
+              <Select
+                value={this.state.conditions.isGet}
+                style={{ width: 100 }}
+                onChange={e => this.conditionsChangeAction(e, 'isGet')}
+              >
+                {
+                  [
+                    {
+                      value: 2,
+                      label: '全部'
+                    },
+                    {
+                      value: 0,
+                      label: '未受理',
+                    },
+                    {
+                      value: 1,
+                      label: '已受理'
+                    },
+                  ].map(v => (<Select.Option value={v.value}>{v.label}</Select.Option>))
+                }
+              </Select>
+            </Form.Item>
+            <Form.Item label="退款状态">
+              <Select
+                value={this.state.conditions.success}
+                style={{ width: 100 }}
+                onChange={e => this.conditionsChangeAction(e, 'success')}
+              >
+                {
+                  [
+                    {
+                      value: 2,
+                      label: '全部'
+                    },
+                    {
+                      value: 0,
+                      label: '未退款',
+                    },
+                    {
+                      value: 1,
+                      label: '已退款'
+                    },
+                  ].map(v => (<Select.Option value={v.value}>{v.label}</Select.Option>))
+                }
+              </Select>
             </Form.Item>
             <Form.Item>
               <Button type="primary" onClick={this.searchAction.bind(this)}>搜索</Button>
