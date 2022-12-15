@@ -1,11 +1,35 @@
 const moment = require('moment');
 const _ = require('lodash');
+const schedule = require('node-schedule');
 const models = require('../model.js');
+const moment = require('moment');
 const getOpenIdAction = require('../functions/getOpenIdAction');
 const { order, paysignjsapifinal, configSign } = require('../functions/wxPayV3');
 const wxpay = require('../functions/wxpay');
 const { wxMchId, wxAppId } = require('../config.global');
 const generatorOrder = require('../functions/generatorOrder');
+
+// 增加扫描定时任务清理临时订单
+const date = '*/5 * * * *'; // 每5分钟执行一次
+
+const clearTempOrder = schedule.scheduleJob(date, async () => {
+  console.log('开启定时任务', '---------->', moment().format('HH:mm'), '<---------');
+  try {
+    const tempOrders = await models.tempOrders.find({ createdAt: { $lt: new Date(moment().subtract(15, 'm').format('YYYY-MM-DD HH:mm:ss')) }});
+    const tempOrderNos = tempOrders.map(async ({ orderNo }) => {
+      const orderInfo = await models.orders.findOne({ orderNo, hasPayed: 0 }).populate('goodNumber'); // 未付款并且在临时订单里面
+      if (orderInfo) {
+        await models.goods.findOneAndUpdate({ _id: orderInfo.goodNumber._id }, { stock: orderInfo.goodNumber.stock + orderInfo.count });
+        console.log(orderInfo.count, '<------增加库存');
+        await models.deleteOne({ orderNo });
+      }
+    });
+  } catch (err) {
+    console.log(err, '<-----定时任务失败');
+  }
+})
+
+
 module.exports = [
   {
     uri: '/wx/me',
