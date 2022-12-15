@@ -135,7 +135,7 @@ module.exports = [
     method: 'get',
     mark: '退款申请Total',
     callback: (req, res) => {
-      const { date = [], isGet, success } = req.query;
+      const { date = [], isGet, success, orderId } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
