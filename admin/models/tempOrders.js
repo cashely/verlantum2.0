@@ -2,9 +2,9 @@
 const mongoose = require('../db.config');
 
 const TempOrders = new mongoose.Schema({
-  orderId: { // 订单ID
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'orders',
+  orderNo: { // 订单号
+    type: String,
+    required: true,
   },
 }, {
   timestamps: {
