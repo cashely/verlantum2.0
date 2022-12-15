@@ -2,7 +2,6 @@ const moment = require('moment');
 const _ = require('lodash');
 const schedule = require('node-schedule');
 const models = require('../model.js');
-const moment = require('moment');
 const getOpenIdAction = require('../functions/getOpenIdAction');
 const { order, paysignjsapifinal, configSign } = require('../functions/wxPayV3');
 const wxpay = require('../functions/wxpay');
