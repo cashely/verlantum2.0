@@ -20,10 +20,10 @@ module.exports = [
           conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
         }
       }
-      if ([0, 1].includes(isGet)) {
+      if ([0, 1].includes(+isGet)) {
         conditions.isGet = isGet;
       }
-      if ([0, 1].includes(success)) {
+      if ([0, 1].includes(+success)) {
         conditions.success = success;
       }
       if (orderId) {
@@ -135,7 +135,7 @@ module.exports = [
     method: 'get',
     mark: '退款申请Total',
     callback: (req, res) => {
-      const { date = [] } = req.query;
+      const { date = [], isGet, success } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
@@ -146,6 +146,15 @@ module.exports = [
           conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
         }
       }
+			if ([0, 1].includes(+isGet)) {
+				conditions.isGet = isGet;
+			}
+			if ([0, 1].includes(+success)) {
+				conditions.success = success;
+			}
+			if (orderId) {
+				conditions.orderId = orderId;
+			}
       models.refunds.countDocuments(conditions)
       .then(refundCount => {
         req.response(200, refundCount)
