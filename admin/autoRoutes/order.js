@@ -20,8 +20,8 @@ const clearTempOrder = schedule.scheduleJob(date, async () => {
       if (orderInfo) {
         await models.goods.findOneAndUpdate({ _id: orderInfo.goodNumber._id }, { stock: orderInfo.goodNumber.stock + orderInfo.count });
         console.log(orderInfo.count, '<------增加库存');
-        await models.tempOrders.deleteOne({ orderNo });
       }
+      await models.tempOrders.deleteOne({ orderNo });
     });
   } catch (err) {
     console.log(err, '<-----定时任务失败');
