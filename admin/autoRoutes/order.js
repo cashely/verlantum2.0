@@ -54,15 +54,20 @@ module.exports = [
         return;
       }
       const orderNo = await generatorOrder({aid, price, title, address, phone, sex, birthday, isRequireTicket, ticketHead, guardian, username, goodId, payChannel, count });
-      // try {
-      //   await models.goods.updateOne({ _id: goodId }, { stock: stock - 1 });
-      req.response(200, {
-        orderNo,
-        appid: wxAppId,
-      });
-      // } catch (e) {
-      //   console.log(e, '扣库存失败');
-      // }
+      try {
+         // 先临时扣减库存，并且新增一张临时表
+         await models.goods.updateOne({ _id: goodId }, { stock: stock - count });
+         await new models.tempOrders({ orderNo }).save();
+         req.response(200, {
+          orderNo,
+          appid: wxAppId,
+         });
+       } catch (e) {
+         console.log(e, '扣库存失败');
+         req.response(200, {
+          msg: '下单失败,库存错误',
+         }, 1);
+       }
     }
   },
   {
