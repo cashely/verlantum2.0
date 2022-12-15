@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover, Layout, Pagination, Table, Button, Form, DatePicker, message } from 'antd';
+import { Input, Layout, Pagination, Table, Button, Form, DatePicker, message } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -9,7 +9,7 @@ export default (props) => {
   const [tickets, setTickets] = useState([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1);
-  const [conditions, setConditions] = useState({ date: [] });
+  const [conditions, setConditions] = useState({ date: [], orderNo: '' });
   const pageSize = 20;
   useEffect(() => {
     listAction();
@@ -150,6 +150,9 @@ export default (props) => {
           <Form.Item label="时间">
             <DatePicker.RangePicker format="YYYY-MM-DD" value={conditions.date} onChange={e => conditionsChangeAction(e, 'date', 'DATE')} />
           </Form.Item>
+          <Form.Item label="订单号">
+              <Input value={conditions.orderNo} onChange={e => conditionsChangeAction(e.currentTarget.value, 'orderNo')} />
+            </Form.Item>
           <Form.Item>
             <Button type="primary" onClick={searchAction}>搜索</Button>
           </Form.Item>

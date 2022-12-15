@@ -10,8 +10,8 @@
     uri: '/list',
     method: 'get',
     mark: '查询发票列表',
-    callback: (req, res) => {
-     const { page = 1, pageSize = 20, date = [] } = req.query;
+    callback: async (req, res) => {
+     const { page = 1, pageSize = 20, date = [], orderNo } = req.query;
      let formatDate = date.map(item => {
        return moment(JSON.parse(item)).format();
      });
@@ -22,6 +22,11 @@
          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
        }
      }
+
+     if (orderNo) {
+      const orderInfo = await models.orders.find({ orderNo });
+      conditions.orderId = orderInfo._id;
+    }
      models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({ _id: -1 }).skip((page - 1) * pageSize).limit(+pageSize).then(tickets => {
        req.response(200, tickets)
      }).catch(err => {
@@ -41,8 +46,8 @@
     uri: '/list/count',
     method: 'get',
     mark: '统计发票数量',
-    callback: (req, res) => {
-      const { date = [] } = req.query;
+    callback: async (req, res) => {
+      const { date = [], orderNo } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
@@ -52,6 +57,10 @@
         if(formatDate[1]) {
           conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
         }
+      }
+      if (orderNo) {
+        const orderInfo = await models.orders.find({ orderNo });
+        conditions.orderId = orderInfo._id;
       }
       models.tickets.count(conditions).then(count => {
         req.response(200, count)
@@ -80,11 +89,13 @@
     uri: '/excel/:filename',
     method: 'get',
     mark: '导出开票列表',
-    callback(req, res) {
-     let { date = [] } = req.query;
+    async callback(req, res) {
+     let { date = [], orderNo } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
      }
+
+     orderNo = JSON.parse(orderNo);
 
      let formatDate = date.map(item => {
        return moment(item).format();
@@ -97,6 +108,11 @@
          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
        }
      }
+
+     if (orderNo) {
+      const orderInfo = await models.orders.find({ orderNo });
+      conditions.orderId = orderInfo._id;
+    }
 
      models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({_id: -1}).then(tickets => {
 

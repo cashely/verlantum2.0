@@ -8,8 +8,8 @@ module.exports = [
     uri: '/list',
     method: 'get',
     mark: '退款申请列表',
-    callback: (req, res) => {
-      const { page = 1, pageSize = 20, date = [], isGet, success, orderId } = req.query;
+    callback: async (req, res) => {
+      const { page = 1, pageSize = 20, date = [], isGet, success, orderId, orderNo } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
@@ -28,6 +28,11 @@ module.exports = [
       }
       if (orderId) {
         conditions.orderId = orderId;
+      }
+
+      if (orderNo) {
+        const orderInfo = await models.orders.find({ orderNo });
+        conditions.orderId = orderInfo._id;
       }
       models.refunds.find(conditions).sort({ _id: -1 }).limit(+pageSize).skip((page - 1) * pageSize)
       .populate('orderId')
@@ -134,8 +139,8 @@ module.exports = [
     uri: '/count',
     method: 'get',
     mark: '退款申请Total',
-    callback: (req, res) => {
-      const { date = [], isGet, success, orderId } = req.query;
+    callback: async (req, res) => {
+      const { date = [], isGet, success, orderId, orderNo } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
@@ -155,6 +160,10 @@ module.exports = [
 			if (orderId) {
 				conditions.orderId = orderId;
 			}
+      if (orderNo) {
+        const orderInfo = await models.orders.find({ orderNo });
+        conditions.orderId = orderInfo._id;
+      }
       models.refunds.countDocuments(conditions)
       .then(refundCount => {
         req.response(200, refundCount)
@@ -168,12 +177,14 @@ module.exports = [
     uri: '/excel/:filename',
     method: 'get',
     mark: '导出开票列表',
-    callback(req, res) {
-     let { date = [], isGet, success, orderId } = req.query;
+    async callback(req, res) {
+     let { date = [], isGet, success, orderId, orderNo } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
      }
 		 orderId = JSON.parse(orderId);
+
+     orderNo = JSON.parse(orderNo);
 
      let formatDate = date.map(item => {
        return moment(item).format();
@@ -196,6 +207,11 @@ module.exports = [
 	   if (orderId) {
 	     conditions.orderId = orderId;
 	   }
+
+     if (orderNo) {
+      const orderInfo = await models.orders.find({ orderNo });
+      conditions.orderId = orderInfo._id;
+    }
 
      models.refunds.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({_id: -1}).then(refunds => {
 

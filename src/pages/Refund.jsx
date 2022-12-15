@@ -22,6 +22,7 @@ export default class Refund extends Component {
         orderId: '',
         isGet: 2,
         success: 2,
+        orderNo: '',
       },
     }
   }
@@ -228,6 +229,9 @@ export default class Refund extends Component {
             </Form.Item>
             <Form.Item label="订单ID">
               <Input value={this.state.conditions.orderId} onChange={e => this.conditionsChangeAction(e.currentTarget.value, 'orderId')} />
+            </Form.Item>
+            <Form.Item label="订单号">
+              <Input value={this.state.conditions.orderNo} onChange={e => this.conditionsChangeAction(e.currentTarget.value, 'orderNo')} />
             </Form.Item>
             <Form.Item label="受理状态">
               <Select

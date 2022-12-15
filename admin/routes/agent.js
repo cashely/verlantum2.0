@@ -204,27 +204,38 @@ module.exports = {
           return;
         }
         // 发送订单消息
-        // const orderInfo = await models.orders.find({ orderNo: out_trade_no }).populate('goodNumber');
-        // const { paymentAmount, address, goodNumber: { } } = orderInfo;
-        // const messageData = {
-        //   template_id: 'l2p5BPpW5SKE2n-Junt3QL82i1_4C_nt6HPpVKs9bkY',
-        //   url: `https://api.verlantum.cn/uploads/${reportPath}`,
-        //   data: {
-        //     first: {
-        //       value: '尊敬的用户，您的检测报告已生成',
-        //     },
-        //     keyword1: {
-        //       value: botNumber
-        //     },
-        //     keyword2: {
-        //       value: uname,
-        //     },
-        //     remark: {
-        //       value: '点击详情打开报告',
-        //     }
-        //   }
-        // };
-        // const msg = await sendTemplateMessage(openid, messageData);
+        const orderInfo = await models.orders.find({ orderNo: out_trade_no }).populate('goodNumber');
+        const { address, goodNumber: { title }, openid, phone, username, createdAt, orderNo } = orderInfo;
+        const messageData = {
+          template_id: 'idAPmnqsB96UthvCfj4eYrSeicOBnlyEYwb-nc-0_lM',
+          url: '',
+          // url: `https://api.verlantum.cn/uploads/${reportPath}`,
+          data: {
+            first: {
+              value: '您好，有新的订单。请在我的订单查看。',
+            },
+            keyword1: {
+              value: title,
+            },
+            keyword2: {
+              value: moment(createdAt).format('YYYY-MM-DD HH:mm:ss'),
+            },
+            keyword3: {
+              value: address,
+            },
+            keyword4: {
+              value: `${username}/${phone}`,
+            },
+            keyword5: {
+              value: '已付款',
+            },
+            remark: {
+              value: `订单号为:${orderNo}，商家这边会尽快给您发货，请您耐心等待，感谢您关注云量。`,
+            }
+          }
+        };
+        const msg = await sendTemplateMessage(openid, messageData);
+        console.log(msg, '<-------下单发送通知');
       }).catch(err => {
         res.json({   
           "code": "FAIL",
