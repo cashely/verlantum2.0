@@ -172,7 +172,7 @@ export default class Refund extends Component {
       {
         title: '申请时间',
         dataIndex: 'createdAt',
-        render: d => m(d).format('YYYY-MM-DD hh:mm')
+        render: d => m(d).format('YYYY-MM-DD HH:mm')
       },
       {
         title: '操作',
@@ -200,7 +200,7 @@ export default class Refund extends Component {
                   okText="是"
                   cancelText="否"
                 >
-                  <Button type="primary" size="small">受理</Button>
+                  <Button style={{ marginLeft: 10 }} type="primary" size="small">受理</Button>
                 </Popconfirm>
               )
             }
