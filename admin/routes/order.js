@@ -5,7 +5,7 @@ const fs = require('fs');
 const excel = require('../functions/excel');
 module.exports = {
   list(req, res) {
-    const { page = 1, limit = 20, date = [], sended, hasPayed, openid } = req.query;
+    const { page = 1, limit = 20, date = [], sended, hasPayed, openid, orderNo } = req.query;
     let formatDate = date.map(item => {
       return moment(JSON.parse(item)).format();
     });
@@ -24,6 +24,9 @@ module.exports = {
     }
     if (openid) {
       conditions.openid = openid;
+    }
+    if (orderNo) {
+      conditions.orderNo = orderNo;
     }
     console.log(conditions, typeof sended, hasPayed, '---')
     models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).skip((+page - 1) * limit).limit(+limit).then(orders => {
@@ -106,7 +109,7 @@ module.exports = {
     })
   },
   total(req, res) {
-    const { q = {}, date = [], sended, hasPayed, openid } = req.query;
+    const { q = {}, date = [], sended, hasPayed, openid, orderNo } = req.query;
     let formatDate = date.map(item => {
       return moment(JSON.parse(item)).format();
     });
@@ -128,6 +131,10 @@ module.exports = {
     if (openid) {
       conditions.openid = openid;
     }
+    
+    if (orderNo) {
+      conditions.orderNo = orderNo;
+    }
 
     if(q._k) {
       conditions.acount = new RegExp(q._k);
@@ -139,10 +146,14 @@ module.exports = {
     })
   },
   excel(req, res) {
-    let { date = [], sended, hasPayed } = req.query;
+    let { date = [], sended, hasPayed, openid, orderNo } = req.query;
     if (typeof date === 'string') {
       date = JSON.parse(date);
     }
+    
+    openid = JSON.parse(openid);
+    
+    orderNo = JSON.parse(orderNo);
 
     let formatDate = date.map(item => {
       return moment(item).format();
@@ -160,6 +171,14 @@ module.exports = {
     }
     if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
+    }
+    
+    if (orderNo) {
+      conditions.orderNo = orderNo;
+    }
+    
+    if (openid) {
+      conditions.openid = openid;
     }
     
     models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).then(orders => {
