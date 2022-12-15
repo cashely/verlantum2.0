@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
+import moment from 'moment';
 import loadable from '@loadable/component';
 import './index.css';
 // import 'antd/dist/antd.css';
@@ -13,6 +14,8 @@ import {Layout, Menu, Icon, ConfigProvider, Avatar, Dropdown, message} from 'ant
 import {Switch, HashRouter as Router, Route, Link, useRouteMatch, useLocation} from 'react-router-dom';
 import {createHashHistory} from 'history';
 import {withRouter} from 'react-router';
+
+moment.locale('zh-cn');
 
 
 
