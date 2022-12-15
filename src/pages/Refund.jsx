@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Popover, Layout, Pagination, Table, Button, Form, Icon, DatePicker, Popconfirm, message, Modal } from 'antd';
+import { Popover, Layout, Pagination, Table, Button, Form, Icon, DatePicker, Popconfirm, message, Modal, Select, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import $ from '../ajax';
 import m from 'moment';
@@ -213,6 +213,9 @@ export default class Refund extends Component {
             </Form.Item>
             <Form.Item label="时间">
               <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />
+            </Form.Item>
+            <Form.Item label="订单ID">
+              <Input value={this.state.conditions.orderId} onChange={e => this.conditionsChangeAction(e.currentTarget.value, 'orderId')} />
             </Form.Item>
             <Form.Item label="受理状态">
               <Select
