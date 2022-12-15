@@ -14,7 +14,7 @@ import {Layout, Menu, Icon, ConfigProvider, Avatar, Dropdown, message} from 'ant
 import {Switch, HashRouter as Router, Route, Link, useRouteMatch, useLocation} from 'react-router-dom';
 import {createHashHistory} from 'history';
 import {withRouter} from 'react-router';
-import ('moment/dist/locale/zh-cn');
+import ('moment/locale/zh-cn');
 
 moment.locale('zh-cn');
 
