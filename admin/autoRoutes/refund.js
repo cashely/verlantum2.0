@@ -160,7 +160,7 @@ module.exports = [
     method: 'get',
     mark: '导出开票列表',
     callback(req, res) {
-     let { date = [] } = req.query;
+     let { date = [], isGet, success, orderId } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
      }
@@ -176,6 +176,16 @@ module.exports = [
          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
        }
      }
+      
+     if ([0, 1].includes(isGet)) {
+       conditions.isGet = isGet;
+	   }
+	   if ([0, 1].includes(success)) {
+	     conditions.success = success;
+	   }
+	   if (orderId) {
+	     conditions.orderId = orderId;
+	   }
 
      models.refunds.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({_id: -1}).then(refunds => {
 
