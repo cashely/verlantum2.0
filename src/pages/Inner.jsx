@@ -22,6 +22,7 @@ export default class Inner extends Component {
         sended: 2,
         hasPayed: 2,
         openid: '',
+        orderNo: '',
       },
       selectedRowKeys: [],
     }
@@ -338,6 +339,9 @@ export default class Inner extends Component {
             </Form.Item>
             <Form.Item label="微信ID">
               <Input value={this.state.conditions.openid} onChange={e => this.conditionsChangeAction(e.currentTarget.value, 'openid')} />
+            </Form.Item>
+            <Form.Item label="订单号">
+              <Input value={this.state.conditions.orderNo} onChange={e => this.conditionsChangeAction(e.currentTarget.value, 'orderNo')} />
             </Form.Item>
             <Form.Item label="发货状态">
               <Select
