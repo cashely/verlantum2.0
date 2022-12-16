@@ -299,7 +299,7 @@ const generatorWxpay = ({ orderNo, paymentAmount, body,openid, res, to }) => {
     });
     const userTodayGoodNumber = userTodayOrders.map(v => v.count).reduce((a, b) => a + b, 0);
     console.log(userTodayGoodNumber, '----------<<<<<')
-    if (userTodayGoodNumber > 2) {
+    if (userTodayGoodNumber >= 1) {
       res.render('pay-error',{ err: '当天下单的数量已经超过限制' });
       return;
     }
