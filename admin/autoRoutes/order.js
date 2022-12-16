@@ -63,7 +63,7 @@ module.exports = [
       }
 
       // 下单临时限制每天2盒
-      if (count > 2) {
+      if (count > 1) {
         req.response(200, {
           msg: '下单失败,每单最多能下2盒',
         }, 1);
