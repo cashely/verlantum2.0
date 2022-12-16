@@ -63,7 +63,7 @@ export default class Refund extends Component {
       })
     }
     
-    if (info.success === 1 && refund !== 2) {
+    if (info.success === 3 && refund !== 2) {
       message.error('此单未受理，不支持直接退款');
       return;
     }
@@ -71,7 +71,7 @@ export default class Refund extends Component {
     if (sended === 1) {
       const text = (() => {
         switch (true) {
-          case info.success === 1 : return '退款';
+          case info.success === 3 : return '退款';
           case info.isGet === 1 : return '受理';
           default: return '错误操作';
         }
@@ -189,10 +189,10 @@ export default class Refund extends Component {
         render: row => (
           <React.Fragment>
             {
-              !row.success && (
+              [0].includes(row.success) && row.isGet === 1 && (
                 <Popconfirm
                   title="您确定要退款?"
-                  onConfirm={this.refundAction.bind(this, row._id, { success: 1 }, row.orderId)}
+                  onConfirm={this.refundAction.bind(this, row._id, { success: 3 }, row.orderId)}
                   okText="是"
                   cancelText="否"
                 >
@@ -276,6 +276,10 @@ export default class Refund extends Component {
                     {
                       value: 1,
                       label: '已退款'
+                    },
+                    {
+                      value: 3,
+                      label: '微信商户处理中'
                     },
                   ].map(v => (<Select.Option value={v.value}>{v.label}</Select.Option>))
                 }
