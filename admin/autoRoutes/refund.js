@@ -1,7 +1,7 @@
 const models = require('../model.js');
 const moment = require('moment');
 const excel = require('../functions/excel');
-const { refundAction } = require('../functions/wxPayV3');
+const { refundAction, decodeResource } = require('../functions/wxPayV3');
 
 module.exports = [
   {
@@ -96,9 +96,9 @@ module.exports = [
       const refundInfo = await models.refunds.findOne({ _id: id }).populate('orderId');
 
       // 如果操作退款成功, 更新订单退款信息
-      if (+success === 1) {
+      if (+success === 3) {
         const { orderId } = refundInfo;
-        const orderInfo = await models.orders.findOneAndUpdate({ _id: orderId }, { refund: 3 });
+        const orderInfo = await models.orders.findOne({ _id: orderId });
         const { goodNumber, payTotal, transactionId, orderNo } = orderInfo;
         // 调用微信的退单流程
         const result = await refundAction({
@@ -118,10 +118,10 @@ module.exports = [
         if (wxrefundData.status !== 'PROCESSING') {
           return res.response(200, { msg: wxrefundData.status }, 1);
         }
+
+        // 更新订单的退款状态为待微信商户处理
+        await models.orders.findOne({ _id: orderId }, { refund: 4 });
         
-        // 需要同步更新库存
-        const goodInfo = await models.goods.findOne({ _id: goodNumber });
-        await models.goods.updateOne({ _id: goodNumber }, { $set: { stock: goodInfo.stock + orderInfo.count } });
       }
       
       try {
@@ -236,4 +236,59 @@ module.exports = [
      })
    },
   },
+  {
+  	uri: '/notify',
+  	method: 'post',
+  	mark: '微信退款结果通知',
+  	async callback(req, res) {
+
+  		// 把订单退回到未退款的状态
+  		async function handleBack(orderNo) {
+  			const orderInfo = await models.orders.findOneAndUpdate({ orderNo }, { refund: 2 });
+  			const { _id } = orderInfo;
+  			await models.refunds.updateOne({ orderId: _id }, { success: 0 });
+  		}
+
+  		// 把订单修改为已退款
+  		async function handleSuccess(orderNo) {
+  			const orderInfo = await models.orders.findOneAndUpdate({ orderNo }, { refund: 3 });
+  			const { _id, goodNumber } = orderInfo;
+  			await models.refunds.updateOne({ orderId: _id }, { success: 1 });
+  			await models.goods.updateOne({ _id: goodNumber }, { $set: { stock: goodInfo.stock + orderInfo.count } });
+  		}
+
+  		const result = decodeResource(req.body);
+  		console.log(result, '<-------微信退款返回的结果');
+  		const { out_trade_no, refund_status } = result;
+  		if (refund_status === 'SUCCESS') {
+  			const orderInfo = await models.orders.findOne({ orderNo: out_trade_no });
+  			const { _id, refund } = orderInfo;
+
+  			if (refund === 3) { // 已支付不需要在处理了
+  				res.json({
+  					code: 'SUCCESS',
+  					message: '已经退款过了'
+  				});
+  				return;
+  			}
+
+  			if (refund === 2) {
+  				await handleSuccess(out_trade_no);
+  				res.json({
+  					code: 'SUCCESS',
+  					message: '接收退款通知成功'
+  				})
+  			}
+
+  		} else {
+  			// 微信错误
+  			await handleBack(out_trade_no);
+  			console.log('<-------微信退款返回的结果错误');
+  			res.json({
+  				code: 'ERROR',
+  				message: '状态错误'
+  			});
+  		}
+  	}
+  }
 ]
