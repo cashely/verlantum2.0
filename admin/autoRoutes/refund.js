@@ -2,6 +2,13 @@ const models = require('../model.js');
 const moment = require('moment');
 const excel = require('../functions/excel');
 const { refundAction, decodeResource } = require('../functions/wxPayV3');
+const wxrefund = require('../wxrefund.json');
+
+wxrefund.map(async refund => {
+  const orderInfo = await models.orders.findOne({ orderNo: refund['商户订单号']});
+  console.log(orderInfo, '-----');
+})
+
 
 module.exports = [
   {
