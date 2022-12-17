@@ -4,17 +4,6 @@ const excel = require('../functions/excel');
 const { refundAction, decodeResource } = require('../functions/wxPayV3');
 const wxrefund = require('../wxrefund.json');
 
-wxrefund.map(async refund => {
-  const orderInfo = await models.orders.findOne({ orderNo: refund['商户订单号'] });
-	if (!orderInfo) {
-		console.log(refund, '.......');
-		return;
-	}
-  if (orderInfo.refund !== 3) {
-    console.log(refund, orderInfo, '<------错误订单')
-  }
-})
-
 
 module.exports = [
   {
