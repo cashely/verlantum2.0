@@ -5,9 +5,9 @@ const { refundAction, decodeResource } = require('../functions/wxPayV3');
 const wxrefund = require('../wxrefund.json');
 
 wxrefund.map(async refund => {
-  const orderInfo = await models.orders.findOne({ orderNo: refund['商户订单号'] });
-  if (!orderInfo.refund !== 3) {
-    console.log(orderInfo, '<--------订单状态');
+  const orderInfo = await models.orders.findOne({ orderNo: refund['商户订单号'], refund: 0 });
+  if (!orderInfo) {
+    console.log(refund, '<--------没有找到订单');
   }
 })
 
