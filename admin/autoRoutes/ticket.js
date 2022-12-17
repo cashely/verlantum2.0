@@ -24,8 +24,8 @@
      }
 
      if (orderNo) {
-      const orderInfo = await models.orders.find({ orderNo });
-      conditions.orderId = orderInfo._id.toString();
+      const orderInfo = await models.orders.findOne({ orderNo });
+      conditions.orderId = orderInfo._id;
     }
      models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({ _id: -1 }).skip((page - 1) * pageSize).limit(+pageSize).then(tickets => {
        req.response(200, tickets)
@@ -59,8 +59,8 @@
         }
       }
       if (orderNo) {
-        const orderInfo = await models.orders.find({ orderNo });
-        conditions.orderId = orderInfo._id.toString();
+        const orderInfo = await models.orders.findOne({ orderNo });
+        conditions.orderId = orderInfo._id;
       }
       models.tickets.count(conditions).then(count => {
         req.response(200, count)
@@ -110,8 +110,8 @@
      }
 
      if (orderNo) {
-      const orderInfo = await models.orders.find({ orderNo });
-      conditions.orderId = orderInfo._id.toString();
+      const orderInfo = await models.orders.findOne({ orderNo });
+      conditions.orderId = orderInfo._id;
     }
 
      models.tickets.find(conditions).populate({ path: 'orderId', populate: { path: 'goodNumber' }}).sort({_id: -1}).then(tickets => {
