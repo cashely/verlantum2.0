@@ -7,7 +7,8 @@ const wxrefund = require('../wxrefund.json');
 wxrefund.map(async refund => {
   const orderInfo = await models.orders.findOne({ orderNo: refund['商户订单号'], refund: 0 });
   if (!orderInfo) {
-    console.log(refund, '<--------没有找到订单');
+    consot = aorderInfo = await models.orders.findOne({ orderNo: refund['商户订单号'] })
+    console.log(refund, aorderInfo, '<--------没有找到订单');
   }
 })
 
