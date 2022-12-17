@@ -195,10 +195,10 @@ module.exports = {
         order.hasPayed === 0 ? '否' : '是',
         (() => {
           switch (order.refund) {
-            case 1 : return '已申请',
-            case 2 : return '已受理',
-            case 3 : return '已退款',
-            case 4 : return '微信商户处理中',
+            case 1 : return '已申请';
+            case 2 : return '已受理';
+            case 3 : return '已退款';
+            case 4 : return '微信商户处理中';
             default : return ''
           }
         })(),
