@@ -101,7 +101,10 @@ module.exports = [
       if (+success === 3) {
         const { orderId } = refundInfo;
         const orderInfo = await models.orders.findOne({ _id: orderId });
-        const { goodNumber, payTotal, transactionId, orderNo } = orderInfo;
+        const { goodNumber, payTotal, transactionId, orderNo, refund } = orderInfo;
+	if (refund !== 0) {
+		return res.response(200, { msg: '已退款，不支持重复发起' }, 1);
+	}
         // 调用微信的退单流程
         const result = await refundAction({
           transactionId,
