@@ -166,6 +166,7 @@ module.exports = {
     return await payment.refund({
       out_refund_no: String(outRefundNo),
       transaction_id: transactionId,
+      notify_url: 'https://api.verlantum.cn/refund/notify',
       amount: {
         currency:'CNY',
         refund: amount * 100,

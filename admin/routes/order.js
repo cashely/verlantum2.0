@@ -184,7 +184,7 @@ module.exports = {
     models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).then(orders => {
       // req.response(200, orders)
 
-      const data = [['商品名称', '订单号', '包装编号', '数量', '单价', '总计', '已付金额（元）', '付款方式（元）', '是否付款', '用户姓名', '联系方式', '联系地址', '是否发货', '代理商', '下单时间']].concat(orders.map(order => ([
+      const data = [['商品名称', '订单号', '包装编号', '数量', '单价', '总计', '已付金额（元）', '付款方式（元）', '是否付款', '退款情况', '用户姓名', '联系方式', '联系地址', '是否发货', '代理商', '下单时间']].concat(orders.map(order => ([
         order.goodNumber && order.goodNumber.title, order.orderNo,
         order.boxNumber,
         order.count,
@@ -193,6 +193,15 @@ module.exports = {
         order.payTotal,
         order.payChannel === 1 ? '微信' : (order.payChannel === 2 ? '支付宝' : '线下'),
         order.hasPayed === 0 ? '否' : '是',
+        (() => {
+          switch (order.refund) {
+            case 1 : return '已申请';
+            case 2 : return '已受理';
+            case 3 : return '已退款';
+            case 4 : return '微信商户处理中';
+            default : return ''
+          }
+        })(),
         order.username,
         order.phone,
         order.address,

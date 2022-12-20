@@ -125,7 +125,8 @@
                 <div class="weui-cell weui-cell_active">
                   <div class="weui-cell__hd"><label class="weui-label">数量</label></div>
                   <div class="weui-cell__bd">
-                      <input id="js_input" type="number" value="1" class="weui-input" name="count" />
+                      <!-- <input id="js_input" type="number" value="1" class="weui-input" name="count" /> -->
+                      1
                   </div>
                 </div>
               </div>
@@ -212,7 +213,7 @@
       const phone = form.phone.value;
       const username = form.username.value;
       const address = $('.address').html() + form.addressDetail.value;
-      const count = form.count.value;
+      const count = 1 ; // form.count.value;
       let aid;
       if (!!'<%= agent %>') {
         aid = form.agent.value;

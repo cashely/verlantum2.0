@@ -250,6 +250,9 @@ export default class Inner extends Component {
             case 3 :
             s = <Tag color="red">已退款</Tag>;
             break;
+            case 4 :
+            s = <Tag color="red">微信商户处理中</Tag>;
+            break;
           default: s = '';
           }
           return s;

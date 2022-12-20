@@ -234,9 +234,14 @@ module.exports = {
             }
           }
         };
-        const msg = await sendTemplateMessage(openid, messageData);
-        console.log(msg, '<-------下单发送通知');
+        try {
+          const msg = await sendTemplateMessage(openid, messageData);
+          console.log(msg, '<-------下单发送通知');
+        } catch (err) {
+          console.log(err, '<-------下单发送通知失败');
+        }
       }).catch(err => {
+        console.log(err, '<-------下单回调失败');
         res.json({   
           "code": "FAIL",
           "message": "失败"
@@ -299,7 +304,7 @@ const generatorWxpay = ({ orderNo, paymentAmount, body,openid, res, to }) => {
     });
     const userTodayGoodNumber = userTodayOrders.map(v => v.count).reduce((a, b) => a + b, 0);
     console.log(userTodayGoodNumber, '----------<<<<<')
-    if (userTodayGoodNumber > 2) {
+    if (userTodayGoodNumber >= 1) {
       res.render('pay-error',{ err: '当天下单的数量已经超过限制' });
       return;
     }

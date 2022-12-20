@@ -106,7 +106,7 @@
     <% if (orders) { %>
       <% orders.forEach(function(order) { %>
         <div class="weui-panel weui-panel_access">
-            <% if (order.refund === 1) { %>
+            <% if (order.refund === 1 || order.refund === 4) { %>
               <span class="tip">退款中</span>
             <% } else if (order.refund === 2) { %>
               <span class="tip">退款受理</span>
@@ -125,26 +125,29 @@
                 </div>
                 <div class="weui-media-box__bd">
                   <h6 class="weui-media-box__title"><%= order.goodNumber.title %></h6>
-                  <p class="weui-media-box__desc">价格: ￥<%= order.payTotal %></p>
+                  <p class="weui-media-box__desc">付款金额: ￥<%= order.payTotal %></p>
                   <p class="weui-media-box__desc">下单时间: <%= order.createdAt %></p>
+                  <p class="weui-media-box__desc">订单号: <%= order.orderNo %></p>
                 </div>
               </div>
           </div>
-          <div class="weui-panel__ft">
-            <% if (![1,2,3].includes(order.refund)) { %>
-              <span onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
-                <div class="weui-cell__bd">申请退款</div>
-              </span>
-            <% } %>
-            <a href="javascript:void(0);" onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
-              <div class="weui-cell__bd">申请发票</div>
-            </a>
-            <% if (order.reportPath) { %>
-              <a href="/uploads/<%= order.reportPath %>" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
-                <div class="weui-cell__bd">报告下载</div>
+          <% if (order.hasPayed === 1) { %>
+            <div class="weui-panel__ft">
+              <% if (![1,2,3,4].includes(order.refund)) { %>
+                <span onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+                  <div class="weui-cell__bd">申请退款</div>
+                </span>
+              <% } %>
+              <a href="javascript:void(0);" onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+                <div class="weui-cell__bd">申请发票</div>
               </a>
-            <% } %>
-          </div>
+              <% if (order.reportPath) { %>
+                <a href="/uploads/<%= order.reportPath %>" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+                  <div class="weui-cell__bd">报告下载</div>
+                </a>
+              <% } %>
+            </div>
+          <% } %>
         </div>
       <% }) %>
       <% } else { %>
