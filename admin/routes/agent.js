@@ -234,9 +234,14 @@ module.exports = {
             }
           }
         };
-        const msg = await sendTemplateMessage(openid, messageData);
-        console.log(msg, '<-------下单发送通知');
+        try {
+          const msg = await sendTemplateMessage(openid, messageData);
+          console.log(msg, '<-------下单发送通知');
+        } catch (err) {
+          console.log(err, '<-------下单发送通知失败');
+        }
       }).catch(err => {
+        console.log(err, '<-------下单回调失败');
         res.json({   
           "code": "FAIL",
           "message": "失败"
