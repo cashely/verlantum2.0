@@ -204,7 +204,7 @@ module.exports = {
           return;
         }
         // 发送订单消息
-        const orderInfo = await models.orders.find({ orderNo: out_trade_no }).populate('goodNumber');
+        const orderInfo = await models.orders.findOne({ orderNo: out_trade_no }).populate('goodNumber');
         const { address, goodNumber: { title }, openid, phone, username, createdAt, orderNo } = orderInfo;
         const messageData = {
           template_id: 'idAPmnqsB96UthvCfj4eYrSeicOBnlyEYwb-nc-0_lM',
