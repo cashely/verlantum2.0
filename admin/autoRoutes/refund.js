@@ -260,7 +260,8 @@ module.exports = [
         const { _id, goodNumber } = orderInfo;
         const goodInfo = await models.goods.findOne({ _id: goodNumber });
         await models.refunds.updateOne({ orderId: _id }, { success: 1 });
-        await models.goods.updateOne({ _id: goodNumber }, { $set: { stock: goodInfo.stock + orderInfo.count } });
+        // 退款不更新库存
+        // await models.goods.updateOne({ _id: goodNumber }, { $set: { stock: goodInfo.stock + orderInfo.count } });
       }
 
       const result = decodeResource(req.body);
