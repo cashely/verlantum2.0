@@ -126,7 +126,9 @@ export default (props) => {
       align: 'center',
       render: row => (
         <React.Fragment>
-          <Button type="primary" onClick={(e) => editTicket(row._id) } size="small" style={{marginLeft: 10}}>开票</Button>
+          {
+            !row.isOffer && <Button type="primary" onClick={(e) => editTicket(row._id) } size="small" style={{marginLeft: 10}}>开票</Button>
+          }
           {/* <Popconfirm
             title="您确定要删除?"
             onConfirm={this.deleteAction.bind(this, row._id)}
