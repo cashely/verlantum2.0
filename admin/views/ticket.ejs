@@ -88,6 +88,14 @@
             <input class="weui-input head" />
           </div>
         </div>
+        <div class="weui-cell weui-cell_active card_block" style="display: flex;">
+          <div class="weui-cell__hd">
+            <label class="weui-label">身份证</label>
+          </div>
+          <div class="weui-cell__bd weui-flex">
+            <input class="weui-input card" />
+          </div>
+        </div>
         <div class="weui-cell weui-cell_active">
           <div class="weui-cell__hd">
             <label class="weui-label">电子邮箱</label>
@@ -108,9 +116,11 @@
       const type = +$('.type').val();
       if (type === 0) {
         $('.head_block').css({ display: 'none' });
+        $('.card_block').css({ display: 'flex' });
       }
       if (type === 1) {
         $('.head_block').css({ display: 'flex' });
+        $('.card_block').css({ display: 'none' });
       }
     })
     function createTicket() {
@@ -118,6 +128,7 @@
       const head = $('.head').val();
       const name = $('.name').val();
       const email = $('.email').val();
+      const card = $('.card').val();
       if (!type || !name || !email) {
         weui.topTips('字段必填');
         return;
@@ -126,11 +137,15 @@
         weui.topTips('字段必填');
         return;
       }
+      if (type === 0 && !card) {
+        weui.topTips('字段必填');
+        return;
+      }
       const loading = weui.loading('申请发票中');
       $.post('/order/ticket/create', {
         orderId: '<%= orderId %>',
         type,
-        head,
+        head: type === 0 ? card : head,
         name,
         email,
       }, function(res) {
