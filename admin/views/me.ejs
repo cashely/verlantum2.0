@@ -128,6 +128,8 @@
                   <p class="weui-media-box__desc">付款金额: ￥<%= order.payTotal %></p>
                   <p class="weui-media-box__desc">下单时间: <%= order.createdAt %></p>
                   <p class="weui-media-box__desc">订单号: <%= order.orderNo %></p>
+                  <p class="weui-media-box__desc">联系方式: <%= order.phone %></p>
+                  <p class="weui-media-box__desc">收货地址: <%= order.address %></p>
                 </div>
               </div>
           </div>
@@ -137,10 +139,10 @@
                 <span onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                   <div class="weui-cell__bd">申请退款</div>
                 </span>
+                <a href="javascript:void(0);" onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+                  <div class="weui-cell__bd">申请发票</div>
+                </a>
               <% } %>
-              <a href="javascript:void(0);" onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
-                <div class="weui-cell__bd">申请发票</div>
-              </a>
               <% if (order.reportPath) { %>
                 <a href="/uploads/<%= order.reportPath %>" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                   <div class="weui-cell__bd">报告下载</div>
