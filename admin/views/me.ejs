@@ -177,8 +177,15 @@
     
     var orderId = null;
 
+    var isLoading = false;
+
     function onRefund() {
+      if (isLoading) {
+        return;
+      }
+      isLoading = true;
       $.post('/refund/create', { orderId }, (res) => {
+        isLoading = false;
         if (res.code === 0) {
           weui.topTips('申请成功，请耐心等待客服确认');
         } else {
