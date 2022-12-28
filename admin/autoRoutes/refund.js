@@ -58,7 +58,7 @@ module.exports = [
 
       const orderInfo = await models.orders.findOne({ _id: orderId });
 
-      if (orderInfo.refund === 1) {
+      if (orderInfo.refund !== 0) {
         req.response(200, {
           msg: '已申请退款，请耐心等待',
         }, 1);
