@@ -53,7 +53,7 @@ module.exports = [
     mark: '通过接口微信下单',
     async callback(req, res) {
       const { aid, goodId, username, sex, birthday, phone, address, guardian, isRequireTicket, ticketHead, payChannel, count } = req.body;
-      const { price, title, stock } = await models.goods.findOne({ _id: goodId });
+      const { price, title, stock, number } = await models.goods.findOne({ _id: goodId });
 
       if (!_.isInteger(+count) || +count <= 0) {
         req.response(200, {
@@ -63,7 +63,7 @@ module.exports = [
       }
 
       // 下单临时限制每天2盒
-      if (count > 1) {
+      if (count > 1 && number === 'YL-GOOD-20221229-14') {
         req.response(200, {
           msg: '下单失败,每单最多能下2盒',
         }, 1);
