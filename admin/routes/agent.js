@@ -292,22 +292,22 @@ const generatorWxpay = ({ orderNo, paymentAmount, body,openid, res, to }) => {
       orderNo,
     });
     // 统计用户当天下单的数量是否已经超过2个
-    const today = moment(Date.now()).format('YYYY-MM-DD 00:00:00');
-    const todayEnd = moment(Date.now()).format('YYYY-MM-DD 23:59:59');
-    const userTodayOrders = await models.orders.find({
-      openid,
-      hasPayed: 1,
-      createdAt: {
-        $gte: new Date(today),
-        $lte: new Date(todayEnd),
-      },
-    });
-    const userTodayGoodNumber = userTodayOrders.map(v => v.count).reduce((a, b) => a + b, 0);
-    console.log(userTodayGoodNumber, '----------<<<<<')
-    if (userTodayGoodNumber >= 1) {
-      res.render('pay-error',{ err: '当天下单的数量已经超过限制' });
-      return;
-    }
+    // const today = moment(Date.now()).format('YYYY-MM-DD 00:00:00');
+    // const todayEnd = moment(Date.now()).format('YYYY-MM-DD 23:59:59');
+    // const userTodayOrders = await models.orders.find({
+    //   openid,
+    //   hasPayed: 1,
+    //   createdAt: {
+    //     $gte: new Date(today),
+    //     $lte: new Date(todayEnd),
+    //   },
+    // });
+    // const userTodayGoodNumber = userTodayOrders.map(v => v.count).reduce((a, b) => a + b, 0);
+    // console.log(userTodayGoodNumber, '----------<<<<<')
+    // if (userTodayGoodNumber >= 1) {
+    //   res.render('pay-error',{ err: '当天下单的数量已经超过限制' });
+    //   return;
+    // }
 
     let noncestr = wxpay.createNonceStr();
     let timestamp = wxpay.createTimeStamp();
