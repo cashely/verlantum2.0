@@ -63,7 +63,7 @@ module.exports = [
       }
 
       // 下单临时限制每天5盒
-      if (count > 5 && number === 'YL-GOOD-20221229-14') {
+      if (count > 5 && number === 'YL-GOOD-20221203-11') {
         req.response(200, {
           msg: '下单失败,每单最多能下5盒',
         }, 1);
