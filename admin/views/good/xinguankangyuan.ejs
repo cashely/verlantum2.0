@@ -125,8 +125,7 @@
                 <div class="weui-cell weui-cell_active">
                   <div class="weui-cell__hd"><label class="weui-label">数量</label></div>
                   <div class="weui-cell__bd">
-                      <!-- <input id="js_input" type="number" value="1" class="weui-input" name="count" /> -->
-                      1
+                      <input id="js_input" type="number" value="1" class="weui-input" name="count" />
                   </div>
                 </div>
               </div>
@@ -213,7 +212,7 @@
       const phone = form.phone.value;
       const username = form.username.value;
       const address = $('.address').html() + form.addressDetail.value;
-      const count = 1 ; // form.count.value;
+      const count = form.count.value;
       let aid;
       if (!!'<%= agent %>') {
         aid = form.agent.value;
@@ -233,6 +232,11 @@
 
       if (!count) {
         weui.topTips('下单数量必须大于1');
+        return;
+      }
+      
+      if (count > 5) {
+        weui.topTips('每次最大下单数量为5盒');
         return;
       }
       
