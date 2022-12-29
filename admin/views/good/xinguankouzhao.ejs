@@ -188,6 +188,27 @@
       });
     })
 
+    const goodTypes = [
+      {
+        num: 20,
+        link: 'YL-GOOD-20221229-12',
+      },
+      {
+        num: 50,
+        link: 'YL-GOOD-20221229-13',
+      },
+      {
+        num: 100,
+        link: 'YL-GOOD-20221229-14',
+      }
+    ];
+
+    const goodDetail = (() => {
+      const urlLink = location.href.split('/').slice(-1)[0];
+      const index = goodTypes.findIndex(v => v.link === urlLink);
+      return goodTypes[index];
+    })();
+
     $(function() {
       if (!!'<%= agent %>') {
         $.get('/sameAgent/<%= agent %>', function (res) {
@@ -198,6 +219,15 @@
           $('#sameAgent').html(str);
         })
       }
+
+      // 设置多个规格
+
+      $('.tags').html(goodTypes.map(type => {
+        if (type.link === goodDetail.link) {
+          return `<div class="tag is-success">${type.num}只装</div>`;
+        }
+        return `<a href="//api.verlantum.cn/good/page/${type.link}" class="tag is-success is-light">${type.num}只装</a>`
+      }));
     })
 
     $('#showCityPicker').on('click', function () {
@@ -221,7 +251,7 @@
       const phone = form.phone.value;
       const username = form.username.value;
       const address = $('.address').html() + form.addressDetail.value;
-      const count = 1 ; // form.count.value;
+      const count = goodDetail.num ; // form.count.value;
       let aid;
       if (!!'<%= agent %>') {
         aid = form.agent.value;
@@ -236,11 +266,6 @@
       }
       if (!!'<%= agent %>' && !aid) {
         weui.topTips('必须选择正确的编号哦');
-        return;
-      }
-
-      if (!count) {
-        weui.topTips('下单数量必须大于1');
         return;
       }
       
