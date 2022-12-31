@@ -41,12 +41,11 @@
           text-align: left;
           color: red;
         }
-        .tiannfu_form > h4 > span {
+        .tiannfu_form > h4 > span.text {
           font-size: 3vw;
           line-height: 2;
           text-align: left;
           color: #666;
-          margin-left: 2vw;
           font-weight: normal;
         }
         .tiannfu_form > h2 > p {
@@ -82,8 +81,8 @@
         </div>
         <form class="tiannfu_form">
           <h2><%= title %></h2>
-         <h4>￥<%= price %>
-          <span>库存: 
+         <h4>￥<%= price %> <span class="text"> / 只</span>
+          <span class="text" style="margin-left: 2vw;">库存: 
             <% if (stock <= 0 ) { %>
               0
             <% } else { %>
