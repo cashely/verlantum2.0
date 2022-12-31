@@ -35,5 +35,13 @@ module.exports = [
     async callback(req, res) {
       res.render('xinguan-about');
     }
+  },
+  {
+    uri: '/normal-about',
+    method: 'get',
+    mark: '口罩支付成功以后关注公众号',
+    async callback(req, res) {
+      res.render('normal-about');
+    }
   }
 ]
