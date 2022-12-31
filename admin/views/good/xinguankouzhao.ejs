@@ -95,9 +95,9 @@
         </form>
         <div class="block" style="padding: 0 5vw;">
           <div class="tags">
-            <a href="#" class="tag is-success is-light">20只装</a>
-            <a href="#" class="tag is-success is-light">50只装</a>
-            <a href="#" class="tag is-success is-light">100只装</a>
+            <a href="#" class="tag is-success is-light is-medium">25只</a>
+            <a href="#" class="tag is-success is-light is-medium">50只</a>
+            <a href="#" class="tag is-success is-light is-medium">100只</a>
           </div>
         </div>
         <div class="detail">
@@ -224,9 +224,9 @@
 
       $('.tags').html(goodTypes.map(type => {
         if (type.link === goodDetail.link) {
-          return `<div class="tag is-success">${type.num}只装</div>`;
+          return `<div class="tag is-success is-medium">${type.num}只</div>`;
         }
-        return `<a href="//api.verlantum.cn/good/page/${type.link}" class="tag is-success is-light">${type.num}只装</a>`
+        return `<a href="//api.verlantum.cn/good/page/${type.link}" class="tag is-success is-light is-medium">${type.num}只</a>`
       }));
     })
 
@@ -283,7 +283,7 @@
         loading.hide();
         const params = {
           orderNo: res.data.orderNo,
-          to: '/wxcode/xinguan-about'
+          to: '/wxcode/normal-about'
         };
         if (res.code === 0) {
           location.href = '/wxcode/get?uri=' + encodeURIComponent(`https://api.verlantum.cn/wxpay?params=${JSON.stringify(params)}`)
