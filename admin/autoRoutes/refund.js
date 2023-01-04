@@ -11,10 +11,15 @@ module.exports = [
     method: 'get',
     mark: '退款申请列表',
     callback: async (req, res) => {
-      const { page = 1, pageSize = 20, date = [], isGet, success, orderId, orderNo } = req.query;
+      const { page = 1, pageSize = 20, date = [], isGet, success, orderId, orderNo, orderDate = [] } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
+      
+      let formatOrderDate = orderDate.map(item => {
+        return moment(JSON.parse(item)).format();
+      })
+      
       let conditions = {};
       if(formatDate[0]) {
         conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00'))}
@@ -22,6 +27,23 @@ module.exports = [
           conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
         }
       }
+      
+      if (formatOrderDate[0]) {
+        const orderConditions = {
+          createdAt: {
+            $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00'))
+          }
+        };
+        if (formatOrderDate[1]) {
+          orderConditions.createdAt = {
+            $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
+            $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+          }
+        }
+        const orders = await models.orders.find(orderConditions);
+        conditions.orderId = { $in: orders.map(({ _id }) => _id) };
+      }
+      
       if ([0, 1].includes(+isGet)) {
         conditions.isGet = isGet;
       }
@@ -146,10 +168,15 @@ module.exports = [
     method: 'get',
     mark: '退款申请Total',
     callback: async (req, res) => {
-      const { date = [], isGet, success, orderId, orderNo } = req.query;
+      const { date = [], isGet, success, orderId, orderNo, orderDate = [] } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
+      
+      let formatOrderDate = orderDate.map(item => {
+        return moment(JSON.parse(item)).format();
+      });
+      
       let conditions = {};
       if(formatDate[0]) {
         conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00'))}
@@ -157,6 +184,23 @@ module.exports = [
           conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
         }
       }
+      
+      if (formatOrderDate[0]) {
+        const orderConditions = {
+          createdAt: {
+            $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00'))
+          }
+        };
+        if (formatOrderDate[1]) {
+          orderConditions.createdAt = {
+            $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
+            $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+          }
+        }
+        const orders = await models.orders.find(orderConditions);
+        conditions.orderId = { $in: orders.map(({ _id }) => _id) };
+      }
+      
       if ([0, 1].includes(+isGet)) {
         conditions.isGet = isGet;
       }
@@ -184,10 +228,15 @@ module.exports = [
     method: 'get',
     mark: '导出开票列表',
     async callback(req, res) {
-     let { date = [], isGet, success, orderId, orderNo } = req.query;
+     let { date = [], isGet, success, orderId, orderNo, orderDate } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
      }
+      
+     if (typeof orderDate === 'string') {
+       orderDate = JSON.parse(orderDate);
+     }
+      
      orderId = JSON.parse(orderId);
 
      orderNo = JSON.parse(orderNo);
@@ -195,6 +244,11 @@ module.exports = [
      let formatDate = date.map(item => {
        return moment(item).format();
      });
+      
+     let formatOrderDate = orderDate.map(item => {
+       return moment(item).format();
+     });
+      
      let conditions = {};
 
      if(formatDate[0]) {
@@ -203,6 +257,22 @@ module.exports = [
          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
        }
      }
+      
+     if (formatOrderDate[0]) {
+        const orderConditions = {
+          createdAt: {
+            $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00'))
+          }
+        };
+        if (formatOrderDate[1]) {
+          orderConditions.createdAt = {
+            $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
+            $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+          }
+        }
+        const orders = await models.orders.find(orderConditions);
+        conditions.orderId = { $in: orders.map(({ _id }) => _id) };
+      }
       
      if ([0, 1].includes(isGet)) {
        conditions.isGet = isGet;
