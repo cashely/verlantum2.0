@@ -23,6 +23,7 @@ export default class Refund extends Component {
         isGet: 2,
         success: 2,
         orderNo: '',
+        orderDate: []
       },
     }
   }
@@ -224,8 +225,11 @@ export default class Refund extends Component {
             <Form.Item>
                 <Button type="primary" onClick={this.exportExcel.bind(this)}>导出Excel</Button>
             </Form.Item>
-            <Form.Item label="时间">
+            <Form.Item label="退款时间">
               <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.date} onChange={e => this.conditionsChangeAction(e, 'date', 'DATE')} />
+            </Form.Item>
+            <Form.Item label="订单时间">
+              <DatePicker.RangePicker format="YYYY-MM-DD" value={this.state.conditions.orderDate} onChange={e => this.conditionsChangeAction(e, 'orderDate', 'DATE')} />
             </Form.Item>
             <Form.Item label="订单ID">
               <Input value={this.state.conditions.orderId} onChange={e => this.conditionsChangeAction(e.currentTarget.value, 'orderId')} />
