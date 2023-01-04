@@ -196,6 +196,9 @@ module.exports = [
         if (hasTicket) {
           return req.response(200, { code: 1, msg: '此订单已开过发票了' });
         }
+        if (_.isEmpty(head)) {
+          return req.response(200, { code: 1, msg: '发票抬头或省份证号不能为空' })
+        }
         const { payTotal } = await models.orders.findOne({ _id });
         await new models.tickets({
           type,
