@@ -141,6 +141,10 @@
         weui.topTips('字段必填');
         return;
       }
+      if (type === 0 && !/^([1-6][1-9]|50)\d{4}(18|19|20)\d{2}((0[1-9])|10|11|12)(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(card)) {
+        weui;topTips('身份证号格式错误');
+        return;
+      }
       const loading = weui.loading('申请发票中');
       $.post('/order/ticket/create', {
         orderId: '<%= orderId %>',
