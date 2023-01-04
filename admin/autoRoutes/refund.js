@@ -228,7 +228,7 @@ module.exports = [
     method: 'get',
     mark: '导出开票列表',
     async callback(req, res) {
-     let { date = [], isGet, success, orderId, orderNo, orderDate } = req.query;
+     let { date = [], isGet, success, orderId, orderNo, orderDate = [] } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
      }
