@@ -1,7 +1,8 @@
 const models = require('../model.js');
+const bignumber = require('bignumberjs');
 module.exports = ({aid, price, ratio, good, address, phone, sex, birthday, guardian, isRequireTicket, ticketHead, card, count = 1, username, goodId, payChannel}) => {
   const orderNo = String(Date.now());
-  const paymentAmount = count * price;
+  const paymentAmount = new bignumber(count).multipliedBy(price).toNumber();
   const order = {
     price,
     paymentAmount,
