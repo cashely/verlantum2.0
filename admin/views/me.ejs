@@ -136,9 +136,9 @@
           <% if (order.hasPayed === 1) { %>
             <div class="weui-panel__ft">
               <% if (![1,2,3,4].includes(order.refund)) { %>
-                <!-- <span onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
+                <span onclick="beforeRefund('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                   <div class="weui-cell__bd">申请退款</div>
-                </span> -->
+                </span>
                 <a href="javascript:void(0);" onclick="linkToTicket('<%= order._id %>')" class="weui-cell weui-cell_active weui-cell_access weui-cell_link" style="text-align: center;">
                   <div class="weui-cell__bd">申请发票</div>
                 </a>
