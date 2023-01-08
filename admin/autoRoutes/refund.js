@@ -92,6 +92,12 @@ module.exports = [
         }, 1);
         return;
       }
+      if (moment().diff(moment(orderInfo.createdAt), 'd') < 5) {
+        req.response(200, {
+          msg: '5天内的订单不支持退款。',
+        }, 1);
+        return;
+      }
       await models.orders.updateOne({ _id: orderId }, { refund: 1 });
       const { goodNumber } = orderInfo;
       try {
