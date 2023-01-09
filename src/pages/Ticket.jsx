@@ -169,6 +169,7 @@ export default (props) => {
           </Form.Item>
           <Form.Item label="订单时间">
               <DatePicker.RangePicker format="YYYY-MM-DD" value={conditions.orderDate} onChange={e => conditionsChangeAction(e, 'orderDate', 'DATE')} />
+          </Form.Item>
           <Form.Item label="订单号">
               <Input value={conditions.orderNo} onChange={e => conditionsChangeAction(e.currentTarget.value, 'orderNo')} />
             </Form.Item>
