@@ -40,6 +40,7 @@ module.exports = [
             $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
           }
         }
+        console.log(orderConditions, '<<<<<-------')
         const orders = await models.orders.find(orderConditions);
         console.log(orders, '<<<<<-------')
         conditions.orderId = { $in: orders.map(({ _id }) => _id) };
