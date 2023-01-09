@@ -28,6 +28,8 @@ module.exports = [
         }
       }
       
+      console.log(formatOrderDate, '<<<<<-------')
+      
       if (formatOrderDate[0]) {
         const orderConditions = {
           createdAt: {
