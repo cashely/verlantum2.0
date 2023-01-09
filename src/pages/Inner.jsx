@@ -21,6 +21,7 @@ export default class Inner extends Component {
         date: [],
         sended: 2,
         hasPayed: 2,
+        refund: -1,
         openid: '',
         orderNo: '',
       },
@@ -365,6 +366,30 @@ export default class Inner extends Component {
                     {
                       value: 1,
                       label: '已发货'
+                    },
+                  ].map(v => (<Select.Option value={v.value}>{v.label}</Select.Option>))
+                }
+              </Select>
+            </Form.Item>
+            <Form.Item label="退款状态">
+              <Select
+                value={this.state.conditions.refund}
+                style={{ width: 100 }}
+                onChange={e => this.conditionsChangeAction(e, 'refund')}
+              >
+                {
+                  [
+                    {
+                      value: -1,
+                      label: '全部'
+                    },
+                    {
+                      value: 0,
+                      label: '未退款',
+                    },
+                    {
+                      value: 1,
+                      label: '有退款'
                     },
                   ].map(v => (<Select.Option value={v.value}>{v.label}</Select.Option>))
                 }
