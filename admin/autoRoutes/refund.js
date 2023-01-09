@@ -28,8 +28,6 @@ module.exports = [
         }
       }
       
-      console.log(formatOrderDate, '<<<<<-------')
-      
       if (formatOrderDate[0]) {
         const orderConditions = {
           createdAt: {
@@ -42,9 +40,7 @@ module.exports = [
             $lte: new Date(moment(formatOrderDate[1]).format('YYYY-MM-DD 23:59:59')),
           }
         }
-        console.log(orderConditions, '<<<<<-------')
         const orders = await models.orders.find(orderConditions);
-        console.log(orders, '<<<<<-------')
         conditions.orderId = { $in: orders.map(({ _id }) => _id) };
       }
       
@@ -62,7 +58,6 @@ module.exports = [
         const orderInfo = await models.orders.findOne({ orderNo });
         conditions.orderId = orderInfo._id;
       }
-      console.log(conditions, '---')
       models.refunds.find(conditions).sort({ _id: -1 }).limit(+pageSize).skip((page - 1) * pageSize)
       .populate('orderId')
       .populate('goodNumber')
