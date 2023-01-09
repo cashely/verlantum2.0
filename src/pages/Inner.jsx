@@ -123,8 +123,8 @@ export default class Inner extends Component {
     }, this.listAction);
   }
 
-  sendedAction(id) {
-    $.put(`/order/${id}`, { sended: 1 }).then(res => {
+  sendedAction(id, info) {
+    $.put(`/order/${id}`, info).then(res => {
       if (res.code === 0) {
         message.success('操作成功');
         this.listAction();
@@ -308,8 +308,15 @@ export default class Inner extends Component {
           <React.Fragment>
             {
               row.sended !== 1 && (
-                <Popconfirm title="发货前请仔细核对用户信息" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id)}}>
+                <Popconfirm title="发货前请仔细核对用户信息" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id, { sended: 1 })}}>
                   <Button type="primary" size="small">发货</Button>
+                </Popconfirm>
+              )
+            }
+            {
+              row.sended === 1 && (
+                <Popconfirm title="请核对商品是否已收回" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id { sended: 0 })}}>
+                  <Button type="primary" size="small" style={{ marginLeft: 10 }}>回货</Button>
                 </Popconfirm>
               )
             }
