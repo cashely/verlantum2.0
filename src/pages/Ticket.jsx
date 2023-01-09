@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Layout, Pagination, Table, Button, Form, DatePicker, message } from 'antd';
+import { Input, Layout, Pagination, Table, Button, Form, DatePicker, message, Tag } from 'antd';
 import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
@@ -9,7 +9,7 @@ export default (props) => {
   const [tickets, setTickets] = useState([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1);
-  const [conditions, setConditions] = useState({ date: [], orderNo: '' });
+  const [conditions, setConditions] = useState({ date: [], orderNo: '', orderDate: [] });
   const pageSize = 20;
   useEffect(() => {
     listAction();
@@ -40,8 +40,8 @@ export default (props) => {
     })
   }
 
-  const editTicket = (id) => {
-    $.put(`/ticket/${id}`, { isOffer: true }).then(res => {
+  const editTicket = (id, info) => {
+    $.put(`/ticket/${id}`, info).then(res => {
       if (res.code === 0) {
         message.success('操作成功');
         listAction(page);
@@ -121,13 +121,28 @@ export default (props) => {
       dataIndex: 'email',
     },
     {
+      title: '状态',
+      render: row => {
+        if (row.isOffer) {
+          return <Tag color="green" >已开票</Tag>
+        } else if (row.status === 1) {
+          return <Tag color="red" >已作废</Tag>
+        } else {
+          return <span>待处理</span>
+        }
+      },
+    },
+    {
       title: '操作',
       key: 'id',
       align: 'center',
       render: row => (
         <React.Fragment>
           {
-            !row.isOffer && <Button type="primary" onClick={(e) => editTicket(row._id) } size="small" style={{marginLeft: 10}}>开票</Button>
+            !row.isOffer && <Button type="primary" onClick={(e) => editTicket(row._id, { isOffer: true }) } size="small" style={{marginLeft: 10}}>开票</Button>
+          }
+          {
+            row.status === 0 && <Button type="danger" onClick={(e) => editTicket(row._id, { status: 1 }) } size="small" style={{marginLeft: 10}}>作废</Button>
           }
           {/* <Popconfirm
             title="您确定要删除?"
@@ -152,6 +167,8 @@ export default (props) => {
           <Form.Item label="时间">
             <DatePicker.RangePicker format="YYYY-MM-DD" value={conditions.date} onChange={e => conditionsChangeAction(e, 'date', 'DATE')} />
           </Form.Item>
+          <Form.Item label="订单时间">
+              <DatePicker.RangePicker format="YYYY-MM-DD" value={conditions.orderDate} onChange={e => conditionsChangeAction(e, 'orderDate', 'DATE')} />
           <Form.Item label="订单号">
               <Input value={conditions.orderNo} onChange={e => conditionsChangeAction(e.currentTarget.value, 'orderNo')} />
             </Form.Item>
