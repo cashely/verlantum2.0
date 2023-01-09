@@ -38,8 +38,8 @@ module.exports = [
         };
         if (formatOrderDate[1]) {
           orderConditions.createdAt = {
-            $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
-            $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+            $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00')),
+            $lte: new Date(moment(formatOrderDate[1]).format('YYYY-MM-DD 23:59:59')),
           }
         }
         console.log(orderConditions, '<<<<<-------')
@@ -203,8 +203,8 @@ module.exports = [
         };
         if (formatOrderDate[1]) {
           orderConditions.createdAt = {
-            $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
-            $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+            $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00')),
+            $lte: new Date(moment(formatOrderDate[1]).format('YYYY-MM-DD 23:59:59')),
           }
         }
         const orders = await models.orders.find(orderConditions);
@@ -276,8 +276,8 @@ module.exports = [
         };
         if (formatOrderDate[1]) {
           orderConditions.createdAt = {
-            $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
-            $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+            $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00')),
+            $lte: new Date(moment(formatOrderDate[1]).format('YYYY-MM-DD 23:59:59')),
           }
         }
         const orders = await models.orders.find(orderConditions);
