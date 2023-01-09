@@ -11,17 +11,38 @@
     method: 'get',
     mark: '查询发票列表',
     callback: async (req, res) => {
-     const { page = 1, pageSize = 20, date = [], orderNo, status } = req.query;
+     const { page = 1, pageSize = 20, date = [], orderNo, status, orderDate = [] } = req.query;
      let formatDate = date.map(item => {
        return moment(JSON.parse(item)).format();
      });
      let conditions = {};
+     
+     let formatOrderDate = orderDate.map(item => {
+        return moment(JSON.parse(item)).format();
+      })
+     
      if(formatDate[0]) {
        conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00'))}
        if(formatDate[1]) {
          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
        }
      }
+     
+     if (formatOrderDate[0]) {
+        const orderConditions = {
+          createdAt: {
+            $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00'))
+          }
+        };
+        if (formatOrderDate[1]) {
+          orderConditions.createdAt = {
+            $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
+            $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+          }
+        }
+        const orders = await models.orders.find(orderConditions);
+        conditions.orderId = { $in: orders.map(({ _id }) => _id) };
+      }
      
      if (typeof status !== 'undefined') {
       conditions.status = status;
@@ -51,16 +72,37 @@
     method: 'get',
     mark: '统计发票数量',
     callback: async (req, res) => {
-      const { date = [], orderNo, status } = req.query;
+      const { date = [], orderNo, status, orderDate = [] } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
       let conditions = {};
+     
+      let formatOrderDate = orderDate.map(item => {
+        return moment(JSON.parse(item)).format();
+      });
+     
       if(formatDate[0]) {
         conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00'))}
         if(formatDate[1]) {
           conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
         }
+      }
+     
+      if (formatOrderDate[0]) {
+        const orderConditions = {
+          createdAt: {
+            $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00'))
+          }
+        };
+        if (formatOrderDate[1]) {
+          orderConditions.createdAt = {
+            $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
+            $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+          }
+        }
+        const orders = await models.orders.find(orderConditions);
+        conditions.orderId = { $in: orders.map(({ _id }) => _id) };
       }
      
       if (typeof status !== 'undefined') {
@@ -99,9 +141,13 @@
     method: 'get',
     mark: '导出开票列表',
     async callback(req, res) {
-     let { date = [], orderNo, status } = req.query;
+     let { date = [], orderNo, status, orderDate = [] } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
+     }
+     
+     if (typeof orderDate === 'string') {
+       orderDate = JSON.parse(orderDate);
      }
      
      status = JSON.parse(status)
@@ -111,6 +157,11 @@
      let formatDate = date.map(item => {
        return moment(item).format();
      });
+     
+     let formatOrderDate = orderDate.map(item => {
+       return moment(item).format();
+     });
+     
      let conditions = {};
 
      if(formatDate[0]) {
@@ -118,6 +169,22 @@
        if(formatDate[1]) {
          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
        }
+     }
+     
+     if (formatOrderDate[0]) {
+       const orderConditions = {
+         createdAt: {
+           $gte: new Date(moment(formatOrderDate[0]).format('YYYY-MM-DD 00:00:00'))
+         }
+       };
+       if (formatOrderDate[1]) {
+         orderConditions.createdAt = {
+           $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')),
+           $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59')),
+         }
+       }
+       const orders = await models.orders.find(orderConditions);
+       conditions.orderId = { $in: orders.map(({ _id }) => _id) };
      }
      
      if (typeof status !== 'undefined') {
