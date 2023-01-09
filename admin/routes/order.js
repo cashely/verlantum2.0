@@ -28,10 +28,10 @@ module.exports = {
     if (orderNo) {
       conditions.orderNo = orderNo;
     }
-    if (refund === 0) {
+    if (+refund === 0) {
       conditions.refund = 0
     }
-    if (refund === 1) {
+    if (+refund === 1) {
       conditions.refund = { $in: [1,2,3,4] }
     }
     console.log(conditions, typeof sended, hasPayed, '---')
@@ -134,11 +134,11 @@ module.exports = {
       conditions.hasPayed = hasPayed;
     }
     
-    if (refund === 0) {
+    if (+refund === 0) {
       conditions.refund = 0;
     }
     
-    if (refund === 1) {
+    if (+refund === 1) {
       condtions.refund = { $in: [1, 2, 3, 4] }
     }
 
@@ -191,11 +191,11 @@ module.exports = {
       conditions.hasPayed = hasPayed;
     }
     
-    if (refund === 0) {
+    if (+refund === 0) {
       conditions.refund = 0
     }
     
-    if (refund === 1) {
+    if (+refund === 1) {
       conditions.refund = { $in: [1, 2, 3, 4] }
     }
     
