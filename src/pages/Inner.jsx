@@ -315,7 +315,7 @@ export default class Inner extends Component {
             }
             {
               row.sended === 1 && (
-                <Popconfirm title="请核对商品是否已收回" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id { sended: 0 })}}>
+                <Popconfirm title="请核对商品是否已收回" okText="确认" cancelText="取消" onConfirm={() => {this.sendedAction(row._id, { sended: 0 })}}>
                   <Button type="primary" size="small" style={{ marginLeft: 10 }}>回货</Button>
                 </Popconfirm>
               )
