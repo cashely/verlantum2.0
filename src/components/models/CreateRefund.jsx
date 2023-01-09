@@ -12,7 +12,7 @@ export default function CreateRefund(props) {
         callback();
       } else {
         console.log(res, res.data.msg, '<<<<-----');
-        message.error({ content: res.data.msg, key: 'updatable' });
+        message.error(res.data.msg);
       }
     })
   };
