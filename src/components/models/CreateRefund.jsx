@@ -12,8 +12,7 @@ export default function CreateRefund(props) {
         callback();
       } else {
         console.log(res, res.data, '<<<<-----');
-        alert(res.data.msg);
-//         message.error(res.data.msg);
+        message.error({ content: <span>res.data.msg</span> });
       }
     })
   };
