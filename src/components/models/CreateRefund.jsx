@@ -8,11 +8,11 @@ export default function CreateRefund(props) {
   const confirm = () => {
     $.post('/refund/create', { orderId: _id }).then(res => {
       if (res.code === 0) {
-        message.success('操作成功,请前往退款管理确认!');
+        message.success({ content: '操作成功,请前往退款管理确认!' });
         callback();
       } else {
         console.log(res, res.data, '<<<<-----');
-        message.error(res.data.msg);
+        message.error({ content: 'res.data.msg' });
       }
     })
   };
