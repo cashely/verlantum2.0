@@ -1,5 +1,6 @@
 import React from 'react';
 import { Popconfirm, Button, message } from 'antd';
+import $ from '../../ajax';
 
 export default function CreateRefund(props) {
   const { _id, callback = () => {} } = props;
@@ -7,10 +8,10 @@ export default function CreateRefund(props) {
   const confirm = () => {
     $.post('/refund/create', { orderId: _id }).then(res => {
       if (res.code === 0) {
-        messsage.success('操作成功,请前往退款管理确认!');
+        message.success('操作成功,请前往退款管理确认!');
         callback();
       } else {
-        messsage.error(res.data.msg);
+        message.error(res.data.msg);
       }
     })
   };
