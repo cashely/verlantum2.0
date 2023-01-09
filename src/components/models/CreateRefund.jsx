@@ -23,7 +23,7 @@ export default function CreateRefund(props) {
       okText="是"
       cancelText="否"
     >
-      <Button>生成退款</Button>
+      <Button size="small" type="primary" style={{ marginLeft: 10 }}>生成退款</Button>
     </Popconfirm>
   )
 }
