@@ -11,7 +11,7 @@
     method: 'get',
     mark: '查询发票列表',
     callback: async (req, res) => {
-     const { page = 1, pageSize = 20, date = [], orderNo } = req.query;
+     const { page = 1, pageSize = 20, date = [], orderNo, status } = req.query;
      let formatDate = date.map(item => {
        return moment(JSON.parse(item)).format();
      });
@@ -21,6 +21,10 @@
        if(formatDate[1]) {
          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
        }
+     }
+     
+     if (typeof status !== 'undefined') {
+      conditions.status = status;
      }
 
      if (orderNo) {
@@ -47,7 +51,7 @@
     method: 'get',
     mark: '统计发票数量',
     callback: async (req, res) => {
-      const { date = [], orderNo } = req.query;
+      const { date = [], orderNo, status } = req.query;
       let formatDate = date.map(item => {
         return moment(JSON.parse(item)).format();
       });
@@ -58,6 +62,11 @@
           conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
         }
       }
+     
+      if (typeof status !== 'undefined') {
+       conditions.status = status;
+      }
+     
       if (orderNo) {
         const orderInfo = await models.orders.findOne({ orderNo });
         conditions.orderId = orderInfo._id;
@@ -90,10 +99,12 @@
     method: 'get',
     mark: '导出开票列表',
     async callback(req, res) {
-     let { date = [], orderNo } = req.query;
+     let { date = [], orderNo, status } = req.query;
      if (typeof date === 'string') {
        date = JSON.parse(date);
      }
+     
+     status = JSON.parse(status)
 
      orderNo = JSON.parse(orderNo);
 
@@ -107,6 +118,10 @@
        if(formatDate[1]) {
          conditions.createdAt = { $gte: new Date(moment(formatDate[0]).format('YYYY-MM-DD 00:00:00')), $lte: new Date(moment(formatDate[1]).format('YYYY-MM-DD 23:59:59'))}
        }
+     }
+     
+     if (typeof status !== 'undefined') {
+      conditions.status = status;
      }
 
      if (orderNo) {
