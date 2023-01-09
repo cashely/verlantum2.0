@@ -5,7 +5,7 @@ const fs = require('fs');
 const excel = require('../functions/excel');
 module.exports = {
   list(req, res) {
-    const { page = 1, limit = 20, date = [], sended, hasPayed, openid, orderNo } = req.query;
+    const { page = 1, limit = 20, date = [], sended, hasPayed, openid, orderNo, refund } = req.query;
     let formatDate = date.map(item => {
       return moment(JSON.parse(item)).format();
     });
@@ -27,6 +27,12 @@ module.exports = {
     }
     if (orderNo) {
       conditions.orderNo = orderNo;
+    }
+    if (refund === 0) {
+      conditions.refund = 0
+    }
+    if (refund === 1) {
+      conditions.refund = { $in: [1,2,3,4] }
     }
     console.log(conditions, typeof sended, hasPayed, '---')
     models.orders.find(conditions).populate('agent').populate('puller').populate('goodNumber').sort({_id: -1}).skip((+page - 1) * limit).limit(+limit).then(orders => {
@@ -109,7 +115,7 @@ module.exports = {
     })
   },
   total(req, res) {
-    const { q = {}, date = [], sended, hasPayed, openid, orderNo } = req.query;
+    const { q = {}, date = [], sended, hasPayed, openid, orderNo, refund } = req.query;
     let formatDate = date.map(item => {
       return moment(JSON.parse(item)).format();
     });
@@ -126,6 +132,14 @@ module.exports = {
     }
     if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
+    }
+    
+    if (refund === 0) {
+      conditions.refund = 0;
+    }
+    
+    if (refund === 1) {
+      condtions.refund = { $in: [1, 2, 3, 4] }
     }
 
     if (openid) {
@@ -146,14 +160,18 @@ module.exports = {
     })
   },
   excel(req, res) {
-    let { date = [], sended, hasPayed, openid, orderNo } = req.query;
+    let { date = [], sended, hasPayed, openid, orderNo, refund } = req.query;
     if (typeof date === 'string') {
       date = JSON.parse(date);
     }
     
+    
+    
     openid = JSON.parse(openid);
     
     orderNo = JSON.parse(orderNo);
+    
+    refund = JSON.parse(refund);
 
     let formatDate = date.map(item => {
       return moment(item).format();
@@ -171,6 +189,14 @@ module.exports = {
     }
     if (+hasPayed === 1 || +hasPayed === 0) {
       conditions.hasPayed = hasPayed;
+    }
+    
+    if (refund === 0) {
+      conditions.refund = 0
+    }
+    
+    if (refund === 1) {
+      conditions.refund = { $in: [1, 2, 3, 4] }
     }
     
     if (orderNo) {
