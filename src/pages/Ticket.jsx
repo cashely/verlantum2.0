@@ -142,7 +142,7 @@ export default (props) => {
             !row.isOffer && <Button type="primary" onClick={(e) => editTicket(row._id, { isOffer: true }) } size="small" style={{marginLeft: 10}}>开票</Button>
           }
           {
-            row.status === 0 && <Button type="danger" onClick={(e) => editTicket(row._id, { status: 1 }) } size="small" style={{marginLeft: 10}}>作废</Button>
+            row.status === 0 && !row.isOffer && <Button type="danger" onClick={(e) => editTicket(row._id, { status: 1 }) } size="small" style={{marginLeft: 10}}>作废</Button>
           }
           {/* <Popconfirm
             title="您确定要删除?"
