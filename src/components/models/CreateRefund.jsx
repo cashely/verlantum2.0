@@ -11,8 +11,8 @@ export default function CreateRefund(props) {
         message.success('操作成功,请前往退款管理确认!');
         callback();
       } else {
-        console.log(res, res.data, '<<<<-----');
-        message.error({ content: <span>res.data.msg</span> });
+        console.log(res, res.data.msg, '<<<<-----');
+        message.error({ content: res.data.msg, key: 'updatable' });
       }
     })
   };
