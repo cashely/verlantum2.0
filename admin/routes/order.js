@@ -139,7 +139,7 @@ module.exports = {
     }
     
     if (+refund === 1) {
-      condtions.refund = { $in: [1, 2, 3, 4] }
+      conditions.refund = { $in: [1, 2, 3, 4] }
     }
 
     if (openid) {
