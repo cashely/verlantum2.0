@@ -4,6 +4,7 @@ import $ from '../ajax';
 import m from 'moment';
 import _ from 'lodash';
 import InnerModal from '../components/models/InnerModal';
+import CreateRefund from '../components/models/CreateRefund';
 
 export default class Inner extends Component {
   constructor(props) {
@@ -311,6 +312,9 @@ export default class Inner extends Component {
                   <Button type="primary" size="small">发货</Button>
                 </Popconfirm>
               )
+            }
+            {
+              row.refund === 0 && <CreateRefund _id={row._id} callback={this.searchAction.bind(this)} />
             }
             {
                 row.hasPayed === 0 && <Button type="primary" style={{marginLeft: 10}} onClick={this.payAction.bind(this, row._id)} size="small" title="手动付款" ><Icon type="money-collect"/></Button>
