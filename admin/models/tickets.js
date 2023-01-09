@@ -62,6 +62,13 @@
    mark: {
     type: String,
    },
+  /**
+   * 状态 0 正常 1 作废
+   */
+   status: {
+    type: Number,
+    default: 0
+   }
  }, {
    timestamps: {
      createdAt: 'createdAt',
